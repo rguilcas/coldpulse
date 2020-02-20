@@ -8,11 +8,14 @@ import os
 
 file = open('config_file.txt')
 data = file.read().splitlines()
-data = [line.split(' ') for line in data]
+data = [line.split(':') for line in data]
 current_dir = os.getcwd()
 config_data = dict()
 for k in [0,1,2,3,5,6,8,9]:
-    config_data[data[k][0]] = data[k][1] 
+	if k in [3]:
+    	config_data[data[k][0]] = '%s\\%s'%(current_dir,data[k][1] 
+    else:
+    	config_data[data[k][0]] = data[k][1]
 
 depths_dic = dict()
 for k in range(12,len(data)-1):
