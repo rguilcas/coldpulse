@@ -50,7 +50,9 @@ def temperature_stratification_index(darray,dt,daily=True):#days
                 for hour in range(start_hour,start_hour+24):
                     if hour>23:
                         hour -= 24
-                    data.append(darray_depth.where(darray_depth.time.dt.hour==hour).dropna('time').values)
+                    data.append(darray_depth.\
+                                where(darray_depth.time.dt.hour==hour).\
+                                dropna('time').values)
                     hours.append(hour)
                 sizes = []
                 for d in data:
