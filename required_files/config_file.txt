@@ -1,0 +1,15 @@
+input_name:E/jarE.nc
+output_name:jarE
+output_dir:E
+input_folder:E
+
+bot:True
+top:True
+prepare_csv:False
+time_file_name:-159.972_-0.375_14.6_JAR_1831_2012-05-05_2015-04-08.csv
+name_nc_file:jarE
+
+depths: 
+-159.972_-0.375_14.6_JAR_1831_2012-05-05_2015-04-08.csv:15
+-159.972_-0.375_25.0_JAR_1849_2012-05-05_2015-04-08.csv:25
+
