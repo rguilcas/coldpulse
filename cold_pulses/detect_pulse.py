@@ -21,7 +21,7 @@ from cold_pulses.scripts_pulse.metrics import output
 
 sns.set()
 #darray = xr.open_dataarray('several_depth_data/palmyra_FR7_2012_2014.nc')
-darray = xr.open_dataarray('several_depth_data/palmyra_N_2015.nc')
+
     
 def bot_pulse_detect(darray):
     dt = darray.time.diff('time').values[0].astype('timedelta64[s]').astype(int)
