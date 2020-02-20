@@ -114,7 +114,7 @@ def get_gamma(start, end, darray, dt,
         forcing_start=False
         moving_start_list = np.where(diff_extracted_darray<0)[0]
         if moving_start_list.size > 0:
-            moving_start = moving_start[0]
+            moving_start = moving_start_list[0]
             moving_start = np.where(diff_extracted_darray<0)[0][0]
             moving_end_list = np.where(extracted_darray[moving_start+1:] \
                                       > extracted_darray[moving_start])[0]
