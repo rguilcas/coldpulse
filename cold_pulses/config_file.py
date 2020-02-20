@@ -16,7 +16,7 @@ def make_config_data(file):
 		if k in [3]:
 			config_data[data[k][0]] = '%s\\%s'%(current_dir,data[k][1] 
 		else:
-		config_data[data[k][0]] = data[k][1]
+			config_data[data[k][0]] = data[k][1]
 
 	depths_dic = dict()
 	for k in range(12,len(data)-1):
