@@ -8,7 +8,7 @@ import os
 
 file = open('config_file.txt')
 data = file.read().splitlines()
-data = [line.split(':') for line in data]
+data = [line.split(' ') for line in data]
 current_dir = os.getcwd()
 config_data = dict()
 for k in [0,1,2,3,5,6,8,9]:
