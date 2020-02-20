@@ -9,15 +9,15 @@ import xarray as xr
 import seaborn as sns
 import numpy as np
 
-from scripts_pulse.temp_stratification_index import \
+from cold_pulses.scripts_pulse.temp_stratification_index import \
                     temperature_stratification_index
-from scripts_pulse.init_start_end import init_top,init_bot
-from scripts_pulse.filters import (filter_by_duration,
+from cold_pulses.scripts_pulse.init_start_end import init_top,init_bot
+from cold_pulses.scripts_pulse.filters import (filter_by_duration,
                                    filter_by_drop,
                                    filter_true_stratification,
                                    remove_overlap)
-from scripts_pulse.shifts import shift_ends,shift_starts
-from scripts_pulse.metrics import output
+from cold_pulses.scripts_pulse.shifts import shift_ends,shift_starts
+from cold_pulses.scripts_pulse.metrics import output
 
 sns.set()
 #darray = xr.open_dataarray('several_depth_data/palmyra_FR7_2012_2014.nc')
