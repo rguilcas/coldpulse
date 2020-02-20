@@ -42,7 +42,7 @@ def temperature_stratification_index(darray,dt,daily=True):#days
             end = ends[k]
             
             depth_data = []
-            for depth in range(3):
+            for depth in range(darray.depth.size):
                 darray_depth = darray_h[:,start:end].isel(depth=depth)
                 data = []
                 hours = []
