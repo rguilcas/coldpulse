@@ -25,7 +25,7 @@ def run():
     top = config_data['top']
     # open netcdf file previously created by processing csv files
     darray = xr.open_dataarray(input_name)
-    # If top or bot are selected, we will compute pulses, and therefore  
+    # If top or bot are selected, we will compute pulses, and therefore
     # create a new outup directory
     if bot or top:
         dir_name = '%s/%s_pulses_out'%(output_dir, output_name)
@@ -38,14 +38,14 @@ def run():
     if top:
         df_top, ds_top = top_pulse_detect(darray)
         df_top.to_csv('%s/%s_top_stats.csv'%(dir_name, output_name))
-    # If only top or bot is selected, we save the output of the relevant 
+    # If only top or bot is selected, we save the output of the relevant
     # detection script as a netcdf file
     if top and not bot:
         ds_top.to_netcdf('%s/%s_top_data.nc'%(dir_name, output_name))
     if bot and not top:
         ds_bot.to_netcdf('%s/%s_bot_data.nc'%(dir_name, output_name))
     # If both top and bot are selected, we create a new combined output file
-    # with data from the bot and top scripts outputs and save it as a netcdf 
+    # with data from the bot and top scripts outputs and save it as a netcdf
     # file
     if top and bot:
         output_dataset = xr.Dataset()
