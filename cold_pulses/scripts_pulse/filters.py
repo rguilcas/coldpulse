@@ -9,9 +9,9 @@ This file contains all filters used in pulse detection.
 import pandas as pd
 import numpy as np
 import xarray as xr
-from scripts_pulse.temp_stratification_index import \
+from cold_pulses.scripts_pulse.temp_stratification_index import \
                     temperature_stratification_index
-from scripts_pulse.prints import progress
+from cold_pulses.scripts_pulse.prints import progress
                     
 def filter_by_duration(starts,ends,min_duration = 3):
     """
