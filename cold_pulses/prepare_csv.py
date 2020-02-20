@@ -13,8 +13,8 @@ import os
 import xarray as xr
 import pandas as pd
 import numpy as np
-from cold_pulses.config_file import config_data
-
+from cold_pulses.config_file import make_config_data
+config_data = make_config_data('config_file.txt')
 def prepare_csv():  
   depths = config_data['depths']
   input_folder = config_data['input_folder']
