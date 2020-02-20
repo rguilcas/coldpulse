@@ -22,9 +22,10 @@ def prepare_csv():
   name_nc_file = config_data['name_nc_file']
 
   LIST_FILES = os.listdir(input_folder)
-  if len(LIST_FILES) != len(depths.keys()):
+  CSV_FILES = [k for k in LIST_FILES if k[-3:]=='csv']
+  if len(CSV_FILES) != len(depths.keys()):
       print('Wrong depths in config_file.py.')
-      print('Please indicate one depth for each file in the input folder.')
+      print('Please indicate one depth for each csv file in the input folder.')
   else:
       TIME_FILE = pd.read_csv('%s/%s'%(input_folder, time_file_name))
       TIME_FILE.columns = ['time', 'temperature']
