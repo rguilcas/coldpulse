@@ -13,7 +13,7 @@ import os
 import xarray as xr
 import pandas as pd
 import numpy as np
-from config_file import (depths, input_folder,
+from cold_pulses.config_file import (depths, input_folder,
                          time_file_name, name_nc_file)
 LIST_FILES = os.listdir(input_folder)
 if len(LIST_FILES) != len(depths.keys()):
