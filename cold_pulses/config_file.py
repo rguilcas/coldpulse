@@ -23,5 +23,5 @@ def make_config_data(file):
 		depths_dic[data[k][0]] = int(data[k][1] )
 
 	config_data['depths'] = depths_dic
-
+	return config_data
 
