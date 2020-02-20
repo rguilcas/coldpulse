@@ -10,7 +10,7 @@ def make_config_data(file):
 	file = open(file)
 	data = file.read().splitlines()
 	data = [line.split(':') for line in data]
-	current_dir = '/'.join(os.getcwd().split('\\'))
+	current_dir = '\\'.join(os.getcwd().split('\\'))
 	config_data = dict()
 	for k in [0,1,2,3,5,6,8,9]:
 		if k in [3]:

@@ -32,6 +32,7 @@ def prepare_csv():
       DATA_DATAFRAME = pd.DataFrame()
       for key in depths:
           file = pd.read_csv('%s/%s'%(input_folder, key))
+          print('%s loaded.')
           file.columns = ['time', 'temperature']
           file.index = pd.DatetimeIndex(file.time)
           if key != time_file_name:
