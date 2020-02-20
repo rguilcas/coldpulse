@@ -6,7 +6,7 @@ Created on Mon Feb  3 13:56:43 2020
 """
 import numpy as np
 import pandas as pd
-from scripts_pulse.prints import progress
+from cold_pulses.scripts_pulse.prints import progress
 
 def shift_starts(starts, ends, darray, tsi,
                  depth=25,

@@ -6,8 +6,8 @@ Created on Tue Feb  4 15:34:45 2020
 """
 import os
 import xarray as xr
-from detect_pulse import top_pulse_detect,bot_pulse_detect
-from config_file import input_name,output_name,output_dir,bot,top
+from cold_pulses.detect_pulse import top_pulse_detect,bot_pulse_detect
+from cold_pulses.config_config_file import input_name,output_name,output_dir,bot,top
 
 import warnings
 warnings.filterwarnings("ignore")

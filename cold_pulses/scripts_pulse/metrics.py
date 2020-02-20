@@ -7,7 +7,7 @@ Created on Mon Feb  3 14:55:47 2020
 import numpy as np
 import xarray as xr
 import pandas as pd
-from scripts_pulse.prints import progress
+from cold_pulses.scripts_pulse.prints import progress
 
 def output(darray, starts, ends, dt,
            step_number=4,
