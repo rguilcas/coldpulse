@@ -5,7 +5,59 @@
 
 
 
- To make it work, you should create a working directory in your computer.
- Then, download the two files available at
- Two files are necessary to use it : one configuration file (config_file.txt) and one script file (cold_pulse_detection.py).
+To make it work, you should create a working directory in your computer.
+Then, download the example files available at https://github.com/typhonier/cold_pulses/tree/master/required_files.
+This folder contains two files and one folder:
+- cold_pulse_detection.py: this is the python script that we will use to launch the algorithm from command line.
+- config_file.txt: this is the configuration file for the algorithm where we can choose which files to apply the algorithm to .
+- the input_folder: this is the folder where the input csv files go.
+
+Put these files and folder in the working directory chosen.
+Note that csv file should only contain two columns : time and temperature.
+Choose several csv files in the same location at different depths where you want to detect cold pulses.
+Create a new folder with the name of your choice in the working directory and put your csv files in your directory.
+
+Open the config_file.txt file in a text editor and modify the information accordingly with your files and new folder name.
+	The config_file is made of several lines:
+		input_name:In the case where the csv files are already prepared, choose the netcdf file to open to detect pulses. This should be with the extension .nc
+		output_name:This is the name that will be used for output files
+		output_dir:This is the directory where output_files will be created
+		input_folder:This is the directory where input csv files are stored
+
+		bot:True if bottom pulses want to be detected, False if not
+		top:True if top pulses want to be detected, False if not
+		prepare_csv: True if csv files need to be prepared (made into a unique netcdf file), False if not
+		time_file_name:if prepare_csv, this is the csv file that will be used for time interpolation, i.e. the time steps will be defined by this file and all other files will be linearly interpolated over these steps. 
+		name_nc_file:Output of the csv preparation, name of the netcdf file that will be created in input_folder. Note that in that case, input_name should be input_folder/name_nc_file.nc
+
+		depths: This is where we specify the depth of each file in the input folder. The format is the following
+		file_name1.csv:depth (depth is in meters, positive down)
+		file_name2.csv:depth 
+		...
+!!!WARNING!!!
+Make sure python is installed on your machine, along with the pip library (automatically installed on most python GUI). 
+If it isn't, we suggest downloading and installing anaconda first: https://www.anaconda.com/. If on windows, you will be asked to add anaconda to your path, where you will have to tick the box.
+Once python is installed ad the config_file modified, open a command prompt (anaconda prompt in windows) and go to your working directory.
+If it is the first time you use the package, install the cold_pulses package using:
+	pip install git+http://github.com/typhonier/cold_pulses
+Then for ay other time, use from your working directory:
+	python cold_pulses_detection.py
+This will start the script and output two to three files in the output_dir chosen.
+
+The files available are:
+	one or two csv (bot_stats and/or top_stats) files. These files give specific information on all individual pulses detected (top or bottom pulses depending on the file)
+		The columns contained are:
+			start_time						The starting time step of the pulse
+			duration						The duration of the pulse (in minutes)
+			gammaD1, gammaD2, ... 			The Degree Cooling Seconds of the pulse (°C.s) for depth level 1, level 2, ... 
+			dropD1, dropD2, ... 			The maximum temperature drop of the pulse for depth level 1, level 2, ...
+			init_tempD1, init_tempD2,...    The initial temperature of the pulse for depth level 1, level 2, ...
+			start, end 						The start and end indexes of the pulse in the time series
+	one netcdf file containing time series of different parameters
+		The fields available are:
+			temp : time series of the temperature in several depths
+			gamma_top (only if top was True in the config file): instantaneous degree cooling seconds for top pulses at different depths
+			gamma_bot (only if bot was True in the config file): instantaneous degree cooling seconds for bottom pulses at different depths
+			pulse_temp_top (only if top was True in the config file): temperature time series where all temperature values outside of top pulses are nans
+			pulse_temp_bot (only if bot was True in the config file): temperature time series where all temperature values outside of bottom pulses are nans
 

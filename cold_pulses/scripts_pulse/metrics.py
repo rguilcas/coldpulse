@@ -62,7 +62,7 @@ def output(darray, starts, ends, dt,
                  ['temp_init%s'%k for k in list(darray.depth.values)]+\
                  ['start', 'end']
     df.index = pd.DatetimeIndex(df.start_time)
-    return df, ds
+    return df[df.columns[1:]], ds
  
 def get_gamma(start, end, darray, dt,
               depth = 25):
