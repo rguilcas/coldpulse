@@ -5,17 +5,16 @@ Created on Tue Feb  4 15:29:43 2020
 @author: Robin
 """
 
-input_name = 'several_depth_data/kingman2.nc'
-output_name = 'kingman2'
-output_dir = 'several_depth_data'
-input_folder = 'W'
+file = open('config_file.txt')
+data = file.read().splitlines()
+data = [line.split(':') for line in data]
 
-bot = True
-top = True
+config_data = dict()
+for k in [0,1,2,3,5,6,8,9]:
+    config_data[data[k][0]] = data[k][1] 
 
-depths = {'-162.075_5.870_4.9_PAL_1851_2012-05-15_2012-09-28.csv':5,
-          '-162.075_5.870_10.7_PAL_1852_2012-05-15_2012-09-28.csv':10,
-          '-162.075_5.870_19.5_PAL_1854_2012-05-15_2012-09-28.csv':20}
+depths_dic = dict()
+for k in range(12,len(data)-1):
+    depths_dic[data[k][0]] = int(data[k][1] )
 
-time_file_name = '-162.075_5.870_4.9_PAL_1851_2012-05-15_2012-09-28.csv'
-name_nc_file = 'palmyra_E_12_15'
+config_data['depths'] = depths_dic

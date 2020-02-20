@@ -13,8 +13,13 @@ import os
 import xarray as xr
 import pandas as pd
 import numpy as np
-from cold_pulses.config_file import (depths, input_folder,
-                         time_file_name, name_nc_file)
+from cold_pulses.config_file import config_data
+
+depths = config_data['depths']
+input_folder = config_data['input_folder']
+time_file_name = config_data['time_file_name']
+name_nc_file = config_data['name_nc_file']
+
 LIST_FILES = os.listdir(input_folder)
 if len(LIST_FILES) != len(depths.keys()):
     print('Wrong depths in config_file.py.')
