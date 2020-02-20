@@ -15,7 +15,7 @@ import pandas as pd
 import numpy as np
 from cold_pulses.config_file import config_data
 
-def prepare_csv():
+def prepare_csv():  
   depths = config_data['depths']
   input_folder = config_data['input_folder']
   time_file_name = config_data['time_file_name']
@@ -50,3 +50,7 @@ def prepare_csv():
                                          'time':DATA_DATAFRAME.index})
       DATA_DARRAY.name = 'temperature'
       DATA_DARRAY.to_netcdf('%s/%s.nc'%(input_folder, name_nc_file))
+
+def reload_config_file():
+  from cold_pulses.config_file import config_data
+  
