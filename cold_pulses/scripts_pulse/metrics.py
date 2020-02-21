@@ -160,12 +160,14 @@ def get_gamma(start, end, darray, dt,
             else:
                 moving_end += 1
                 end_loop = True
+            if not end_loop:
+                start_irrelevant_list = [moving_start]
+                end_irrelevant_list = [moving_end]
         else:
             moving_end = end
+            start_irrelevant_list = []
+            end_irrelevant_list = []
         
-        if not end_loop:
-            start_irrelevant_list = [moving_start]
-            end_irrelevant_list = [moving_end]
         while moving_end < (end-start) and moving_start < end-start:
             moving_start_list = np.where(diff_extracted_darray[moving_end:])[0]
             if moving_start_list.size > 0:
