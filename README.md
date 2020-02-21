@@ -52,7 +52,7 @@ Once python is installed ad the config_file modified, open a command prompt (ana
 
 If it is the first time you use the package, install the cold_pulses package using:
 
-	pip install git+http://github.com/typhonier/cold_pulses
+	pip install git+http://github.com/rguilcas/cold_pulses
 
 Then for any other time, use from your working directory:
 
