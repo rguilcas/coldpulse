@@ -1,24 +1,34 @@
 # cold_pulses
  Detection of cold water intrusion in a lowly stratified environment.
 
- This package allows you to detect accurateley individual old pulses event in a time series over several depths.
+ This package allows you to detect accurateley individual cold pulses events in a time series over several depths.
 
 
+Several csv input files are necessary to make the algorithm work, you should get them ready before getting to the algorithm itself.
+They should fit the folowing criteria:
+- The files should show data from the same location
+- The files should show data from different depth levels
+- If more than two depth levels are used, the depths should be equally spaced
+- Each file should be in two columns representing time and temperature, in this order.
 
-To make it work, you should create a working directory in your computer.
+To make the algorithm work at its best, the files should preferably:
+- not show a strong daily variability
+- not show a strong vertical stratification
+Visual inspection could be used to observe those criteria.
+
+Once your files are ready, you should create a working directory in your computer.
 Then, download the example files available at https://github.com/typhonier/cold_pulses/tree/master/required_files.
 This folder contains two files and one folder:
 - cold_pulse_detection.py: this is the python script that we will use to launch the algorithm from command line.
 - config_file.txt: this is the configuration file for the algorithm where we can choose which files to apply the algorithm to .
 - the input_folder: this is the folder where the input csv files go.
 
-Put these files and folder in the working directory chosen.
-Note that csv file should only contain two columns : time and temperature.
-Choose several csv files in the same location at different depths where you want to detect cold pulses.
+Copy these files and folder in the working directory chosen. 
+
 Create a new folder with the name of your choice in the working directory and put your csv files in your directory.
 
 Open the config_file.txt file in a text editor and modify the information accordingly with your files and new folder name.
-	The config_file is made of several lines:
+The config_file is made of several lines:
 		input_name:In the case where the csv files are already prepared, choose the netcdf file to open to detect pulses. This should be with the extension .nc
 		output_name:This is the name that will be used for output files
 		output_dir:This is the directory where output_files will be created
