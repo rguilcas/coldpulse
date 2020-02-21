@@ -39,7 +39,7 @@ def prepare_csv():
     # If one of the csv files in the folder does not have a specified depth in
     # the config file, exit.
     for file in csv_files:
-        if file not in depths.keys:
+        if file not in depths.keys():
             print('Some or all files are incorrect or missing.')
             print('Please update the config_file.txt depths value.')
             return
