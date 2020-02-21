@@ -65,17 +65,17 @@ The files available are:
 
 The columns contained are:
 
-	start_time						The starting time step of the pulse
+	start_time			The starting time step of the pulse
 
-	duration						The duration of the pulse (in minutes)
+	duration			The duration of the pulse (in minutes)
 
-	gammaD1, gammaD2, ... 			The Degree Cooling Hours of the pulse (°C.h) for depth level 1, level 2, ... 
+	gammaD1, gammaD2, ... 		The Degree Cooling Hours of the pulse (°C.h) for depth level 1, level 2, ... 
 
-	dropD1, dropD2, ... 			The maximum temperature drop of the pulse for depth level 1, level 2, ...
+	dropD1, dropD2, ... 		The maximum temperature drop of the pulse for depth level 1, level 2, ...
 
 	init_tempD1, init_tempD2,...    The initial temperature of the pulse for depth level 1, level 2, ...
 
-	start, end 						The start and end indexes of the pulse in the time series
+	start, end 			The start and end indexes of the pulse in the time series
 
 - one netcdf file containing time series of different parameters
 		
