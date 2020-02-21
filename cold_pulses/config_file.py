@@ -19,7 +19,7 @@ def make_config_data(file):
     # Create dict object and add all info to it
     config_data = dict()
     for k in range(5):
-        # If directory (line4 of the file) add working directory to the path
+        # If directory (line of the file) add working directory to the path
         if k in [0]:
             config_data[data[k][0]] = '%s/%s'%(current_dir, data[k][1])
         else:
@@ -29,7 +29,8 @@ def make_config_data(file):
     config_data['output_name']=config_data['input_dir']
     config_data['output_dir']=config_data['input_dir']
     config_data['name_nc_file']='csv_prepared'
-    
+    config_data['input_folder']='csv_prepared'
+        
     depths_dic = dict()
     for k in range(7, len(data)):
         depths_dic[data[k][0]] = int(data[k][1])
