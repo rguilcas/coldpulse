@@ -16,6 +16,8 @@ To make the algorithm work at its best, the files should preferably:
 - not show a strong vertical stratification
 Visual inspection could be used to observe those criteria.
 
+We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
+
 Once your files are ready, you should create a working directory in your computer.
 Then, download the example files available at https://github.com/typhonier/cold_pulses/tree/master/required_files.
 This folder contains two files and one folder:
