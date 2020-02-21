@@ -156,8 +156,7 @@ def specific_tsi(darray, starts, ends, time_step,
              total_steps,
              kind=kind)
     # Compute specific TSI
-    s_tsi = temperature_stratification_index(darray_copy, time_step,
-                                             daily=False)
+    s_tsi = temperature_stratification_index(darray_copy,daily=False)
     # Compute extremum of specific TSI for each possible pulse
     # Maximum sTSI for top pulses, minimum for bottom pulses
     ext_stsi_list = []
