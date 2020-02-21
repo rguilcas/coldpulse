@@ -37,7 +37,7 @@ def run():
             os.mkdir(dir_name)
     # If top or bot are selected, we compute pulses using detection algorithms
     # in detect_pulses
-    if existing_dir:
+    if existing_dir == 'y':
         if bot:
             df_bot, ds_bot = bot_pulse_detect(darray)
             df_bot.to_csv('%s/%s_bot_stats.csv'%(dir_name, output_name))
