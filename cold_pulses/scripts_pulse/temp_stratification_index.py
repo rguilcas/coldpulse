@@ -21,7 +21,7 @@ def temperature_stratification_index(darray,
     if daily:
     # Compute rTSI
     # Resample temperature data to get hourly means
-        darray_h = tsi.resample(time='h').median()
+        darray_h = darray.resample(time='h').median()
     # Fond where nan values are in the time series
         where_nan = np.isnan(darray_h).sum(axis=0)
         where_nan = where_nan.where(where_nan == 0, -1)
