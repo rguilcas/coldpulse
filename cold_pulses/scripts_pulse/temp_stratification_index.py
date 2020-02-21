@@ -27,13 +27,17 @@ def temperature_stratification_index(darray,
         where_nan = where_nan.where(where_nan == 0, -1)
         where_nan = where_nan+1
     # Extract start and end of continuous no nan values
-        where_nan_diff = where_nan.diff('time')
-        if where_nan[0] == 1:
-            where_nan_diff[0] = 1
-        if where_nan[-1] == 1:
-            where_nan_diff[-1] = -1
-        starts = np.where(where_nan_diff > 0)[0]
-        ends = np.where(where_nan_diff < 0)[0]
+        if where_nan.size > 0:
+            where_nan_diff = where_nan.diff('time')
+            if where_nan[0] == 1:
+                where_nan_diff[0] = 1
+            if where_nan[-1] == 1:
+                where_nan_diff[-1] = -1
+            starts = np.where(where_nan_diff > 0)[0]
+            ends = np.where(where_nan_diff < 0)[0]
+        else:
+            starts = np.array([0])
+            ends = np.array([tsi.size-1])
     # Create a new time series to interpolate rTSI values
         tsi_interpolated_full = xr.DataArray(np.nan*np.ones(darray_h.shape[1]),
                                              dims=['time'],
