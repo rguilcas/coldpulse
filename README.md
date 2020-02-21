@@ -33,14 +33,11 @@ Open the config_file.txt file in a text editor and modify the information accord
 
 The config_file is made of several lines:
 - input_name:In the case where the csv files are already prepared, choose the netcdf file to open to detect pulses. This should be with the extension .nc
-- output_name:This is the name that will be used for output files
-- output_dir:This is the directory where output_files will be created
 - input_folder:This is the directory where input csv files are stored
 - bot:True if bottom pulses want to be detected, False if not
 - top:True if top pulses want to be detected, False if not
 - prepare_csv: True if csv files need to be prepared (made into a unique netcdf file), False if not
 - time_file_name:if prepare_csv, this is the csv file that will be used for time interpolation, i.e. the time steps will be defined by this file and all other files will be linearly interpolated over these steps. 
-- name_nc_file:Output of the csv preparation, name of the netcdf file that will be created in input_folder. Note that in that case, input_name should be input_folder/name_nc_file.nc
 - depths: This is where we specify the depth of each file in the input folder. The format is the following : 
 		file_name1.csv:depth (depth is in meters, positive down), file_name2.csv:depth, ... 
 		
