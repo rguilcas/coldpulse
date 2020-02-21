@@ -10,10 +10,7 @@ import numpy as np
 from cold_pulses.scripts_pulse.temp_stratification_index import \
                     temperature_stratification_index
 from cold_pulses.scripts_pulse.init_start_end import init_top, init_bot
-from cold_pulses.scripts_pulse.filters import (filter_by_duration,
-                                               filter_by_drop,
-                                               filter_true_stratification,
-                                               remove_overlap)
+from cold_pulses.scripts_pulse import filters
 from cold_pulses.scripts_pulse.shifts import shift_ends, shift_starts
 from cold_pulses.scripts_pulse.metrics import output
 
@@ -38,11 +35,11 @@ def bot_pulse_detect(darray):
     starts, ends = init_bot(tsi, rtsi, darray,
                             depth=depth)
     # Remove possible pulses that are too short
-    starts, ends = filter_by_duration(starts, ends)
+    starts, ends = filters.duration(starts, ends)
     # Remove possible pulses that do not show an important enough drop
-    starts, ends = filter_by_drop(darray, starts, ends,
-                                  depth=depth, kind='bot',
-                                  step_number=1, total_steps=5)
+    starts, ends = filters.max_drop(darray, starts, ends,
+                                    depth=depth, kind='bot',
+                                    step_number=1, total_steps=5)
     # Shift start indexes to the left to get real start indexes
     starts = shift_starts(starts, ends, darray, tsi,
                           depth=depth, kind='bot',
@@ -52,11 +49,11 @@ def bot_pulse_detect(darray):
                       depth=depth, kind='bot',
                       step_number=3, total_steps=5)
     # Remove pulses that do not fit the specific TSI criterion
-    starts, ends = filter_true_stratification(darray, starts, ends, time_step,
-                                              depth=depth, kind='bot',
-                                              step_number=4, total_steps=5)
+    starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
+                                        depth=depth, kind='bot',
+                                        step_number=4, total_steps=5)
     # Remove overlap by combining overlapping pulses
-    starts, ends = remove_overlap(starts, ends)
+    starts, ends = filters.remove_overlap(starts, ends)
     # Create output files
     df_out, ds_out = output(darray, starts, ends, time_step,
                             depth=depth, kind='bot',
