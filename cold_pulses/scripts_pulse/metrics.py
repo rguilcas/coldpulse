@@ -111,8 +111,8 @@ def get_gamma(start, end, darray, dt,
         else:
             moving_end = end
     # Create list of sub pulses starts and ends
-    start_depth = [moving_start]
-    end_depth = [moving_end]
+        start_depth = [moving_start]
+        end_depth = [moving_end]
     # Go through the time series to find subpulses
     while moving_end < end:
         moving_start_list = np.where(diff_extracted_darray[moving_end:])[0]
