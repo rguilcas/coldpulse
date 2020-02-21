@@ -100,7 +100,7 @@ def get_gamma(start, end, darray, dt,
     diff_extracted_darray = extracted_darray.diff('time')
     # Initialise start and end of sub pulses
     moving_start_list = np.where(diff_extracted_darray < 0)[0]
-    if moving_startlist.size == 0:
+    if moving_start_list.size == 0:
         moving_end = end
     else:
         moving_start = moving_start_list[0]
