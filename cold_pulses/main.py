@@ -30,7 +30,7 @@ def run():
     if bot or top:
         dir_name = '%s/%s_pulses_out'%(output_dir, output_name)
         if os.path.isdir(dir_name):
-            existing_dir = input('This output dir already exist, do you want'\
+            existing_dir = input('This output dir already exists, do you want'\
                                 +' to continue? It might erase previous outputs.'\
                                 +'(y/n)')
         else:
