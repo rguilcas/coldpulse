@@ -104,12 +104,12 @@ def get_gamma(start, end, darray, dt,
         moving_end = end
     else:
         moving_start = moving_start_list[0]
-    moving_end_list = np.where(extracted_darray[moving_start+1:] \
-                                   > extracted_darray[moving_start])[0]
-    if moving_end_list.size > 0:
-        moving_end = moving_start + 1 + moving_end_list[0]
-    else:
-        moving_end = end
+        moving_end_list = np.where(extracted_darray[moving_start+1:] \
+                                       > extracted_darray[moving_start])[0]
+        if moving_end_list.size > 0:
+            moving_end = moving_start + 1 + moving_end_list[0]
+        else:
+            moving_end = end
     # Create list of sub pulses starts and ends
     start_depth = [moving_start]
     end_depth = [moving_end]
