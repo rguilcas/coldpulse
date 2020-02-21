@@ -25,9 +25,9 @@ def make_config_data(file):
         else:
             config_data[data[k][0]] = data[k][1]
     # Create a dict file for different depth levels and files names
-    config_data['input_name']=input_data['input_dir']+'/csv_prepared.nc'    
-    config_data['output_name']=input_data['input_dir']
-    config_data['output_dir']=input_data['input_dir']
+    config_data['input_name']=config_data['input_dir']+'/csv_prepared.nc'    
+    config_data['output_name']=config_data['input_dir']
+    config_data['output_dir']=config_data['input_dir']
     config_data['name_nc_file']='csv_prepared'
     
     depths_dic = dict()
