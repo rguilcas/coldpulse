@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-   	name="cold-pulses-typhonier", # Replace with your own username
+   	name="cold_pulses",
     version="0.0.1",
     author="Robin Guillaume-Castel",
     author_email="robin.guilcas@gmail.com",
