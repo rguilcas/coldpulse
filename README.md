@@ -61,30 +61,33 @@ Then for any other time, use from your working directory:
 This will start the script and output two to three files in the output_dir chosen.
 
 The files available are:
-	- one or two csv (bot_stats and/or top_stats) files. These files give specific information on all individual pulses detected (top or bottom pulses depending on the file)
-		The columns contained are:
+- one or two csv (bot_stats and/or top_stats) files. These files give specific information on all individual pulses detected (top or bottom pulses depending on the file)
+
+The columns contained are:
+
+	start_time						The starting time step of the pulse
+
+	duration						The duration of the pulse (in minutes)
+
+	gammaD1, gammaD2, ... 			The Degree Cooling Hours of the pulse (°C.h) for depth level 1, level 2, ... 
+
+	dropD1, dropD2, ... 			The maximum temperature drop of the pulse for depth level 1, level 2, ...
+
+	init_tempD1, init_tempD2,...    The initial temperature of the pulse for depth level 1, level 2, ...
+
+	start, end 						The start and end indexes of the pulse in the time series
+
+- one netcdf file containing time series of different parameters
 		
-			start_time						The starting time step of the pulse
+The fields available are:
 			
-			duration						The duration of the pulse (in minutes)
-			
-			gammaD1, gammaD2, ... 			The Degree Cooling Seconds of the pulse (°C.s) for depth level 1, level 2, ... 
-			
-			dropD1, dropD2, ... 			The maximum temperature drop of the pulse for depth level 1, level 2, ...
-			
-			init_tempD1, init_tempD2,...    The initial temperature of the pulse for depth level 1, level 2, ...
-			
-			start, end 						The start and end indexes of the pulse in the time series
-			
-	- one netcdf file containing time series of different parameters
-		The fields available are:
-			temp : time series of the temperature in several depths
-			
-			gamma_top (only if top was True in the config file): instantaneous degree cooling seconds for top pulses at different depths
-			
-			gamma_bot (only if bot was True in the config file): instantaneous degree cooling seconds for bottom pulses at different depths
-			
-			pulse_temp_top (only if top was True in the config file): temperature time series where all temperature values outside of top pulses are nans
-			
-			pulse_temp_bot (only if bot was True in the config file): temperature time series where all temperature values outside of bottom pulses are nans
+	temp : time series of the temperature in several depths
+
+	dch_top (only if top was True in the config file): instantaneous degree cooling hours for top pulses at different depths
+
+	dch_bot (only if bot was True in the config file): instantaneous degree cooling hours for bottom pulses at different depths
+
+	pulse_temp_top (only if top was True in the config file): temperature time series where all temperature values outside of top pulses are nans
+
+	pulse_temp_bot (only if bot was True in the config file): temperature time series where all temperature values outside of bottom pulses are nans
 
