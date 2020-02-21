@@ -20,10 +20,10 @@ def make_config_data(file):
     config_data = dict()
     for k in range(5):
         # If directory (line of the file) add working directory to the path
-        if k in [0]:
-            config_data[data[k][0]] = '%s/%s'%(current_dir, data[k][1])
-        else:
-            config_data[data[k][0]] = data[k][1]
+        #if k in [0]:
+        #    config_data[data[k][0]] = '%s/%s'%(current_dir, data[k][1])
+        #else:
+        config_data[data[k][0]] = data[k][1]
     # Create a dict file for different depth levels and files names
     config_data['input_name']=config_data['input_dir']+'/csv_prepared.nc'    
     config_data['output_name']=config_data['input_dir']
