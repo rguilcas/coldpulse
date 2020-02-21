@@ -99,16 +99,22 @@ def get_gamma(start, end, darray, dt,
     # Compute temperature gradient at relevent depth
     diff_extracted_darray = extracted_darray.diff('time')
     # Initialise start and end of sub pulses
-    moving_start = np.where(diff_extracted_darray < 0)[0][0]
-    moving_end_list = np.where(extracted_darray[moving_start+1:] \
-                                   > extracted_darray[moving_start])[0]
-    if moving_end_list.size > 0:
-        moving_end = moving_start + 1 + moving_end_list[0]
+    moving_start_list = np.where(diff_extracted_darray < 0)[0]
+    if moving_start_list.size > 0:
+        moving_start = moving_start_list[0]
+        moving_end_list = np.where(extracted_darray[moving_start+1:] \
+                                       > extracted_darray[moving_start])[0]
+        if moving_end_list.size > 0:
+            moving_end = moving_start + 1 + moving_end_list[0]
+        else:
+            moving_end = end
+        # Create list of sub pulses starts and ends
+        start_depth = [moving_start]
+        end_depth = [moving_end]
     else:
         moving_end = end
-    # Create list of sub pulses starts and ends
-    start_depth = [moving_start]
-    end_depth = [moving_end]
+        start_depth = []
+        end_depth = []
     # Go through the time series to find subpulses
     while moving_end < end:
         moving_start_list = np.where(diff_extracted_darray[moving_end:])[0]
