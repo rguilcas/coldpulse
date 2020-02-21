@@ -26,7 +26,7 @@ def make_config_data(file):
             config_data[data[k][0]] = data[k][1]
     # Create a dict file for different depth levels and files names
     depths_dic = dict()
-    for k in range(12, len(data)-1):
+    for k in range(12, len(data)):
         depths_dic[data[k][0]] = int(data[k][1])
     # Add depths info to the config_data dict
     config_data['depths'] = depths_dic
