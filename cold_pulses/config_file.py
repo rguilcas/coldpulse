@@ -28,8 +28,8 @@ def make_config_data(file):
     config_data['input_name']=config_data['input_dir']+'/csv_prepared.nc'    
     config_data['output_name']=config_data['input_dir']
     config_data['output_dir']=config_data['input_dir']
-    config_data['name_nc_file']='csv_prepared'
-    config_data['input_folder']='csv_prepared'
+    config_data['name_nc_file']='csv_prepared.nc'
+    config_data['input_folder']=config_data['input_name']
         
     depths_dic = dict()
     for k in range(7, len(data)):
