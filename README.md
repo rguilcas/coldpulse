@@ -56,7 +56,7 @@ If it is the first time you use the package, install the cold_pulses package usi
 
 Then for any other time, use from your working directory:
 
-	python cold_pulses_detection.py
+	python cold_pulse_detection.py
 
 This will start the script and output two to three files in the output_dir chosen.
 
