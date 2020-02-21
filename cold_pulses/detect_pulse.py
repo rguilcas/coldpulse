@@ -28,7 +28,7 @@ def bot_pulse_detect(darray):
     # Extract the deepest depth
     depth = darray.depth.max()
     # Compute TSI and rTSI
-    tsi, r_tsi = temperature_stratification_index(darray, time_step)
+    tsi, r_tsi = temperature_stratification_index(darray)
     # Extract first start and end indexes for possible pulses
     starts, ends = init_limits.bot(tsi, r_tsi, darray,
                                    depth=depth)
@@ -73,7 +73,7 @@ def top_pulse_detect(darray):
     # Extract the shallowest depth
     depth = darray.depth.min()
     # Compute TSI and rTSI
-    tsi, r_tsi = temperature_stratification_index(darray, time_step)
+    tsi, r_tsi = temperature_stratification_index(darray)
     # Extract first start and end indexes for possible pulses
     starts, ends = init_limits.top(tsi, r_tsi, darray,
                                    depth=depth)
