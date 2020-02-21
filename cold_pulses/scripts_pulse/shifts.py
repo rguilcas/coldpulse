@@ -8,32 +8,32 @@ import numpy as np
 import pandas as pd
 from cold_pulses.scripts_pulse.prints import progress
 
-def shift_starts(starts, ends, darray, tsi,
-                 depth=25,
-                 step_number=3,
-                 total_steps=7,
-                 kind='bot'):
+def starts(starts, ends, darray, tsi,
+           depth=25,
+           step_number=3,
+           total_steps=7,
+           kind='bot'):
     """
     Shift start indexes to the left to get proper pulse start
     """
     depth_index = np.where(darray.depth == depth)[0][0]
-    #Where is nan field
+    # Where is nan field
     nan_list_idx = np.where(np.isnan(darray[depth_index]))[0]
-    #Where relevant T is the maximum temp in depth
+    # Where relevant T is the maximum temp in depth
     max_temp_list_idx = np.where(darray[depth_index] == darray.max('depth'))[0]
-    #Were the tsi is opposite to what it should be
+    # Were the tsi is opposite to what it should be
     if kind == 'bot':
         tsi_out_list_idx = np.where(tsi > 0)[0]
     elif kind == 'top':
         tsi_out_list_idx = np.where(tsi < 0)[0]
-    #Add zero to all arrays
+    # Add zero to all arrays
     if 0 not in nan_list_idx:
         nan_list_idx = np.insert(nan_list_idx, 0, 0)
     if 0 not in max_temp_list_idx:
         max_temp_list_idx = np.insert(max_temp_list_idx, 0, 0)
     if 0 not in tsi_out_list_idx:
         tsi_out_list_idx = np.insert(tsi_out_list_idx, 0, 0)
-    #create array for new start indexes
+    # Create array for new start indexes
     new_starts = np.zeros(starts.size)
     for k in range(starts.size):
         start = starts[k]
@@ -71,11 +71,11 @@ def shift_starts(starts, ends, darray, tsi,
              kind=kind)
     return new_starts.astype(int)
 
-def shift_ends(starts, ends, darray,
-               depth=25, num_max_right=60,
-               step_number=4,
-               total_steps=7,
-               kind='bot'):
+def ends(starts, ends, darray,
+         depth=25, num_max_right=60,
+         step_number=4,
+         total_steps=7,
+         kind='bot'):
     """
     Shift end indexes to the right to get proper pulse start
     """
