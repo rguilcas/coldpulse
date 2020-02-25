@@ -82,7 +82,7 @@ CONFIG_DATA['input_name'] = CONFIG_DATA['input_dir']+'/csv_prepared.nc'
 # =============================================================================
 # RUN ALGORITHM
 # =============================================================================
-if PREPARE_CSV == True:
+if PREPARE_CSV:
     print('CSV files are being prepared ...')
     prepare_csv(CONFIG_DATA)
     print('NetCDF file is ready to be used.')
