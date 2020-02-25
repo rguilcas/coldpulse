@@ -13,18 +13,16 @@ import os
 import xarray as xr
 import pandas as pd
 import numpy as np
-from cold_pulses.config_file import make_config_data
 
 
-def prepare_csv():
+def prepare_csv(config_data):
     """
     This function turn several csv file into a unique multidimensional netcdf
     file
     """
     # Import configuration file data
-    config_data = make_config_data('config_file.txt')
     depths = config_data['depths']
-    input_folder = config_data['input_folder']
+    input_folder = config_data['input_dir']
     time_file_name = config_data['time_file_name']
     name_nc_file = config_data['name_nc_file']
     list_files = os.listdir(input_folder)

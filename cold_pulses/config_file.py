@@ -5,6 +5,7 @@ Created on Tue Feb  4 15:29:43 2020
 @author: Robin
 """
 import os
+from cold_pulse_detection import input_data
 def make_config_data(file):
     """
     Import configuration file as a dictionnary

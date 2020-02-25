@@ -8,16 +8,14 @@ import os
 import warnings
 import xarray as xr
 from cold_pulses.detect_pulse import top_pulse_detect, bot_pulse_detect
-from cold_pulses.config_file import make_config_data
 
 warnings.filterwarnings("ignore")
 
-def run():
+def run(config_data):
     """
     Main script that should be used to detect cold pulses.
     """
     # load config file info
-    config_data = make_config_data('config_file.txt')
     input_name = config_data['input_name']
     output_name = config_data['output_name']
     output_dir = config_data['output_dir']
