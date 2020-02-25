@@ -76,5 +76,5 @@ def prepare_csv():
                                        'time':data_dataframe.index})
     data_darray.name = 'temperature'
     # Save the dataarray as a netcf file
-    data_darray.to_netcdf('%s/%s.nc'%(input_folder, name_nc_file))
+    data_darray.to_netcdf('%s/%s'%(input_folder, name_nc_file))
       
