@@ -15,7 +15,7 @@ from cold_pulses.prepare_csv import prepare_csv
 # INPUT DATA : change these fields to the ones in your case
 # =============================================================================
 # Directory where csv files are stored
-INPUT_DIR = 'palmyra_N' 
+INPUT_DIR = 'input_folder' 
 # Choose types of algorithme : bot = True for bottom pulses top = True for top
 # Both together are possible
 BOT = True
