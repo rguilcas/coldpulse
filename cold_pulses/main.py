@@ -34,7 +34,7 @@ def run():
                                 +' to continue? It might erase previous outputs.'\
                                 +'(y/n)')
         else:
-            existing_dir ='n'
+            existing_dir ='y'
             os.mkdir(dir_name)
     # If top or bot are selected, we compute pulses using detection algorithms
     # in detect_pulses
