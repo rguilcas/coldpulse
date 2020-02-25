@@ -26,8 +26,8 @@ PREPARE_CSV = True
 # If True you need to provide the following information.
 # !!! Don't forget the .csv at the end of file names !!!
 # List of file names:
-FILE_NAMES = ['input_file_15m',
-              'input_file_25m']
+FILE_NAMES = ['input_file_15m.csv',
+              'input_file_25m.csv']
 #4 List of file depths in the same order as they are in the file_names list
 FILE_DEPTHS = [15,
                25]
