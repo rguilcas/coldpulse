@@ -119,17 +119,33 @@ def ends(starts, ends, darray,
         nan_end = nan_list_idx[nan_list_idx >= end][0]
         max_right_end = max_right_idx[max_right_idx >= end][0]
         max_temp_end = max_temp_list_idx[max_temp_list_idx >= end][0]
-        #Initital temperature
+        #Find when the temperature exceeds initital temperature
         init_temp = darray[depth_index, start]
         init_temp_list = np.where(darray[depth_index, end:] > init_temp)[0]
         if init_temp_list.size > 0:
             init_temp_end = init_temp_list[0]+end
         else:
             init_temp_end = last_idx
+        #Find where other temperature become lower than min temperature
+        min_temp = darray[depth_index,start:end].min()
+        if kind == 'top':
+            irrelevant_data = darray.sel(depth = np.delete(darray.depth,
+                                                         np.argmin(darray.depth)))
+        else:
+            irrelevant_data = darray.sel(depth = np.delete(darray.depth,
+                                                           np.argmax(darray.depth)))
+        min_temp_list = np.where((irrelevant_data[:, end:] < min_temp)\
+                                 .sum('depth') > 0)[0]
+                    
+        if min_temp_list.size > 0:
+            min_temp_end = min_temp_list[0] + end
+        else:
+            min_temp_end = last_idx
         new_end = min(nan_end,
                       max_right_end,
                       init_temp_end,
-                      max_temp_end)
+                      max_temp_end,
+                      min_temp_end)
         new_ends[k] = new_end
     progress(1,
              1,
