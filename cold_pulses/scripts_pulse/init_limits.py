@@ -58,30 +58,19 @@ def bot(tsi, r_tsi, darray,
 
     Returns two arrays with the initial starts and ends for possible bot pulses
     """
-    # Create a TSI time series where positive values of TSI are set to zero
-    tsi_pos = xr.DataArray(np.copy(tsi),
-                           dims=['time'],
-                           coords={'time':tsi.time})
-    tsi_pos[tsi_pos > 0] = 0
-    # Create a rTSI time series where positive values of rTSI are set to zero
-    r_tsi_pos = xr.DataArray(np.copy(r_tsi),
-                             dims=['time'],
-                             coords={'time':tsi.time})
-    r_tsi_pos[r_tsi_pos > 0] = 0
-    # Compute TSI anomaly by comparing positive TSI to positive rTSI
-    tsi_pos_anomaly = tsi_pos - r_tsi_pos
+    # Compute TSI anomaly by comparing TSI to rTSI
+    tsi_neg_anomaly = tsi - r_tsi
     # Create a test to detect negative anomaly periods
-    negative_anomaly = np.copy(tsi_pos_anomaly)
-    negative_anomaly[negative_anomaly <= 0] = 0
-    negative_anomaly[np.isnan(negative_anomaly)] = 0
-    negative_anomaly[negative_anomaly > 0] = 1
+    negative_anomaly = tsi_neg_anomaly<0
+    # Create a test to detect negative tsi periods
+    negative_tsi = tsi<0
     # Create a test to detect where the relevant depth shows the cooler
     # temperature
     min_temp = (darray.sel(depth=depth) == darray.min('depth'))\
                 [:negative_anomaly.size]
     # Create a complete test to detect bottom pulse presence as a continuous
     # period of negative TSI anomaly and of minimum temperature
-    bottom_pulse_presence = negative_anomaly * min_temp
+    bottom_pulse_presence = 1*(negative_tsi * negative_anomaly * min_temp)
     # Extract start and end indexes from the test time series
     starts = np.where(np.diff(bottom_pulse_presence) > 0)[0]
     ends = np.where(np.diff(bottom_pulse_presence) < 0)[0]+2
