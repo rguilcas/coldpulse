@@ -16,6 +16,8 @@ from cold_pulses.prepare_csv import prepare_csv
 # =============================================================================
 # Directory where csv files are stored
 INPUT_DIR = 'input_folder' 
+# Name that will be used for output files
+OUTPUT_NAME = 'output'
 # Choose types of algorithme : bot = True for bottom pulses top = True for top
 # Both together are possible
 BOT = True
@@ -34,6 +36,28 @@ FILE_DEPTHS = [15,
 # time_file_name is the file of which the time will be used for interpolation 
 # of other files. 
 TIME_FILE_NAME = 'input_file_15m.csv'
+
+# =============================================================================
+# ALGORITHM ARBITRARY PARAMETERS : adapt these fiels to your needs
+# =============================================================================
+
+#---FILTERS---
+
+# Minimum duration allowed as number of measurements for duration filter
+MIN_DURATION = 3
+# Mimum max temperature drop allowed in °C for a pulse to be considered one
+MIN_DROP = 0.01
+# Minimum absolute sTSI value required for a pulse to be considered one
+MIN_STSI = 0.04
+
+#---TSI---
+
+# Number of days that will be used to compute rTSI 
+RTSI_NUM_DAYS = 60
+
+
+
+
 
 
 
@@ -74,10 +98,16 @@ if CONFIG_DATA['prepare_csv']:
     for k in range(len(FILE_NAMES)):
         CONFIG_DATA['depths'][FILE_NAMES[k]] = FILE_DEPTHS[k]
     CONFIG_DATA['time_file_name'] = TIME_FILE_NAME 
-CONFIG_DATA['output_name'] = INPUT_DIR
+CONFIG_DATA['output_name'] = OUTPUT_NAME
 CONFIG_DATA['output_dir'] = CONFIG_DATA['input_dir']
 CONFIG_DATA['name_nc_file'] = 'csv_prepared.nc'
-CONFIG_DATA['input_name'] = CONFIG_DATA['input_dir']+'/csv_prepared.nc'    
+CONFIG_DATA['input_name'] = CONFIG_DATA['input_dir']+'/csv_prepared.nc'
+
+CONFIG_DATA['min_duration'] = MIN_DURATION
+CONFIG_DATA['min_drop'] = MIN_DROP
+CONFIG_DATA['min_stsi'] = MIN_STSI
+CONFIG_DATA['rtsi_num_days'] = RTSI_NUM_DAYS
+
 
 # =============================================================================
 # RUN ALGORITHM
