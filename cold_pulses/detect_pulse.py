@@ -47,9 +47,9 @@ def bot_pulse_detect(darray):
                        depth=depth, kind='bot',
                        step_number=3, total_steps=5)
     # Remove pulses that do not fit the specific TSI criterion
-    #starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
-    #                                    depth=depth, kind='bot',
-    #                                    step_number=4, total_steps=5)
+    starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
+                                        depth=depth, kind='bot',
+                                        step_number=4, total_steps=5)
     # Remove overlap by combining overlapping pulses
     starts, ends = filters.remove_overlap(starts, ends)
     # Compute metrics and create output files
