@@ -74,7 +74,7 @@ if CONFIG_DATA['prepare_csv']:
     for k in range(len(FILE_NAMES)):
         CONFIG_DATA['depths'][FILE_NAMES[k]] = FILE_DEPTHS[k]
     CONFIG_DATA['time_file_name'] = TIME_FILE_NAME 
-CONFIG_DATA['output_name'] = CONFIG_DATA['input_dir']
+CONFIG_DATA['output_name'] = INPUT_DIR
 CONFIG_DATA['output_dir'] = CONFIG_DATA['input_dir']
 CONFIG_DATA['name_nc_file'] = 'csv_prepared.nc'
 CONFIG_DATA['input_name'] = CONFIG_DATA['input_dir']+'/csv_prepared.nc'    
