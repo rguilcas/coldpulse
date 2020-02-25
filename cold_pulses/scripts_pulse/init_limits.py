@@ -41,7 +41,7 @@ def top(tsi, r_tsi, darray,
     top_pulse_presence = positive_anomaly * min_temp
     # Extract start and end indexes from the test time series
     starts = np.where(np.diff(top_pulse_presence) > 0)[0]
-    ends = np.where(np.diff(top_pulse_presence) < 0)[0]
+    ends = np.where(np.diff(top_pulse_presence) < 0)[0]+2
     # Add potential extreme indexes
     if starts[0] > ends[0]:
         starts = np.insert(starts, 0, 0)
@@ -84,7 +84,7 @@ def bot(tsi, r_tsi, darray,
     bottom_pulse_presence = negative_anomaly * min_temp
     # Extract start and end indexes from the test time series
     starts = np.where(np.diff(bottom_pulse_presence) > 0)[0]
-    ends = np.where(np.diff(bottom_pulse_presence) < 0)[0]
+    ends = np.where(np.diff(bottom_pulse_presence) < 0)[0]+2
     # Add potential extreme indexes
     if starts[0] > ends[0]:
         starts = np.insert(starts, 0, 0)
