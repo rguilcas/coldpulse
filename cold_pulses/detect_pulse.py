@@ -33,23 +33,23 @@ def bot_pulse_detect(darray):
     starts, ends = init_limits.bot(tsi, r_tsi, darray,
                                    depth=depth)
     # Remove possible pulses that are too short
-    starts, ends = filters.duration(starts, ends)
+    #starts, ends = filters.duration(starts, ends)
     # Remove possible pulses that do not show an important enough drop
     starts, ends = filters.max_drop(darray, starts, ends,
                                     depth=depth, kind='bot',
                                     step_number=1, total_steps=5)
     # Shift start indexes to the left to get real start indexes
-    starts = shifts.starts(starts, ends, darray, tsi,
-                           depth=depth, kind='bot',
-                           step_number=2, total_steps=5)
+    #starts = shifts.starts(starts, ends, darray, tsi,
+    #                       depth=depth, kind='bot',
+    #                       step_number=2, total_steps=5)
     # Shift end indexes to the left to get real end indexes
     ends = shifts.ends(starts, ends, darray,
                        depth=depth, kind='bot',
                        step_number=3, total_steps=5)
     # Remove pulses that do not fit the specific TSI criterion
-    starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
-                                        depth=depth, kind='bot',
-                                        step_number=4, total_steps=5)
+    #starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
+    #                                    depth=depth, kind='bot',
+    #                                    step_number=4, total_steps=5)
     # Remove overlap by combining overlapping pulses
     starts, ends = filters.remove_overlap(starts, ends)
     # Compute metrics and create output files
