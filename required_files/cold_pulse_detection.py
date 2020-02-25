@@ -87,5 +87,10 @@ if PREPARE_CSV:
     prepare_csv(CONFIG_DATA)
     print('NetCDF file is ready to be used.')
 else:
-    print('CSV files are already prepared.')
+    if 'csv_prepared.nc' not in os.listdir(INPUT_DIR):
+        print('CSV files are not prepared.being prepared now ...')
+        prepare_csv(CONFIG_DATA)
+        print('NetCDF file is ready to be used.')
+    else:
+        print('CSV files are already prepared.')
 run(CONFIG_DATA)
