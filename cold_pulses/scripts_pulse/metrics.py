@@ -135,7 +135,7 @@ def get_dch(start, end, darray, dt,
     # Prepare the computation of DCS for irrelevant depths
     slicing = [True]*darray.depth.size
     slicing[index_depth] = False
-    dcs_irrelevant = np.zeros(darray[slicing].size)
+    dcs_irrelevant = np.zeros(darray[slicing].shape)
     for k in range(len(start_depth)):
     # Extract start and end indexes for each subpulse
         start_sub = start_depth[k]
@@ -143,11 +143,12 @@ def get_dch(start, end, darray, dt,
     # Compute DCS
         dcs_relevant[start_sub:end_sub] = \
             extracted_darray[start_sub]-extracted_darray[start_sub:end_sub]
-        init_temp_irrelevant = darray[slicing,start_sub]
-        init_temp_irrelevant.where(init_temp_irrelevant < \
-                                       extracted_darray[start_sub], 
-                                   extracted_darray[start_sub])
-        dcs_irrelevant[start_sub:end_sub] = \
+        init_temp_irrelevant = darray[slicing, start_sub]
+        init_temp_irrelevant = init_temp_irrelevant.\
+                                    where(init_temp_irrelevant < \
+                                              extracted_darray[start_sub], 
+                                          extracted_darray[start_sub])
+        dcs_irrelevant[:, start_sub:end_sub] = \
             init_temp_irrelevant - darray[slicing, start_sub:end_sub]
     # Create full DCS array
     dcs_tot = np.zeros((darray.depth.size, end-start))
@@ -155,6 +156,8 @@ def get_dch(start, end, darray, dt,
     dcs_tot[index_depth] = dcs_relevant
     # Update for irrevelant depths
     dcs_tot[slicing] = dcs_irrelevant
+    # Remove all negative values
+    dcs_tot = dcs_tot.where(dcs_tot > 0, 0)
     max_drops = dcs_tot.max(axis=1)
     dcs_tot = dcs_tot*dt
     #Convert dcs to dch
