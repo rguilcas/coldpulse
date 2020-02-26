@@ -135,7 +135,7 @@ def get_dch(start, end, darray, dt,
     # Prepare the computation of DCS for irrelevant depths
     slicing = [True]*darray.depth.size
     slicing[index_depth] = False
-    dcs_irrelevant = np.zeros(darray[slicing].shape)
+    dcs_irrelevant = np.zeros((darray.depth.size-1, end-start))
     for k in range(len(start_depth)):
     # Extract start and end indexes for each subpulse
         start_sub = start_depth[k]
