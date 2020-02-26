@@ -38,7 +38,7 @@ def run(config_data):
     # in detect_pulses
     if existing_dir == 'y':
         if bot:
-            df_bot, ds_bot = bot_pulse_detect(darray)
+            df_bot, ds_bot = bot_pulse_detect(darray, config_data)
             df_bot.to_csv('%s/%s_bot_stats.csv'%(dir_name, output_name))
         if top:
             df_top, ds_top = top_pulse_detect(darray)
