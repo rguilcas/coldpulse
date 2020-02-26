@@ -72,7 +72,7 @@ def starts(starts, ends, darray, tsi,
     return new_starts.astype(int)
 
 def ends(starts, ends, darray,
-         depth=25, num_max_right=60,
+         depth=25, num_right_max=60,
          step_number=4,
          total_steps=7,
          kind='bot'):
@@ -85,10 +85,10 @@ def ends(starts, ends, darray,
     nan_list_idx = np.where(np.isnan(darray[depth_index]))[0]
     #Compute local right maximum
     shifted_darray = pd.DataFrame()
-    for k in range(1, num_max_right):
+    for k in range(1, num_right_max):
         shifted_darray[k] = darray[depth_index].shift(time=k)-darray[depth_index]
     test_max_right = (shifted_darray < 0).sum(axis=1)
-    max_right_idx = np.where(test_max_right == num_max_right-1)[0]
+    max_right_idx = np.where(test_max_right == num_right_max - 1)[0]
     #Where relevnt T is the maximum temp in depth
     max_temp_list_idx = np.where(darray[depth_index] == darray.max('depth'))[0]
     #Add last value
