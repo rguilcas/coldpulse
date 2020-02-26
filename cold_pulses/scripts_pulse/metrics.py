@@ -93,6 +93,7 @@ def output(darray, starts, ends, dt,
 
 def get_dch(start, end, darray, dt,
             depth=25):
+    print(start,end)
     # Extract depth index and temperature series at that depth
     index_depth = np.where(darray.depth == depth)[0][0]
     extracted_darray = darray[index_depth, start:end]
@@ -159,7 +160,7 @@ def get_dch(start, end, darray, dt,
     # Remove all negative values
     dcs_tot = xr.DataArray(dcs_tot,
                            dims = darray.dims,
-                           coors = darray[:, start:end].coords)
+                           coords = darray[:, start:end].coords)
     dcs_tot = dcs_tot.where(dcs_tot > 0, 0).values
     max_drops = dcs_tot.max(axis=1)
     dcs_tot = dcs_tot*dt
