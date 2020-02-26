@@ -19,7 +19,7 @@ Visual inspection could be used to observe those criteria.
 We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
 
 Once your files are ready, you should create a working directory in your computer.
-Then, download the example files available at https://github.com/typhonier/cold_pulses/tree/master/required_files.
+Then, download the example files available at https://github.com/rguilcas/cold_pulses/tree/master/example_input.
 This folder contains two files and one folder:
 - cold_pulse_detection.py: this is the python script that we will use to launch the algorithm from command line.
 - config_file.txt: this is the configuration file for the algorithm where we can change parameters like input.
