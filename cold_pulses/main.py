@@ -41,7 +41,7 @@ def run(config_data):
             df_bot, ds_bot = bot_pulse_detect(darray, config_data)
             df_bot.to_csv('%s/%s_bot_stats.csv'%(dir_name, output_name))
         if top:
-            df_top, ds_top = top_pulse_detect(darray)
+            df_top, ds_top = top_pulse_detect(darray, config_data)
             df_top.to_csv('%s/%s_top_stats.csv'%(dir_name, output_name))
         # If only top or bot is selected, we save the output of the relevant
         # detection script as a netcdf file

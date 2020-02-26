@@ -40,8 +40,8 @@ def output(darray, starts, ends, dt,
                  total_steps,
                  kind=kind)
     # Compute degree cooling hours and maximum drops
-        dch_instant, drops = get_gamma(start, end, darray, dt,
-                                       depth=depth)
+        dch_instant, drops = get_dch(start, end, darray, dt,
+                                     depth=depth)
     # Update DCH time series
         darray_dch[:, start:end] = dch_instant
     # Update pulses temp time series
@@ -91,8 +91,8 @@ def output(darray, starts, ends, dt,
     df.index = pd.DatetimeIndex(df.start_time)
     return df[df.columns[1:]], ds
 
-def get_gamma(start, end, darray, dt,
-              depth=25):
+def get_dch(start, end, darray, dt,
+            depth=25):
     # Extract depth index and temperature series at that depth
     index_depth = np.where(darray.depth == depth)[0][0]
     extracted_darray = darray[index_depth, start:end]
@@ -130,9 +130,12 @@ def get_gamma(start, end, darray, dt,
             end_depth.append(moving_end)
         else:
             moving_end = end
-    # Prepare empty time series to compute degree cooling seconds for relevant
-    # depth
+    # Prepare empty time series to compute degree cooling seconds
     dcs_relevant = np.zeros(extracted_darray.size)
+    # Prepare the computation of DCS for irrelevant depths
+    slicing = [True]*darray.depth.size
+    slicing[index_depth] = False
+    dcs_irrelevant = np.zeros(darray[slicing].size)
     for k in range(len(start_depth)):
     # Extract start and end indexes for each subpulse
         start_sub = start_depth[k]
@@ -140,75 +143,12 @@ def get_gamma(start, end, darray, dt,
     # Compute DCS
         dcs_relevant[start_sub:end_sub] = \
             extracted_darray[start_sub]-extracted_darray[start_sub:end_sub]
-    # Prepare the computation of DCS for irrelevant depths
-    slicing = [True]*darray.depth.size
-    slicing[index_depth] = False
-    darray_irrelevant = darray[slicing, start:end]
-    start_irrelevant_list_all = []
-    end_irrelevant_list_all = []
-    for k in range(darray_irrelevant.shape[0]):
-    # Create a list that will contain subpulse starts and ends for each depth
-        start_irrelevant_list = []
-        end_irrelevant_list = []
-    # Extract temperature data
-        extracted_darray = darray_irrelevant[k]
-    # Find all subpulses and add their start and end indexes to the lists
-        end_loop = False
-        forcing_start = False
-        moving_start_list = np.where(diff_extracted_darray < 0)[0]
-        if moving_start_list.size > 0:
-            moving_start = moving_start_list[0]
-            moving_start = np.where(diff_extracted_darray < 0)[0][0]
-            moving_end_list = np.where(extracted_darray[moving_start+1:] \
-                                      > extracted_darray[moving_start])[0]
-            if moving_end_list.size > 0:
-                moving_end = moving_start + 1 + moving_end_list[0]
-            else:
-                moving_end += 1
-                end_loop = True
-            if not end_loop:
-                start_irrelevant_list = [moving_start]
-                end_irrelevant_list = [moving_end]
-        else:
-            moving_end = end
-            start_irrelevant_list = []
-            end_irrelevant_list = []
-        
-        while moving_end < (end-start) and moving_start < end-start:
-            moving_start_list = np.where(diff_extracted_darray[moving_end:])[0]
-            if moving_start_list.size > 0:
-                if not forcing_start:
-                    moving_start = moving_end + moving_start_list[0]
-                moving_end_list = \
-                    np.where(diff_extracted_darray[moving_end:])[0]
-                if moving_end_list.size > 0:
-                    moving_end = moving_start + 1 + moving_end_list[0]
-                    forcing_start = False
-                    end_loop = False
-                else:
-                    moving_start += 1
-                    forcing_start = True
-                    end_loop = True
-                if not end_loop:
-                    start_irrelevant_list.append(moving_start)
-                    end_irrelevant_list.append(moving_end)
-            else:
-                moving_end = end
-            
-        start_irrelevant_list_all.append(start_irrelevant_list)
-        end_irrelevant_list_all.append(end_irrelevant_list)
-    #
-    dcs_irrelevant = np.zeros((darray.depth.size-1, extracted_darray.size))
-    for i in range(darray.depth.size-1):
-        # Compute DCS
-        extracted_darray = darray[slicing][i, start:end]
-        start_irrelevant_list = start_irrelevant_list_all[i]
-        end_irrelevant_list = end_irrelevant_list_all[i]
-        for k in range(len(start_irrelevant_list)):
-            start_sub = start_irrelevant_list[k]
-            end_sub = end_irrelevant_list[k]
-            dcs_irrelevant[i, start_sub:end_sub] = \
-                extracted_darray[start_sub]-extracted_darray[start_sub:end_sub]
+        init_temp_irrelevant = darray[slicing,start_sub]
+        init_temp_irrelevant.where(init_temp_irrelevant < \
+                                       extracted_darray[start_sub], 
+                                   extracted_darray[start_sub])
+        dcs_irrelevant[start_sub:end_sub] = \
+            init_temp_irrelevant - darray[slicing, start_sub:end_sub]
     # Create full DCS array
     dcs_tot = np.zeros((darray.depth.size, end-start))
     # Update for relevant depth
@@ -219,4 +159,4 @@ def get_gamma(start, end, darray, dt,
     dcs_tot = dcs_tot*dt
     #Convert dcs to dch
     dch_tot = dcs_tot/3600
-    return dch_tot,max_drops
+    return dch_tot, max_drops

@@ -55,6 +55,9 @@ MIN_STSI = 0.04
 # Number of days that will be used to compute rTSI 
 RTSI_NUM_DAYS = 60
 
+#---Shift ENDS---
+# Number of measurements used to define a right maximum
+NUM_RIGHT_MAX = 60
 
 
 
@@ -107,6 +110,7 @@ CONFIG_DATA['min_duration'] = MIN_DURATION
 CONFIG_DATA['min_drop'] = MIN_DROP
 CONFIG_DATA['min_stsi'] = MIN_STSI
 CONFIG_DATA['rtsi_num_days'] = RTSI_NUM_DAYS
+CONFIG_DATA['num_right_max'] = NUM_RIGHT_MAX
 
 
 # =============================================================================
