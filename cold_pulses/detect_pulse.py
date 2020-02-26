@@ -40,7 +40,7 @@ def bot_pulse_detect(darray, config_data):
     # Remove possible pulses that do not show an important enough drop
     starts, ends = filters.max_drop(darray, starts, ends,
                                     depth=depth, kind='bot',
-                                    step_number=1, total_steps=5,
+                                    step_number=1, total_steps=4,
                                     cut_off=config_data['min_drop'])
     # Shift start indexes to the left to get real start indexes
     #starts = shifts.starts(starts, ends, darray, tsi,
@@ -49,19 +49,19 @@ def bot_pulse_detect(darray, config_data):
     # Shift end indexes to the left to get real end indexes
     ends = shifts.ends(starts, ends, darray,
                        depth=depth, kind='bot',
-                       step_number=3, total_steps=5,
+                       step_number=2, total_steps=4,
                        num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
     starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
                                         depth=depth, kind='bot',
-                                        step_number=4, total_steps=5,
+                                        step_number=3, total_steps=4,
                                         min_stsi=config_data['min_stsi'])
     # Remove overlap by combining overlapping pulses
     starts, ends = filters.remove_overlap(starts, ends)
     # Compute metrics and create output files
     df_out, ds_out = output(darray, starts, ends, time_step,
                             depth=depth, kind='bot',
-                            step_number=5, total_steps=5)
+                            step_number=4, total_steps=4)
     return df_out, ds_out
 
 def top_pulse_detect(darray, config_data):
@@ -89,20 +89,20 @@ def top_pulse_detect(darray, config_data):
     # Remove possible pulses that do not show an important enough drop
     starts, ends = filters.max_drop(darray, starts, ends,
                                     depth=depth, kind='top',
-                                    step_number=1, total_steps=5,
+                                    step_number=1, total_steps=4,
                                     cut_off=config_data['min_drop'])
     # Shift end indexes to the left to get real end indexes
     ends = shifts.ends(starts, ends, darray,
                        depth=depth, kind='top',
-                       step_number=3, total_steps=5,
+                       step_number=2, total_steps=4,
                        num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
     starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
                                         depth=depth, kind='top',
-                                        step_number=4, total_steps=5,
+                                        step_number=3, total_steps=4,
                                         min_stsi=config_data['min_stsi'])
     # Compute metrics and create output files
     df_out, ds_out = output(darray, starts, ends, time_step,
                             depth=depth, kind='top',
-                            step_number=5, total_steps=5)
+                            step_number=4, total_steps=4)
     return df_out, ds_out
