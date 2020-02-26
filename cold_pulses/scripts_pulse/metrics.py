@@ -84,7 +84,7 @@ def output(darray, starts, ends, dt,
     # Create output dataframe
     df = pd.DataFrame(data_df_out)
     df.columns = ['start_time', 'duration']+\
-                 ['gamma%s'%k for k in list(darray.depth.values)]+\
+                 ['dch%s'%k for k in list(darray.depth.values)]+\
                  ['drop%s'%k for k in list(darray.depth.values)]+\
                  ['temp_init%s'%k for k in list(darray.depth.values)]+\
                  ['start', 'end']
