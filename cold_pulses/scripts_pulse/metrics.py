@@ -108,16 +108,16 @@ def get_dch(start, end, darray, dt,
         if moving_end_list.size > 0:
             moving_end = moving_start + 1 + moving_end_list[0]
         else:
-            moving_end = end
+            moving_end = end - start
         # Create list of sub pulses starts and ends
         start_depth = [moving_start]
         end_depth = [moving_end]
     else:
-        moving_end = end
+        moving_end = end - start
         start_depth = []
         end_depth = []
     # Go through the time series to find subpulses
-    while moving_end < end:
+    while moving_end < end - start:
         moving_start_list = np.where(diff_extracted_darray[moving_end:])[0]
         if moving_start_list.size > 0:
             moving_start = moving_end + moving_start_list[0]
@@ -126,11 +126,11 @@ def get_dch(start, end, darray, dt,
             if moving_end_list.size > 0:
                 moving_end = moving_start + 1 + moving_end_list[0]
             else:
-                moving_end = end
+                moving_end = end - start
             start_depth.append(moving_start)
             end_depth.append(moving_end)
         else:
-            moving_end = end
+            moving_end = end - start
     # Prepare empty time series to compute degree cooling seconds
     dcs_relevant = np.zeros(extracted_darray.size)
     # Prepare the computation of DCS for irrelevant depths
