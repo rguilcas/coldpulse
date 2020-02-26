@@ -46,9 +46,9 @@ TIME_FILE_NAME = 'input_file_15m.csv'
 # Minimum duration allowed as number of measurements for duration filter
 MIN_DURATION = 3
 # Mimum max temperature drop allowed in °C for a pulse to be considered one
-MIN_DROP = 0.01
+MIN_DROP = 0.05
 # Minimum absolute sTSI value required for a pulse to be considered one
-MIN_STSI = 0.04
+MIN_STSI = 0.17
 
 #---TSI---
 
