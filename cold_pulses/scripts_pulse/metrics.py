@@ -93,7 +93,6 @@ def output(darray, starts, ends, dt,
 
 def get_dch(start, end, darray, dt,
             depth=25):
-    print(start,end)
     # Extract depth index and temperature series at that depth
     index_depth = np.where(darray.depth == depth)[0][0]
     extracted_darray = darray[index_depth, start:end]
