@@ -148,6 +148,9 @@ def get_dch(start, end, darray, dt,
                                     where(init_temp_irrelevant < \
                                               extracted_darray[start_sub], 
                                           extracted_darray[start_sub])
+        print(dcs_irrelevant[:, start_sub:end_sub].shape,
+              init_temp_irrelevant.shape,
+              darray[slicing, start_sub:end_sub])
         dcs_irrelevant[:, start_sub:end_sub] = \
             init_temp_irrelevant - darray[slicing, start_sub:end_sub]
     # Create full DCS array
