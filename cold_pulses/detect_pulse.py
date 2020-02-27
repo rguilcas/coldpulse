@@ -42,10 +42,11 @@ def bot_pulse_detect(darray, config_data):
         starts, ends = filters.duration(starts, ends,
                                         min_duration=config_data['max_duration'])
     # Remove possible pulses that do not show an important enough drop
-    starts, ends = filters.max_drop(darray, starts, ends,
-                                    depth=depth, kind='bot',
-                                    step_number=1, total_steps=4,
-                                    cut_off=config_data['min_drop'])
+    if config_data['filter_min_drop']:
+        starts, ends = filters.max_drop(darray, starts, ends,
+                                        depth=depth, kind='bot',
+                                        step_number=1, total_steps=4,
+                                        cut_off=config_data['min_drop'])
     # Shift start indexes to the left to get real start indexes
     #starts = shifts.starts(starts, ends, darray, tsi,
     #                       depth=depth, kind='bot',
@@ -56,6 +57,7 @@ def bot_pulse_detect(darray, config_data):
                        step_number=2, total_steps=4,
                        num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
+    
     starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
                                         depth=depth, kind='bot',
                                         step_number=3, total_steps=4,
