@@ -91,7 +91,7 @@ def max_drop(darray, starts, ends,
     return df_filtered.start.values, df_filtered.end.values
 
 
-def specific_tsi(darray, starts, ends, time_step,
+def specific_tsi(darray, starts, ends, time_step, r_tsi,
                  depth=25, min_stsi=.04, kind='bot',
                  step_number=2,
                  total_steps=7):
@@ -126,8 +126,6 @@ def specific_tsi(darray, starts, ends, time_step,
                  step_number,
                  total_steps,
                  kind=kind)
-    # Exctract initial values
-        init_value = darray[index_depth, start].values
     # Prepare a linear interpolation between start and end values
         interpolation = np.nan*np.zeros((darray_copy.depth.size-1,
                                          end - start + 2))
@@ -138,26 +136,6 @@ def specific_tsi(darray, starts, ends, time_step,
     # Interpolate
         interpolation = interpolation_dataframe.interpolate().values.\
                         transpose()[:, 1:-1]
-    # Create an xarray DataArray of the interpolation
-        interpolation = xr.DataArray(interpolation,
-                                     dims=['depth', 'time'],
-                                     coords={'depth':darray.depth[slicing],
-                                             'time':darray_copy\
-                                                 [slicing, start:end].time})
-    # If the interpolation is greater than the init value: init value
-        interpolation = interpolation.\
-                        where(interpolation < init_value, init_value)
-    # If the interpolation is greater than the origninal temperature series:
-    # original temperature
-        interpolation = interpolation.\
-                        where(interpolation < darray[slicing, start:end],
-                              darray[slicing, start:end])
-    # If the interpolation is smaller than the relevant depth's temperature:
-    # relevant depth's temperature
-        interpolation = interpolation.\
-                        where(interpolation > darray[index_depth, start:end],
-                              darray[index_depth, start:end])
-    # Add the newly computed temperature time series to the darray_copy series
         darray_copy[slicing, start:end] = interpolation
         darray_copy[index_depth, start:end] = darray[index_depth, start:end]
     progress(1,
@@ -170,28 +148,24 @@ def specific_tsi(darray, starts, ends, time_step,
     s_tsi = temperature_stratification_index(darray_copy, daily=False)
     # Compute extremum of specific TSI for each possible pulse
     # Maximum sTSI for top pulses, minimum for bottom pulses
-    ext_stsi_list = []
+    new_starts = []
+    new_ends = []
     for k in range(starts.size):
     # Extract start and end indexes
         start = starts[k]
         end = ends[k]
     # Compute maximum or minimum sTSI depending on the pulse type studied
         if kind == 'top':
-            min_strat = s_tsi[start:end].max()
+            test = ((r_tsi - s_tsi) < 0)*(s_tsi > 0)
+            if (test.sum() > 0):
+                new_starts.append(start)
+                new_ends.append(end)
         elif kind == 'bot':
-            min_strat = s_tsi[start:end].min()
-    # Update the extreme sTSI list
-        ext_stsi_list.append(min_strat.values)
-    # Create dataframe with start, end and extreme sTSI
-    stsi_dataframe = pd.DataFrame({'start':starts,
-                                   'end':ends,
-                                   'min_strat':ext_stsi_list})
-    # Filter pulses if sTSI magnitude is smaller than min_stsi
-    if kind == 'bot':
-        df_filtered = stsi_dataframe.loc[stsi_dataframe.min_strat < -min_stsi]
-    elif kind == 'top':
-        df_filtered = stsi_dataframe.loc[stsi_dataframe.min_strat > min_stsi]
-    return df_filtered.start.values, df_filtered.end.values
+            test = ((r_tsi - s_tsi) > 0)*(s_tsi < 0)
+            if (test.sum() > 0):
+                new_starts.append(start)
+                new_ends.append(end)
+    return new_starts.astype(int), new_ends.astype(int)
 
 def remove_overlap(starts, ends):
     """
