@@ -40,7 +40,7 @@ TIME_FILE_NAME = 'input_file_15m.csv'
 
 # =============================================================================
 # =============================================================================
-# # ALGORITHM ARBITRARY PARAMETERS : adapt these fiels to your needs
+# # ALGORITHM PARAMETERS : adapt these fiels to your needs
 # =============================================================================
 # =============================================================================
 
@@ -85,6 +85,27 @@ RTSI_NUM_DAYS = 60
 
 # Time used to define a right maximum in minutes
 NUM_RIGHT_MAX = 60
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
