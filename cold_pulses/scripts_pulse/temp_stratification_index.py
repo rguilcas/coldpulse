@@ -18,6 +18,7 @@ def temperature_stratification_index(darray,
     """
     #Compute TSI
     tsi = ((darray-darray.mean('depth'))*darray.depth).mean('depth')
+    tsi = tsi * darray.depth.diff('depth').sum()
     if daily:
     # Compute rTSI
     # Resample temperature data to get hourly means
@@ -92,6 +93,7 @@ def temperature_stratification_index(darray,
     # Compute rTSI
             r_tsi = ((hourly_darray-hourly_darray.mean('depth'))*\
                              hourly_darray.depth).mean('depth')
+            r_tsi = r_tsi * darray.depth.diff('depth').sum()
     # Smoothing procedure
             num_val_smooth = 3
             max_r_tsi = r_tsi.rolling(time=num_val_smooth).max()

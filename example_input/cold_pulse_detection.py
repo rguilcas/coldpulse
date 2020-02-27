@@ -8,6 +8,7 @@ Created on Thu Feb 20 09:17:39 2020
 #First in command prompt : pip install git+http://github.com/typhonier/cold_pulses
 
 import os
+import numpy as np
 from cold_pulses.main import run
 from cold_pulses.prepare_csv import prepare_csv
 
@@ -43,12 +44,22 @@ TIME_FILE_NAME = 'input_file_15m.csv'
 
 #---FILTERS---
 
-# Minimum duration allowed as number of measurements for duration filter
-MIN_DURATION = 3
+# Minimum duration allowed in minutes for duration filter
+FILTER_MIN_DURATION = False
+MIN_DURATION = 10
+
+# Maximum duration allowed in minutes for duration filter
+FILTER_MIN_DURATION = False
+MAX_DURATION = 1440
+
+
 # Mimum max temperature drop allowed in °C for a pulse to be considered one
 MIN_DROP = 0.05
+
 # Minimum absolute sTSI value required for a pulse to be considered one
-MIN_STSI = 0.17
+# AUTO_STSI computes the TSI directly from the minimum temperature drop if True
+AUTO_MIN_STSI = True
+MANUAL_MIN_STSI = 0.17
 
 #---TSI---
 
@@ -56,7 +67,7 @@ MIN_STSI = 0.17
 RTSI_NUM_DAYS = 60
 
 #---Shift ENDS---
-# Number of measurements used to define a right maximum
+# Time used to define a right maximum in minutes
 NUM_RIGHT_MAX = 60
 
 
@@ -108,7 +119,17 @@ CONFIG_DATA['input_name'] = CONFIG_DATA['input_dir']+'/csv_prepared.nc'
 
 CONFIG_DATA['min_duration'] = MIN_DURATION
 CONFIG_DATA['min_drop'] = MIN_DROP
-CONFIG_DATA['min_stsi'] = MIN_STSI
+if AUTO_MIN_STSI:
+    FILE_DEPTHS.sort()
+    AUTO_TEMP = [30 for k in FILE_DEPTHS]
+    AUTO_TEMP[-1] -= MIN_DROP
+    FILE_DEPTHS, AUTO_TEMP = np.array(FILE_DEPTHS), np.array(AUTO_TEMP)
+    STSI = np.abs(((AUTO_TEMP-AUTO_TEMP.mean())*FILE_DEPTHS).mean()*\
+                np.diff(FILE_DEPTHS).sum())
+    CONFIG_DATA['min_stsi'] = STSI
+else:
+    CONFIG_DATA['min_stsi'] = MANUAL_MIN_STSI
+    
 CONFIG_DATA['rtsi_num_days'] = RTSI_NUM_DAYS
 CONFIG_DATA['num_right_max'] = NUM_RIGHT_MAX
 
