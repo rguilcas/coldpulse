@@ -136,6 +136,12 @@ def specific_tsi(darray, starts, ends, time_step, r_tsi,
     # Interpolate
         interpolation = interpolation_dataframe.interpolate().values.\
                         transpose()[:, 1:-1]
+    # Fake temperature time series
+        fake_temp = xr.DataArray(interpolation,
+                                 dims = darray[slicing, start:end].dims,
+                                 coords = darray[slicing,start:end].coords)
+        fake_temp.where(fake_temp < darray[index_depth, start],
+                        darray[index_depth, start])
         darray_copy[slicing, start:end] = interpolation
         darray_copy[index_depth, start:end] = darray[index_depth, start:end]
     progress(1,
