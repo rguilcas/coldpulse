@@ -36,32 +36,28 @@ def bot_pulse_detect(darray, config_data):
                                    depth=depth)
     # Remove possible pulses that are too short
     if config_data['filter_min_duration']:
-        starts, ends = filters.duration(starts, ends,
+        starts, ends = filters.duration(starts, ends, time_step,
                                         min_duration=config_data['min_duration'])
     if config_data['filter_max_duration']:
-        starts, ends = filters.duration(starts, ends,
-                                        min_duration=config_data['max_duration'])
+        starts, ends = filters.duration(starts, ends, time_step,
+                                        max_duration=config_data['max_duration'])
     # Remove possible pulses that do not show an important enough drop
     if config_data['filter_min_drop']:
         starts, ends = filters.max_drop(darray, starts, ends,
                                         depth=depth, kind='bot',
                                         step_number=1, total_steps=4,
                                         cut_off=config_data['min_drop'])
-    # Shift start indexes to the left to get real start indexes
-    #starts = shifts.starts(starts, ends, darray, tsi,
-    #                       depth=depth, kind='bot',
-    #                       step_number=2, total_steps=5)
     # Shift end indexes to the left to get real end indexes
-    ends = shifts.ends(starts, ends, darray,
+    ends = shifts.ends(starts, ends, darray, time_step,
                        depth=depth, kind='bot',
                        step_number=2, total_steps=4,
                        num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
-    
-    starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
-                                        depth=depth, kind='bot',
-                                        step_number=3, total_steps=4,
-                                        min_stsi=config_data['min_stsi'])
+    if config_data['filter_stsi']:
+        starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
+                                            depth=depth, kind='bot',
+                                            step_number=3, total_steps=4,
+                                            min_stsi=config_data['min_stsi'])
     # Remove overlap by combining overlapping pulses
     starts, ends = filters.remove_overlap(starts, ends)
     # Compute metrics and create output files

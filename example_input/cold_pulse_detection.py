@@ -70,6 +70,7 @@ MIN_DROP = 0.05
 
 # Minimum absolute sTSI value required for a pulse to be considered one
 # AUTO_STSI computes the TSI directly from the minimum temperature drop if True
+FILTER_STSI = True
 AUTO_MIN_STSI = True
 MANUAL_MIN_STSI = 0.17
 
@@ -163,16 +164,18 @@ if FILTER_MAX_DURATION:
     CONFIG_DATA['max_duration'] = MAX_DURATION
     
 CONFIG_DATA['min_drop'] = MIN_DROP
-if AUTO_MIN_STSI:
-    FILE_DEPTHS.sort()
-    AUTO_TEMP = [30 for k in FILE_DEPTHS]
-    AUTO_TEMP[-1] -= MIN_DROP
-    FILE_DEPTHS, AUTO_TEMP = np.array(FILE_DEPTHS), np.array(AUTO_TEMP)
-    STSI = np.abs(((AUTO_TEMP-AUTO_TEMP.mean())*FILE_DEPTHS).mean()*\
-                np.diff(FILE_DEPTHS).sum())
-    CONFIG_DATA['min_stsi'] = STSI
-else:
-    CONFIG_DATA['min_stsi'] = MANUAL_MIN_STSI
+CONFIG_DATA['filter_stsi'] = FILTER_STSI
+if FILTER_STSI:
+    if AUTO_MIN_STSI:
+        FILE_DEPTHS.sort()
+        AUTO_TEMP = [30 for k in FILE_DEPTHS]
+        AUTO_TEMP[-1] -= MIN_DROP
+        FILE_DEPTHS, AUTO_TEMP = np.array(FILE_DEPTHS), np.array(AUTO_TEMP)
+        STSI = np.abs(((AUTO_TEMP-AUTO_TEMP.mean())*FILE_DEPTHS).mean()*\
+                    np.diff(FILE_DEPTHS).sum())
+        CONFIG_DATA['min_stsi'] = STSI
+    else:
+        CONFIG_DATA['min_stsi'] = MANUAL_MIN_STSI
 CONFIG_DATA['filter_min_drop'] = FILTER_MIN_DROP
 CONFIG_DATA['rtsi_num_days'] = RTSI_NUM_DAYS
 CONFIG_DATA['num_right_max'] = NUM_RIGHT_MAX
