@@ -39,34 +39,50 @@ FILE_DEPTHS = [15,
 TIME_FILE_NAME = 'input_file_15m.csv'
 
 # =============================================================================
-# ALGORITHM ARBITRARY PARAMETERS : adapt these fiels to your needs
+# =============================================================================
+# # ALGORITHM ARBITRARY PARAMETERS : adapt these fiels to your needs
+# =============================================================================
 # =============================================================================
 
-#---FILTERS---
+# =============================================================================
+# DURATION FILTERs
+# =============================================================================
 
 # Minimum duration allowed in minutes for duration filter
 FILTER_MIN_DURATION = False
 MIN_DURATION = 10
 
 # Maximum duration allowed in minutes for duration filter
-FILTER_MIN_DURATION = False
+FILTER_MAX_DURATION = False
 MAX_DURATION = 1440
 
+# =============================================================================
+# MIN DROP FILTER
+# =============================================================================
 
 # Mimum max temperature drop allowed in °C for a pulse to be considered one
 MIN_DROP = 0.05
+
+# =============================================================================
+# STSI FILTER
+# =============================================================================
 
 # Minimum absolute sTSI value required for a pulse to be considered one
 # AUTO_STSI computes the TSI directly from the minimum temperature drop if True
 AUTO_MIN_STSI = True
 MANUAL_MIN_STSI = 0.17
 
-#---TSI---
+# =============================================================================
+# TSI COMPUTING PARAMETERS
+# =============================================================================
 
 # Number of days that will be used to compute rTSI 
 RTSI_NUM_DAYS = 60
 
-#---Shift ENDS---
+# =============================================================================
+# SHIFT ENDS
+# =============================================================================
+
 # Time used to define a right maximum in minutes
 NUM_RIGHT_MAX = 60
 
@@ -117,7 +133,13 @@ CONFIG_DATA['output_dir'] = CONFIG_DATA['input_dir']
 CONFIG_DATA['name_nc_file'] = 'csv_prepared.nc'
 CONFIG_DATA['input_name'] = CONFIG_DATA['input_dir']+'/csv_prepared.nc'
 
-CONFIG_DATA['min_duration'] = MIN_DURATION
+CONFIG_DATA['filter_min_duration'] = FILTER_MIN_DURATION
+CONFIG_DATA['filter_max_duration'] = FILTER_MAX_DURATION
+if FILTER_MIN_DURATION:
+    CONFIG_DATA['min_duration'] = MIN_DURATION
+if FILTER_MAX_DURATION:
+    CONFIG_DATA['max_duration'] = MAX_DURATION
+    
 CONFIG_DATA['min_drop'] = MIN_DROP
 if AUTO_MIN_STSI:
     FILE_DEPTHS.sort()

@@ -13,13 +13,15 @@ from cold_pulses.scripts_pulse.temp_stratification_index import \
                     temperature_stratification_index
 from cold_pulses.scripts_pulse.prints import progress
 
-def duration(starts, ends,
-             min_duration=3):
+def duration(starts, ends, dt,
+             kind='min',
+             min_duration=10,
+             max_duration=1440):
     """
     starts and ends are np arrays representing the indexes of possible pulses
     min_duration is the minimum number of measurements that will be allowed
     between starts and ends
-
+    kind = 'min' or kind ='max'
     Return 2 arrays starts and ends filtered by minimum duration
     """
     # Create a dataframe object with start and end indexes
@@ -27,9 +29,18 @@ def duration(starts, ends,
                                   'end':ends})
     # Compute duration
     idx_dataframe['duration'] = idx_dataframe.end - idx_dataframe.start
-    # Filter pulses if the duration is below the min_duration
-    idx_filtered = idx_dataframe.loc[idx_dataframe.duration >= min_duration]
-    return idx_filtered.start.values, idx_filtered.end.values
+    # Compute the number of measurement required to get to the time wanted
+    if kind == 'min':
+        min_measures = 60*min_duration/dt 
+        # Filter pulses if the duration is below the min_duration
+        idx_filtered = idx_dataframe.loc[idx_dataframe.duration >= min_measures]
+        return idx_filtered.start.values, idx_filtered.end.values
+    if kind == 'max':
+        max_measures = 60*max_duration/dt 
+        # Filter pulses if the duration is below the min_duration
+        idx_filtered = idx_dataframe.loc[idx_dataframe.duration <= max_measures]
+        return idx_filtered.start.values, idx_filtered.end.values
+    
 
 def max_drop(darray, starts, ends,
              depth=25, cut_off=.01, kind='bot',
