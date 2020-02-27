@@ -85,7 +85,7 @@ def top_pulse_detect(darray, config_data):
                                                   num_days_rolling=config_data\
                                                   ['rtsi_num_days'])
     # Extract first start and end indexes for possible pulses
-    starts, ends = init_limits.bot(tsi, r_tsi, darray,
+    starts, ends = init_limits.top(tsi, r_tsi, darray,
                                    depth=depth)
     # Remove possible pulses that are too short
     if config_data['filter_min_duration']:
