@@ -47,6 +47,11 @@ def bot_pulse_detect(darray, config_data):
                                         depth=depth, kind='bot',
                                         step_number=1, total_steps=4,
                                         cut_off=config_data['min_drop'])
+    else:
+        starts, ends = filters.max_drop(darray, starts, ends,
+                                        depth=depth, kind='bot',
+                                        step_number=1, total_steps=4,
+                                        cut_off=0)
     # Shift end indexes to the left to get real end indexes
     ends = shifts.ends(starts, ends, darray, time_step,
                        depth=depth, kind='bot',
@@ -100,6 +105,12 @@ def top_pulse_detect(darray, config_data):
                                         depth=depth, kind='top',
                                         step_number=1, total_steps=4,
                                         cut_off=config_data['min_drop'])
+    else:
+        starts, ends = filters.max_drop(darray, starts, ends,
+                                        depth=depth, kind='top',
+                                        step_number=1, total_steps=4,
+                                        cut_off=0)
+        
     # Shift end indexes to the left to get real end indexes
     ends = shifts.ends(starts, ends, darray, time_step,
                        depth=depth, kind='bot',
