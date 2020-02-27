@@ -54,7 +54,7 @@ def bot_pulse_detect(darray, config_data):
                        num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
     if config_data['filter_stsi']:
-        starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
+        starts, ends = filters.specific_tsi(darray, starts, ends, time_step, r_tsi,
                                             depth=depth, kind='bot',
                                             step_number=3, total_steps=4,
                                             min_stsi=config_data['min_stsi'])
@@ -107,7 +107,7 @@ def top_pulse_detect(darray, config_data):
                        num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
     if config_data['filter_stsi']:
-        starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
+        starts, ends = filters.specific_tsi(darray, starts, ends, time_step, r_tsi,
                                             depth=depth, kind='top',
                                             step_number=3, total_steps=4,
                                             min_stsi=config_data['min_stsi'])
