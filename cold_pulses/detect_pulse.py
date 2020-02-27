@@ -81,30 +81,41 @@ def top_pulse_detect(darray, config_data):
     # Extract the shallowest depth
     depth = darray.depth.min()
     # Compute TSI and rTSI
-    tsi, r_tsi = temperature_stratification_index(darray)
+    tsi, r_tsi = temperature_stratification_index(darray,
+                                                  num_days_rolling=config_data\
+                                                  ['rtsi_num_days'])
     # Extract first start and end indexes for possible pulses
-    starts, ends = init_limits.top(tsi, r_tsi, darray,
+    starts, ends = init_limits.bot(tsi, r_tsi, darray,
                                    depth=depth)
     # Remove possible pulses that are too short
-    starts, ends = filters.duration(starts, ends,
-                                    min_duration=config_data['min_duration'])
+    if config_data['filter_min_duration']:
+        starts, ends = filters.duration(starts, ends, time_step,
+                                        min_duration=config_data['min_duration'])
+    if config_data['filter_max_duration']:
+        starts, ends = filters.duration(starts, ends, time_step,
+                                        max_duration=config_data['max_duration'])
     # Remove possible pulses that do not show an important enough drop
-    starts, ends = filters.max_drop(darray, starts, ends,
-                                    depth=depth, kind='top',
-                                    step_number=1, total_steps=4,
-                                    cut_off=config_data['min_drop'])
+    if config_data['filter_min_drop']:
+        starts, ends = filters.max_drop(darray, starts, ends,
+                                        depth=depth, kind='top',
+                                        step_number=1, total_steps=4,
+                                        cut_off=config_data['min_drop'])
     # Shift end indexes to the left to get real end indexes
-    ends = shifts.ends(starts, ends, darray,
-                       depth=depth, kind='top',
+    ends = shifts.ends(starts, ends, darray, time_step,
+                       depth=depth, kind='bot',
                        step_number=2, total_steps=4,
                        num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
-    starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
-                                        depth=depth, kind='top',
-                                        step_number=3, total_steps=4,
-                                        min_stsi=config_data['min_stsi'])
+    if config_data['filter_stsi']:
+        starts, ends = filters.specific_tsi(darray, starts, ends, time_step,
+                                            depth=depth, kind='top',
+                                            step_number=3, total_steps=4,
+                                            min_stsi=config_data['min_stsi'])
+    # Remove overlap by combining overlapping pulses
+    starts, ends = filters.remove_overlap(starts, ends)
     # Compute metrics and create output files
     df_out, ds_out = output(darray, starts, ends, time_step,
-                            depth=depth, kind='top',
+                            depth=depth, kind='bot',
                             step_number=4, total_steps=4)
     return df_out, ds_out
+
