@@ -34,6 +34,11 @@ def bot_pulse_detect(darray, config_data):
     # Extract first start and end indexes for possible pulses
     starts, ends = init_limits.bot(tsi, r_tsi, darray,
                                    depth=depth)
+    # Shift end indexes to the left to get real end indexes
+    ends = shifts.ends(starts, ends, darray, time_step,
+                       depth=depth, kind='bot',
+                       step_number=2, total_steps=4,
+                       num_right_max=config_data['num_right_max'])
     # Remove possible pulses that are too short
     if config_data['filter_min_duration']:
         starts, ends = filters.duration(starts, ends, time_step,
@@ -52,11 +57,6 @@ def bot_pulse_detect(darray, config_data):
                                         depth=depth, kind='bot',
                                         step_number=1, total_steps=4,
                                         cut_off=0)
-    # Shift end indexes to the left to get real end indexes
-    ends = shifts.ends(starts, ends, darray, time_step,
-                       depth=depth, kind='bot',
-                       step_number=2, total_steps=4,
-                       num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
     if config_data['filter_stsi']:
         starts, ends = filters.specific_tsi(darray, starts, ends, time_step, r_tsi,
@@ -92,6 +92,11 @@ def top_pulse_detect(darray, config_data):
     # Extract first start and end indexes for possible pulses
     starts, ends = init_limits.top(tsi, r_tsi, darray,
                                    depth=depth)
+    # Shift end indexes to the left to get real end indexes
+    ends = shifts.ends(starts, ends, darray, time_step,
+                       depth=depth, kind='bot',
+                       step_number=2, total_steps=4,
+                       num_right_max=config_data['num_right_max'])
     # Remove possible pulses that are too short
     if config_data['filter_min_duration']:
         starts, ends = filters.duration(starts, ends, time_step,
@@ -111,11 +116,6 @@ def top_pulse_detect(darray, config_data):
                                         step_number=1, total_steps=4,
                                         cut_off=0)
         
-    # Shift end indexes to the left to get real end indexes
-    ends = shifts.ends(starts, ends, darray, time_step,
-                       depth=depth, kind='bot',
-                       step_number=2, total_steps=4,
-                       num_right_max=config_data['num_right_max'])
     # Remove pulses that do not fit the specific TSI criterion
     if config_data['filter_stsi']:
         starts, ends = filters.specific_tsi(darray, starts, ends, time_step, r_tsi,
