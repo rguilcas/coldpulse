@@ -35,8 +35,12 @@ def bot_pulse_detect(darray, config_data):
     starts, ends = init_limits.bot(tsi, r_tsi, darray,
                                    depth=depth)
     # Remove possible pulses that are too short
-#    starts, ends = filters.duration(starts, ends,
-#                                    min_duration=config_data['min_duration'])
+    if config_data['filter_min_duration']:
+        starts, ends = filters.duration(starts, ends,
+                                        min_duration=config_data['min_duration'])
+    if config_data['filter_max_duration']:
+        starts, ends = filters.duration(starts, ends,
+                                        min_duration=config_data['max_duration'])
     # Remove possible pulses that do not show an important enough drop
     starts, ends = filters.max_drop(darray, starts, ends,
                                     depth=depth, kind='bot',

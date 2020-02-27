@@ -61,6 +61,7 @@ MAX_DURATION = 1440
 # =============================================================================
 
 # Mimum max temperature drop allowed in °C for a pulse to be considered one
+FILTER_MIN_DROP = True
 MIN_DROP = 0.05
 
 # =============================================================================
@@ -172,7 +173,7 @@ if AUTO_MIN_STSI:
     CONFIG_DATA['min_stsi'] = STSI
 else:
     CONFIG_DATA['min_stsi'] = MANUAL_MIN_STSI
-    
+CONFIG_DATA['filter_min_drop'] = FILTER_MIN_DROP
 CONFIG_DATA['rtsi_num_days'] = RTSI_NUM_DAYS
 CONFIG_DATA['num_right_max'] = NUM_RIGHT_MAX
 
