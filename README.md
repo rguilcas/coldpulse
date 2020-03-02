@@ -30,11 +30,11 @@ Create a new folder with the name of your choice in the working directory and pu
 
 The stucture of your working directory should be:
 - `working_directory`
- - `cold_pulse_detection.py`
- - `new_folder`
-  - `csv_file1.csv`
-  - `csv_file2.csv`
-  - ...
+  - `cold_pulse_detection.py`
+  - `new_folder`
+    - `csv_file1.csv`
+    - `csv_file2.csv`
+    - ...
 
 Open the `cold_pulse_detection.py` file in a text editor and modify the information accordingly with your csv files and `new_folder` names.
 
