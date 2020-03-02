@@ -8,9 +8,7 @@ This package allows you to accurateley detect individual cold pulses events in a
 
 ## Before starting
 ### Input files
-Before getting into the algorithm, you will need to prepare input files that will be used.
-Several (two or more) csv input files are necessary to make the algorithm work
-They should fit the folowing criteria:
+Before getting into the algorithm, you will need to prepare input files that will be used. Several (two or more) csv input files are necessary to make the algorithm work. They should fit the folowing criteria:
 - The files should show data from the same location
 - The files should show data from different depth levels
 - If more than two depth levels are used, the depths should be equally spaced
@@ -24,27 +22,55 @@ Visual inspection could be used to observe those criteria.
 We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
 ### Preparing working directory
 Once your files are ready, you should create a working directory in your computer.
-Then, download the example files available in the [example_input folder(https://github.com/rguilcas/cold_pulses/tree/master/example_input).
-This folder contains one file and one folder:
-- cold_pulse_detection.py: this is the python script that we will use to launch the algorithm from command line.
-- input_folder: this is the folder where the input csv files go.
+Then, download the 'cold_pulse_detection.py' file available in the [example_input folder](https://github.com/rguilcas/cold_pulses/tree/master/example_input). This is the python script that we will use to launch the algorithm from command line.
 
-Copy these in the working directory you created. 
+Put the file in the working directory you created. 
 
 Create a new folder with the name of your choice in the working directory and put your csv files in your directory.
 
-Open the config_file.txt file in a text editor and modify the information accordingly with your files and new folder name.
+The stucture of your working directory should be:
+- 'working_directory'
+ - 'cold_pulse_detection.py'
+ - 'new_folder'
+  - 'csv_file1.csv'
+  - 'csv_file2.csv'
+  - ...
 
-The config_file is made of several lines:
-- input_name:In the case where the csv files are already prepared, choose the netcdf file to open to detect pulses. This should be with the extension .nc
-- input_folder:This is the directory where input csv files are stored
-- bot:True if bottom pulses want to be detected, False if not
-- top:True if top pulses want to be detected, False if not
-- prepare_csv: True if csv files need to be prepared (made into a unique netcdf file), False if not
-- time_file_name:if prepare_csv, this is the csv file that will be used for time interpolation, i.e. the time steps will be defined by this file and all other files will be linearly interpolated over these steps. 
-- depths: This is where we specify the depth of each file in the input folder. The format is the following : 
-		file_name1.csv:depth (depth is in meters, positive down), file_name2.csv:depth, ... 
-		
+Open the 'cold_pulse_detection.py' file in a text editor and modify the information accordingly with your csv files and 'new_folder' names.
+
+The 'cold_pulse_detection.py' file is made of four sections, two of which should me adapted to your needs:
+- 'INPUT DATA', **should be modified**: This is where input variables such as file names and depths should be entered. 
+- 'ALGORITHM PARAMETERS', **should be modified**: This is where algorithm numerical parameters can be changed.
+- 'CREATE CONFIGURATION DATA': This is where configuration data are created from 'INPUT DATA' and 'ALGORITHM PARAMETERS';
+- 'RUN ALGORITHM': This is where the algorithm is run.
+
+Note that most of the fields should be in quotation marks as this is how string should be in Python.
+
+The 'INPUT_DATA' section contains:
+- 'INPUT_DIR', *quotation marks needed*: Directory where the csv files are stored. You should replace the value by the name you gave to 'new_folder'.
+- 'OUTPUT_NAME', *quotation marks needed*: Name that will be used for output files. We recommend using a new name for each run.
+- 'BOT', ***True** or **False** without quotation marks*: Should be **True** if you want to detect deep pulses, **False** if not.
+- 'TOP', ***True** or **False** without quotation marks*: Should be **True** if you want to detect surface pulses, **False** if not.
+- 'PREPARE_CSV', ***True** or **False** without quotation marks*: Should be **True** if your csv files have not been prepared yet, **False** if not. This will create a NetCDF file 'prepared_csv.nc' in your 'new_folder'. Should be **True** for the first run with new files.
+- 'FILE_NAMES', *quotation marks needed*: Python *list* containing names of your csv files. Do not forget to add *.csv* at the end of each file name. A list should be in square braquets, with comas to separate each file name.
+    
+    FILE_NAME = ['file_name1.csv',
+    		 'file_name2.csv']
+
+- 'FILE_DEPTHS', *no quotation mark needed*: Python *list* containing loggers depths for each of your csv files. Depths should be in the same order as the 'FILE_NAME' field. For example:
+
+    FILE_DEPTHS = [15,
+                   25]
+	
+indicates that *file_name1.csv* is from a 15 meters deep logger and *file_name1.csv* is from a 25 meters deep one.
+- 'TIME_FILE_NAME', *quotation marks needed*: Name of the file that will be used for time interpolation. All other files will be interpolated over this file's time steps to create the NetCDF file. It needs to be one of the files in the 'FILE_NAME' field. Do not forget to add *.csv* at the end of the file name.
+
+### Preparing your Python environment
+
+***If Python is already installed on your machine and is ready to use from command line, skip this step***
+
+Once your input files are ready, you need to install Python on your machine. We suggest downlading the [Anaconda environment] ( https://www.anaconda.com/). If you are using Windows, make sure to tick the box 'Add anaconda to your PATH' when installing it. If you are using Mac, this should be automatic.
+
 !!!WARNING!!!
 Make sure python is installed on your machine, along with the pip library (automatically installed on most python GUI). 
 If it isn't, we suggest downloading and installing anaconda first: https://www.anaconda.com/. If on windows, you will be asked to add anaconda to your path, where you will have to tick the box.
