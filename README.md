@@ -53,16 +53,16 @@ The `INPUT_DATA` section contains:
 - `TOP`, ***True** or **False** without quotation marks*: Should be **True** if you want to detect surface pulses, **False** if not.
 - `PREPARE_CSV`, ***True** or **False** without quotation marks*: Should be **True** if your csv files have not been prepared yet, **False** if not. This will create a NetCDF file `prepared_csv.nc` in your `new_folder`. Should be **True** for the first run with new files.
 - `FILE_NAMES`, *quotation marks needed*: Python *list* containing names of your csv files. Do not forget to add *.csv* at the end of each file name. A list should be in square braquets, with comas to separate each file name.
-    
+```
     FILE_NAME = ['file_name1.csv',
     		 'file_name2.csv']
-
-- `FILE_DEPTHS`, *no quotation mark needed*: Python *list* containing loggers depths for each of your csv files. Depths should be in the same order as the `FILE_NAME` field. For example:
-
+```
+- `FILE_DEPTHS`, *no quotation mark needed*: Python *list* containing loggers depths for each of your csv files. Depths should be in the same order as the `FILE_NAME` field. For example, the following `FILE_DEPTHS` indicates that *file_name1.csv* is from a 15 meters deep logger and *file_name1.csv* is from a 25 meters deep one:
+```
     FILE_DEPTHS = [15,
                    25]
-	
-indicates that *file_name1.csv* is from a 15 meters deep logger and *file_name1.csv* is from a 25 meters deep one.
+```	
+
 - `TIME_FILE_NAME`, *quotation marks needed*: Name of the file that will be used for time interpolation. All other files will be interpolated over this file's time steps to create the NetCDF file. It needs to be one of the files in the `FILE_NAME` field. Do not forget to add *.csv* at the end of the file name.
 
 ### Preparing your Python environment
