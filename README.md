@@ -1,5 +1,5 @@
 # cold_pulses
- \h1{Detection of cold water intrusion in a weakly-stratified environment.}
+<h1>Detection of cold water intrusion in a weakly-stratified environment.
  
 
  This package allows you to detect accurateley individual cold pulses events in a time series over several depths.
