@@ -4,10 +4,12 @@
 
  
 
- This package allows you to detect accurateley individual cold pulses events in a time series over several depths.
+This package allows you to accurateley detect individual cold pulses events in a time series over several depths.
 
-
-Several csv input files are necessary to make the algorithm work, you should get them ready before getting to the algorithm itself.
+## Before starting
+### Input files
+Before getting into the algorithm, you will need to prepare input files that will be used.
+Several (two or more) csv input files are necessary to make the algorithm work
 They should fit the folowing criteria:
 - The files should show data from the same location
 - The files should show data from different depth levels
@@ -20,15 +22,14 @@ To make the algorithm work at its best, the files should preferably:
 Visual inspection could be used to observe those criteria.
 
 We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
-
+### Preparing working directory
 Once your files are ready, you should create a working directory in your computer.
-Then, download the example files available at https://github.com/rguilcas/cold_pulses/tree/master/example_input.
-This folder contains two files and one folder:
+Then, download the example files available in the [example_input folder(https://github.com/rguilcas/cold_pulses/tree/master/example_input).
+This folder contains one file and one folder:
 - cold_pulse_detection.py: this is the python script that we will use to launch the algorithm from command line.
-- config_file.txt: this is the configuration file for the algorithm where we can change parameters like input.
-- the input_folder: this is the folder where the input csv files go.
+- input_folder: this is the folder where the input csv files go.
 
-Copy these files and folder in the working directory chosen. 
+Copy these in the working directory you created. 
 
 Create a new folder with the name of your choice in the working directory and put your csv files in your directory.
 
