@@ -13,8 +13,11 @@ from cold_pulses.main import run
 from cold_pulses.prepare_csv import prepare_csv
 
 # =============================================================================
-# INPUT DATA : change these fields to the ones in your case
 # =============================================================================
+# # INPUT DATA : adapt these fields to your need
+# =============================================================================
+# =============================================================================
+
 # Directory where csv files are stored
 INPUT_DIR = 'input_folder' 
 # Name that will be used for output files
@@ -138,7 +141,9 @@ NUM_RIGHT_MAX = 60
 
 
 # =============================================================================
-# CREATE CONFIGURATION DATA : do not change this part
+# =============================================================================
+# # CREATE CONFIGURATION DATA : do not change this part
+# =============================================================================
 # =============================================================================
 
 CONFIG_DATA = dict()
@@ -182,8 +187,11 @@ CONFIG_DATA['num_right_max'] = NUM_RIGHT_MAX
 
 
 # =============================================================================
-# RUN ALGORITHM
 # =============================================================================
+# # RUN ALGORITHM
+# =============================================================================
+# =============================================================================
+
 if PREPARE_CSV:
     print('CSV files are being prepared ...')
     prepare_csv(CONFIG_DATA)
