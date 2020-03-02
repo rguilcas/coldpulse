@@ -76,9 +76,12 @@ The `INPUT_DATA` section contains:
 
 - `TIME_FILE_NAME`, *quotation marks needed*: Name of the file that will be used for time interpolation. All other files will be interpolated over this file's time steps to create the NetCDF file. It needs to be one of the files in the `FILE_NAME` field. Do not forget to add *.csv* at the end of the file name.
 
-
-
-
+## Run the algorithm
+Once your working directory is ready and your 'cold_pulse_detection.py' is configured, you can run the algorithm. Open a command prompt and navigate to your working directory. To do so type your 'cd' folloed by your working directory path in the command prompt. For example:
+```
+cd C:\Users\Robin\working_directory
+```
+Note that if you are using Windows and your working directory is in a different disk to the one displayed on the prompt, start by changing directory by typing the letter of your disk followed by a semi column.
 
 
 cold_pulses
