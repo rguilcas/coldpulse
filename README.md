@@ -1,5 +1,5 @@
 # cold_pulses
-<h1>Detection of cold water intrusion in a weakly-stratified environment.<\h1>
+#Detection of cold water intrusion in a weakly-stratified environment.
 *Robin Guillaume-Castel - 2020*
 
  
