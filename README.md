@@ -1,5 +1,7 @@
 # cold_pulses
-<h1>Detection of cold water intrusion in a weakly-stratified environment.
+<h1>Detection of cold water intrusion in a weakly-stratified environment.<\h1>
+*Robin Guillaume-Castel - 2020*
+
  
 
  This package allows you to detect accurateley individual cold pulses events in a time series over several depths.
