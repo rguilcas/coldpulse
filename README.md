@@ -6,7 +6,18 @@
 
 This package allows you to accurateley detect individual cold pulses events in a time series over several depths.
 
-## Before starting
+## Before the first run
+### Preparing your Python environment
+
+***If Python is already installed on your machine and is ready to use from command line, skip this step***
+
+Before anything, you need to install Python on your machine. We suggest downlading the [Anaconda environment] ( https://www.anaconda.com/). If you are using Windows, make sure to tick the box `Add anaconda to your PATH` when installing it. If you are using Mac, this should be automatic.
+
+Once python is installed, open a command prompt window, and install the `cold_pulse` package by typing: 
+```
+pip install git+http://github.com/rguilcas/
+```
+## Before each run
 ### Input files
 Before getting into the algorithm, you will need to prepare input files that will be used. Several (two or more) csv input files are necessary to make the algorithm work. They should fit the folowing criteria:
 - The files should show data from the same location
@@ -61,25 +72,16 @@ The `INPUT_DATA` section contains:
 ```
     FILE_DEPTHS = [15,
                    25]
-```	
+```
 
 - `TIME_FILE_NAME`, *quotation marks needed*: Name of the file that will be used for time interpolation. All other files will be interpolated over this file's time steps to create the NetCDF file. It needs to be one of the files in the `FILE_NAME` field. Do not forget to add *.csv* at the end of the file name.
 
-### Preparing your Python environment
 
-***If Python is already installed on your machine and is ready to use from command line, skip this step***
 
-Once your input files are ready, you need to install Python on your machine. We suggest downlading the [Anaconda environment] ( https://www.anaconda.com/). If you are using Windows, make sure to tick the box `Add anaconda to your PATH` when installing it. If you are using Mac, this should be automatic.
 
-!!!WARNING!!!
-Make sure python is installed on your machine, along with the pip library (automatically installed on most python GUI). 
-If it isn't, we suggest downloading and installing anaconda first: https://www.anaconda.com/. If on windows, you will be asked to add anaconda to your path, where you will have to tick the box.
 
-Once python is installed ad the config_file modified, open a command prompt (anaconda prompt in windows) and go to your working directory.
 
-If it is the first time you use the package, install the cold_pulses package using:
-
-	pip install git+http://github.com/rguilcas/cold_pulses
+cold_pulses
 
 Then for any other time, use from your working directory:
 
