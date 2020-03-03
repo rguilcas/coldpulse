@@ -2,6 +2,7 @@
 # Detection of cold water intrusion in a weakly-stratified environment.
 *Robin Guillaume-Castel - 2020*
 
+*Contact : r.guilcas@outlook.com*
  
 
 This package allows you to accurateley detect individual cold pulses events in a time series over several depths.
@@ -33,7 +34,7 @@ Visual inspection could be used to observe those criteria.
 We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
 ### Preparing working directory
 Once your files are ready, you should create a working directory in your computer.
-Then, download the [`cold_pulse_detection.py`](https://github.com/rguilcas/cold_pulses/blob/master/example_input/cold_pulse_detection.py) file. This is the python script that we will use to launch the algorithm from command line.
+Then, download the [`cold_pulse_detection.py`](https://github.com/rguilcas/cold_pulses/blob/master/example_input/cold_pulse_detection.py) file in the `example_input` folder. This is the python script that we will use to launch the algorithm from command line.
 
 Put the file in the working directory you created. 
 
@@ -102,38 +103,21 @@ After running the algorithm, your working directory will look like:
       - `OUTPUT_NAME_all_data.nc`
       - `OUTPUT_NAME_bot_stats.csv`
       - `OUTPUT_NAME_top_stats.csv`
- 
-...
+      
  Note that if only one of the `TOP` or `BOT` fields was **True**, `OUTPUT_NAME_all_data.nc` is replaced by `OUTPUT_NAME_bot_data.nc` or `OUTPUT_NAME_top_data.nc` and only the relevant *.csv* file will be present.
 
-Those files have different fields in the
-- one or two csv (bot_stats and/or top_stats) files. These files give specific information on all individual pulses detected (top or bottom pulses depending on the file)
-
-The columns contained are:
-
-	start_time			The starting time step of the pulse
-
-	duration			The duration of the pulse (in minutes)
-
-	gammaD1, gammaD2, ... 		The Degree Cooling Hours of the pulse (°C.h) for depth level 1, level 2, ... 
-
-	dropD1, dropD2, ... 		The maximum temperature drop of the pulse for depth level 1, level 2, ...
-
-	init_tempD1, init_tempD2,...    The initial temperature of the pulse for depth level 1, level 2, ...
-
-	start, end 			The start and end indexes of the pulse in the time series
-
-- one netcdf file containing time series of different parameters
-		
-The fields available are:
-			
-	temp : time series of the temperature in several depths
-
-	dch_top (only if top was True in the config file): instantaneous degree cooling hours for top pulses at different depths
-
-	dch_bot (only if bot was True in the config file): instantaneous degree cooling hours for bottom pulses at different depths
-
-	pulse_temp_top (only if top was True in the config file): temperature time series where all temperature values outside of top pulses are nans
-
-	pulse_temp_bot (only if bot was True in the config file): temperature time series where all temperature values outside of bottom pulses are nans
+Those files contain different data:
+- `..._pulse_data.nc` are NetCDF files containing time series of different metrics:
+  - `temp` is the temperature time series in **°C**.
+  - `dch_top`, `dch_bot` and `dch` are *degree cooling hours* computed for surface, deep or the relevant type of pulse in **°C.h**.
+  - `pulse_temp_top`, `pulse_temp_bot` and `pulse_temp` are the temperature time series where every time step outside of a pulse is a **NaN**.
+- `..._pulse_stats.csv` are *.csv* files containing information on individual pulses. Fields are:
+  - `start_time` is the time step when the pulse started
+  - `duration` is the duration of the pulse in minutes
+  - `dchDEPTH1`, `dchDEPTH2`, ... are the degree cooling hours for all different depths
+  - `dropDEPTH1`, `dropDEPTH2`, ... are the maximum temperature drops for all different depths
+  - `temp_initDEPTH1`, `temp_initDEPTH2`, ... are the initial temperature for all different depths
+  - `start` and `end` are the start and end indexes of the pulse in the time series
+  
+## Ackwoledgement
 
