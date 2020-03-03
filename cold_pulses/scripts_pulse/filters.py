@@ -171,7 +171,7 @@ def specific_tsi(darray, starts, ends, time_step, r_tsi,
             if (test.sum() > 0):
                 new_starts.append(start)
                 new_ends.append(end)
-    return new_starts.astype(int), new_ends.astype(int)
+    return np.array(new_starts.astype(int)), np.array(new_ends.astype(int))
 
 def remove_overlap(starts, ends):
     """
