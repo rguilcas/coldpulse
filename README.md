@@ -83,16 +83,30 @@ cd C:\Users\Robin\working_directory
 ```
 Note that if you are using Windows and your working directory is in a different disk to the one displayed on the prompt, start by changing directory by typing the letter of your disk followed by a semi column.
 
+Once you are in your working directory, type in the command prompt:
+```
+python cold_pulse_detection.py
+```
+This will start the script and create output files that will be in a new folder in your input folder. 
 
-cold_pulses
+## Outputs
+After running the algorithm, your working directory will look like:
+- `working_directory`
+  - `cold_pulse_detection.py`
+  - `new_folder`
+    - `**csv_prepared.nc**`
+    - `csv_file1.csv`
+    - `csv_file2.csv`
+    - ...
+    - `OUTPUT_NAME_pulses_out`
+      - `OUTPUT_NAME_all_data.nc`
+      - `OUTPUT_NAME_bot_stats.csv`
+      - `OUTPUT_NAME_top_stats.csv`
+ 
+...
+ Note that if only one of the `TOP` or `BOT` fields was **True**, `OUTPUT_NAME_all_data.nc` is replaced by `OUTPUT_NAME_bot_data.nc` or `OUTPUT_NAME_top_data.nc` and only the relevant *.csv* file will be present.
 
-Then for any other time, use from your working directory:
-
-	python cold_pulse_detection.py
-
-This will start the script and output two to three files in the output_dir chosen.
-
-The files available are:
+Those files have different fields in the
 - one or two csv (bot_stats and/or top_stats) files. These files give specific information on all individual pulses detected (top or bottom pulses depending on the file)
 
 The columns contained are:
