@@ -33,7 +33,7 @@ Visual inspection could be used to observe those criteria.
 We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
 ### Preparing working directory
 Once your files are ready, you should create a working directory in your computer.
-Then, download the `cold_pulse_detection.py` file available in the [example_input folder](https://github.com/downloads/rguilcas/cold_pulses/tree/master/example_input/cold_pulse_detection.py). This is the python script that we will use to launch the algorithm from command line.
+Then, download the [`cold_pulse_detection.py`](https://github.com/downloads/rguilcas/cold_pulses/blob/master/example_input/cold_pulse_detection.py) file. available in the [example_input folder](rguilcas/cold_pulses/tree/master/example_input/cold_pulse_detection.py). This is the python script that we will use to launch the algorithm from command line.
 
 Put the file in the working directory you created. 
 
