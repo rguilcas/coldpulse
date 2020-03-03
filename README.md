@@ -16,7 +16,7 @@ Before anything, you need to install Python on your machine. We suggest downladi
 
 Once python is installed, open a command prompt window, and install the `cold_pulse` package by typing: 
 ```
-pip install git+http://github.com/rguilcas/
+pip install https://github.com/rguilcas/cold_pulses/zipball/master
 ```
 ## Before each run
 ### Input files
