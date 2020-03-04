@@ -186,6 +186,7 @@ if FILTER_STSI:
         CONFIG_DATA['min_stsi'] = MANUAL_MIN_STSI
 CONFIG_DATA['filter_min_drop'] = FILTER_MIN_DROP
 CONFIG_DATA['rtsi_num_days'] = RTSI_NUM_DAYS
+CONFIG_DATA['strong_event'] = RTSI_STRONG_EVENT
 CONFIG_DATA['num_right_max'] = NUM_RIGHT_MAX
 
 
