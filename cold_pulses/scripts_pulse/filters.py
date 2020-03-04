@@ -12,6 +12,7 @@ import xarray as xr
 from cold_pulses.scripts_pulse.temp_stratification_index import \
                     temperature_stratification_index
 from cold_pulses.scripts_pulse.prints import progress
+from cold_pulses.scripts_pulse.convex_hull_time_series import convex_hull_pulse
 
 def duration(starts, ends, dt,
              kind='min',
@@ -107,7 +108,6 @@ def specific_tsi(darray, starts, ends, time_step, r_tsi,
                                coords={'depth':darray.depth,
                                        'time':darray.time})
     darray_copy[:] = np.nan
-    length = darray.shape[1]
     # Extract relevant depth
     index_depth = int(np.where(darray.depth == depth)[0][0])
     # Extract all irrelevant depths
@@ -126,16 +126,17 @@ def specific_tsi(darray, starts, ends, time_step, r_tsi,
                  step_number,
                  total_steps,
                  kind=kind)
-    # Prepare a linear interpolation between start and end values
-        interpolation = np.nan*np.zeros((darray_copy.depth.size-1,
-                                         end - start + 2))
-        interpolation[:, 0] = darray[index_depth, max(0, start - 1)]
-        interpolation[:, -1] = darray[index_depth, min(end, length - 1)]
-    # Create a dataframe that will be used for interpolation
-        interpolation_dataframe = pd.DataFrame(interpolation.transpose())
-    # Interpolate
-        interpolation = interpolation_dataframe.interpolate().values.\
-                        transpose()[:, 1:-1]
+#    # Prepare a linear interpolation between start and end values
+#        interpolation = np.nan*np.zeros((darray_copy.depth.size-1,
+#                                         end - start + 2))
+#        interpolation[:, 0] = darray[index_depth, max(0, start - 1)]
+#        interpolation[:, -1] = darray[index_depth, min(end, length - 1)]
+#    # Create a dataframe that will be used for interpolation
+#        interpolation_dataframe = pd.DataFrame(interpolation.transpose())
+#    # Interpolate
+#        interpolation = interpolation_dataframe.interpolate().values.\
+#                        transpose()[:, 1:-1]
+        interpolation = convex_hull_pulse(darray[index_depth])
     # Fake temperature time series
         fake_temp = xr.DataArray(interpolation,
                                  dims = darray[slicing, start:end].dims,
