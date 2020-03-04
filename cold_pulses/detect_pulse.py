@@ -48,10 +48,13 @@ def bot_pulse_detect(darray, config_data):
                        num_right_max=config_data['num_right_max'])
     # Remove possible pulses that are too short
     if config_data['filter_min_duration']:
-        starts, ends = filters.duration(starts, ends, time_step,
+        starts, ends = filters.duration(starts, ends, time_step, kind='min',
                                         min_duration=config_data['min_duration'])
+    starts, ends = filters.duration(starts, ends, time_step,kind='min',
+                                    min_duration=3*time_step//60+1)
+    
     if config_data['filter_max_duration']:
-        starts, ends = filters.duration(starts, ends, time_step,
+        starts, ends = filters.duration(starts, ends, time_step,kind='max',
                                         max_duration=config_data['max_duration'])
     # Remove possible pulses that do not show an important enough drop
     if config_data['filter_min_drop']:

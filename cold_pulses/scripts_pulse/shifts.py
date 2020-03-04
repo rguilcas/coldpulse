@@ -87,7 +87,7 @@ def ends(starts, ends, darray, dt,
     shifted_darray = pd.DataFrame()
     num_right_max_measure = num_right_max*60//dt
     for k in range(1, num_right_max_measure):
-        shifted_darray[k] = darray[depth_index].shift(time=k)-darray[depth_index]
+        shifted_darray[k] = darray[depth_index].shift(time=-k)-darray[depth_index]
     test_max_right = (shifted_darray < 0).sum(axis=1)
     max_right_idx = np.where(test_max_right == num_right_max_measure - 1)[0]
     #Where relevnt T is the maximum temp in depth
