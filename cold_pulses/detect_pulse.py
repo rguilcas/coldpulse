@@ -34,6 +34,10 @@ def bot_pulse_detect(darray, config_data):
     # Extract first start and end indexes for possible pulses
     starts, ends = init_limits.bot(tsi, r_tsi, darray,
                                    depth=depth)
+    starts = shifts.starts(starts, ends, darray, tsi,
+                           depth=depth, kind='bot',
+                           step_number=2, total_steps=4)
+    
     # Shift end indexes to the left to get real end indexes
     ends = shifts.ends(starts, ends, darray, time_step,
                        depth=depth, kind='bot',
