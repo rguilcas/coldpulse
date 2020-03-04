@@ -38,7 +38,7 @@ Visual inspection could be used to observe those criteria.
 We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
 ### Preparing working directory
 Once your files are ready, you should create a working directory in your computer. **All names that will be used here should not contain spaces. We suggest you only use letters, numbers and underscores.**
-Then, download the [`cold_pulse_detection.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/example_input/cold_pulse_detection.py): first, open the link and then right click any where on the screen and click on *save as*. This is the python script that we will use to launch the algorithm from command line.
+Then, download the [`cold_pulse_detection.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/example_input/cold_pulse_detection.py): right click on the link and *save link as*. This is the python script that we will use to launch the algorithm from command line.
 
 Put the file in the working directory you created. 
 
@@ -52,7 +52,7 @@ The stucture of your working directory should be:
     - `csv_file2.csv`
     - ...
 
-Open the `cold_pulse_detection.py` file in a text editor and modify the information accordingly with your `.csv` files and `new_folder` names.
+Open the `cold_pulse_detection.py` file in Python or in a text editor and modify the information accordingly with your `.csv` files and `new_folder` names.
 
 The `cold_pulse_detection.py` file is made of **four** sections, two of which should me adapted to your needs:
 - `INPUT DATA`, **should be modified**: This is where input variables such as file names and depths should be entered. 
@@ -79,7 +79,7 @@ The `INPUT DATA` section contains:
                    25]
 ```
 
-- `TIME_FILE_NAME`, *quotation marks needed*: Name of the file that will be used for time interpolation. All other files will be interpolated over this file's time steps to create the NetCDF file. It needs to be one of the files in the `FILE_NAME` field. Do not forget to add *.csv* at the end of the file name.
+- `TIME_FILE_NAME`, *quotation marks needed*: Name of the file that will be used for time interpolation. All other files will be interpolated over this file's time steps to create the NetCDF file. It needs to be one of the files in the `FILE_NAME` field. Do not forget to add *.csv* at the end of the file name. If all files have the same time, the file you chose does not matter.
 
 The `ALGORITHM PARAMETERS` section contains:
 - `FILTER_MIN_DURATION`,  ***True** or **False** without quotation marks*: If **True**, a filter on minimum pulse duration will be applied.
@@ -95,12 +95,14 @@ The `ALGORITHM PARAMETERS` section contains:
 - `RTSI_STRONG_EVENT`, ***True** or **False** without quotation marks*: If **True**, the rTSI will be corrected for strong event using a maximum absolute value.
 - `NUM_RIGHT_MAX`, *no quotation mark needed*: Number of minutes that define a local right maximum.
 
+**After modifying the file, save it and close the window.**
+
 ## Run the algorithm
-Once your working directory is ready and your 'cold_pulse_detection.py' is configured, you can run the algorithm. Open a command prompt and navigate to your working directory. To do so type your 'cd' folloed by your working directory path in the command prompt. For example:
+Once your working directory is ready and your 'cold_pulse_detection.py' is configured, you can run the algorithm. Open a command prompt and navigate to your working directory. Note that if you are using Windows and your working directory is in a different disk to the one displayed on the prompt, start by changing disk by typing the letter of your disk followed by a semi column. To navigate to your working directory, type 'cd' followed by your working directory path in the command prompt. For example:
 ```
 cd C:\Users\Robin\working_directory
 ```
-Note that if you are using Windows and your working directory is in a different disk to the one displayed on the prompt, start by changing directory by typing the letter of your disk followed by a semi column.
+
 
 Once you are in your working directory, type in the command prompt:
 ```
@@ -137,5 +139,5 @@ Those files contain different data:
   - `temp_initDEPTH1`, `temp_initDEPTH2`, ... are the initial temperature for all different depths
   - `start` and `end` are the start and end indexes of the pulse in the time series
   
-## Ackwoledgement
+## Acknwoledgements
 
