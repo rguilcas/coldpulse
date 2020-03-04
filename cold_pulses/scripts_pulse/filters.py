@@ -126,24 +126,15 @@ def specific_tsi(darray, starts, ends, time_step, r_tsi,
                  step_number,
                  total_steps,
                  kind=kind)
-#    # Prepare a linear interpolation between start and end values
-#        interpolation = np.nan*np.zeros((darray_copy.depth.size-1,
-#                                         end - start + 2))
-#        interpolation[:, 0] = darray[index_depth, max(0, start - 1)]
-#        interpolation[:, -1] = darray[index_depth, min(end, length - 1)]
-#    # Create a dataframe that will be used for interpolation
-#        interpolation_dataframe = pd.DataFrame(interpolation.transpose())
-#    # Interpolate
-#        interpolation = interpolation_dataframe.interpolate().values.\
-#                        transpose()[:, 1:-1]
-        interpolation = convex_hull_pulse(darray[index_depth])
+    # Compute convex hull of the time series
+        hull = convex_hull_pulse(darray[index_depth,start:end]).values
     # Fake temperature time series
-        fake_temp = xr.DataArray(interpolation,
+        fake_temp = xr.DataArray([hull for k in range(darray.depth.size-1)],
                                  dims = darray[slicing, start:end].dims,
                                  coords = darray[slicing,start:end].coords)
         fake_temp.where(fake_temp < darray[index_depth, start],
                         darray[index_depth, start])
-        darray_copy[slicing, start:end] = interpolation
+        darray_copy[slicing, start:end] = fake_temp
         darray_copy[index_depth, start:end] = darray[index_depth, start:end]
     progress(1,
              1,
@@ -153,7 +144,23 @@ def specific_tsi(darray, starts, ends, time_step, r_tsi,
              kind=kind)
     # Compute specific TSI
     s_tsi = temperature_stratification_index(darray_copy, daily=False)
-    # Compute extremum of specific TSI for each possible pulse
+    # Compute baseline for minimum instantaneous absolute s_tsi
+    if kind == 'bot':
+        r_tsi_sign = r_tsi.where(r_tsi < 0, 0)
+        rolling_num_val = 24*3600//time_step
+        baseline = r_tsi_sign.rolling(time = rolling_num_val,center=True).mean()
+        baseline = xr.DataArray(baseline.to_series().fillna(method='ffill'))
+        baseline = xr.DataArray(baseline.to_series().fillna(method='bfill'))
+        baseline = baseline.where(baseline < r_tsi, r_tsi)
+    if kind == 'top':
+        r_tsi_sign = r_tsi.where(r_tsi < 0, 0)
+        rolling_num_val = 24*3600//time_step
+        baseline = r_tsi_sign.rolling(time = rolling_num_val,center=True).mean()
+        baseline = xr.DataArray(baseline.to_series().fillna(method='ffill'))
+        baseline = xr.DataArray(baseline.to_series().fillna(method='bfill'))
+        baseline = baseline.where(baseline > r_tsi, r_tsi)
+    
+    # extremum of specific TSI for each possible pulse
     # Maximum sTSI for top pulses, minimum for bottom pulses
     new_starts = []
     new_ends = []
@@ -163,12 +170,12 @@ def specific_tsi(darray, starts, ends, time_step, r_tsi,
         end = ends[k]
     # Compute maximum or minimum sTSI depending on the pulse type studied
         if kind == 'top':
-            test = ((r_tsi - s_tsi) < 0)*(s_tsi > 0)
+            test = ((r_tsi - baseline) < 0)*(s_tsi > 0)
             if (test.sum() > 0):
                 new_starts.append(start)
                 new_ends.append(end)
         elif kind == 'bot':
-            test = ((r_tsi - s_tsi) > 0)*(s_tsi < 0)
+            test = ((r_tsi - baseline) > 0)*(s_tsi < 0)
             if (test.sum() > 0):
                 new_starts.append(start)
                 new_ends.append(end)

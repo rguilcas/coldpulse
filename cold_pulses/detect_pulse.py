@@ -25,6 +25,7 @@ def bot_pulse_detect(darray, config_data):
     # For each time step, if one or more data value is a nan, the whole water
     # column temperature is set to nan.
     darray = darray.where(np.isnan(darray).sum('depth') == 0, np.nan)
+    darray = darray.dropna('time')
     # Extract the deepest depth
     depth = darray.depth.max()
     # Compute TSI and rTSI
