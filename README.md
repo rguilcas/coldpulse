@@ -90,8 +90,9 @@ The `ALGORITHM PARAMETERS` section contains:
 - `MIN_DROP`, *no quotation mark needed*: If `FILTER_MIN_DROP` is **True**, this is what the minimum accepted temperature drop will be in °C.
 - `FILTER_STSI`,  ***True** or **False** without quotation marks*: If **True**, a filter on specific TSI will be applied.
 - `AUTO_MIN_STSI`,  ***True** or **False** without quotation marks*: If `FILTER_STSI` is **True**, the minimum STSI allowed will be computed based on the rTSI instantaneous value without any input parameter.
-- `MANUAL_MIN_TSI`, *no quotation mark needed*: If `FILTER_STSI` is **True** and `AUTO_MIN_STSI` is **False**, this is what the minimum specific TSI will be in °C.m<sup>2<\sup>.
+- `MANUAL_MIN_TSI`, *no quotation mark needed*: If `FILTER_STSI` is **True** and `AUTO_MIN_STSI` is **False**, this is what the minimum specific TSI will be in °C.m².
 - `RTSI_NUM_DAYS`, *no quotation mark needed*: Number of days that will be used to compute the rTSI baseline profile.
+- `RTSI_STRONG_EVENT`, ***True** or **False** without quotation marks*: If **True**, the rTSI will be corrected for strong event using a maximum absolute value.
 - `NUM_RIGHT_MAX`, *no quotation mark needed*: Number of minutes that define a local right maximum.
 
 ## Run the algorithm
