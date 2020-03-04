@@ -13,11 +13,15 @@ This package allows you to accurateley detect individual cold pulses events in a
 ***If Python is already installed on your machine and is ready to use from command line, skip this step***
 
 Before anything, you need to install Python on your machine. We suggest downlading the [Anaconda environment] ( https://www.anaconda.com/). If you are using Windows, make sure to tick the box `Add anaconda to your PATH` when installing it. If you are using Mac, this should be automatic.
+`cold_pulses` package
+
+### Donwloading the `cold_pulses` package
 
 Once python is installed, open a command prompt window, and install the `cold_pulse` package by typing: 
 ```
 pip install https://github.com/rguilcas/cold_pulses/zipball/master
 ```
+
 ## Before each run
 ### Input files
 Before getting into the algorithm, you will need to prepare input files that will be used. Several (two or more) csv input files are necessary to make the algorithm work. They should fit the folowing criteria:
@@ -33,12 +37,12 @@ Visual inspection could be used to observe those criteria.
 
 We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
 ### Preparing working directory
-Once your files are ready, you should create a working directory in your computer.
-Then, download the [`cold_pulse_detection.py`](https://github.com/rguilcas/cold_pulses/blob/master/example_input/cold_pulse_detection.py) file in the `example_input` folder. This is the python script that we will use to launch the algorithm from command line.
+Once your files are ready, you should create a working directory in your computer. **All names that will be used here should not contain spaces. We suggest you only use letters, numbers and underscores.**
+Then, download the [`cold_pulse_detection.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/example_input/cold_pulse_detection.py): first, open the link and then right click any where on the screen and click on *save as*. This is the python script that we will use to launch the algorithm from command line.
 
 Put the file in the working directory you created. 
 
-Create a new folder with the name of your choice in the working directory and put your csv files in your directory.
+Create a new folder with the name of your choice in the working directory and put your csv files in your directory. **All names that will be used here should not contain spaces. We suggest you only use letters, numbers and underscores.**
 
 The stucture of your working directory should be:
 - `working_directory`
@@ -48,17 +52,17 @@ The stucture of your working directory should be:
     - `csv_file2.csv`
     - ...
 
-Open the `cold_pulse_detection.py` file in a text editor and modify the information accordingly with your csv files and `new_folder` names.
+Open the `cold_pulse_detection.py` file in a text editor and modify the information accordingly with your `.csv` files and `new_folder` names.
 
-The `cold_pulse_detection.py` file is made of four sections, two of which should me adapted to your needs:
+The `cold_pulse_detection.py` file is made of **four** sections, two of which should me adapted to your needs:
 - `INPUT DATA`, **should be modified**: This is where input variables such as file names and depths should be entered. 
-- `ALGORITHM PARAMETERS`, **should be modified**: This is where algorithm numerical parameters can be changed.
+- `ALGORITHM PARAMETERS`, **should be modified**: This is where algorithm parameters can be changed.
 - `CREATE CONFIGURATION DATA`: This is where configuration data are created from `INPUT DATA` and `ALGORITHM PARAMETERS`;
 - `RUN ALGORITHM`: This is where the algorithm is run.
 
 Note that most of the fields should be in quotation marks as this is how string should be in Python.
 
-The `INPUT_DATA` section contains:
+The `INPUT DATA` section contains:
 - `INPUT_DIR`, *quotation marks needed*: Directory where the csv files are stored. You should replace the value by the name you gave to `new_folder`.
 - `OUTPUT_NAME`, *quotation marks needed*: Name that will be used for output files. We recommend using a new name for each run.
 - `BOT`, ***True** or **False** without quotation marks*: Should be **True** if you want to detect deep pulses, **False** if not.
@@ -76,6 +80,19 @@ The `INPUT_DATA` section contains:
 ```
 
 - `TIME_FILE_NAME`, *quotation marks needed*: Name of the file that will be used for time interpolation. All other files will be interpolated over this file's time steps to create the NetCDF file. It needs to be one of the files in the `FILE_NAME` field. Do not forget to add *.csv* at the end of the file name.
+
+The `ALGORITHM PARAMETERS` section contains:
+- `FILTER_MIN_DURATION`,  ***True** or **False** without quotation marks*: If **True**, a filter on minimum pulse duration will be applied.
+- `MIN_DURATION`, *no quotation mark needed*: If `FILTER_MIN_DURATION` is **True**, this is what the minimum accepted pulse duration will be in minutes.
+- `FILTER_MAX_DURATION`,  ***True** or **False** without quotation marks*: If **True**, a filter on maximum pulse duration will be applied.
+- `MAX_DURATION`, *no quotation mark needed*: If `FILTER_MAX_DURATION` is **True**, this is what the maximum accepted pulse duration will be in minutes.
+- `FILTER_MIN_DROP`,  ***True** or **False** without quotation marks*: If **True**, a filter on minimum temperature drop will be applied.
+- `MIN_DROP`, *no quotation mark needed*: If `FILTER_MIN_DROP` is **True**, this is what the minimum accepted temperature drop will be in °C.
+- `FILTER_STSI`,  ***True** or **False** without quotation marks*: If **True**, a filter on specific TSI will be applied.
+- `AUTO_MIN_STSI`,  ***True** or **False** without quotation marks*: If `FILTER_STSI` is **True**, the minimum STSI allowed will be computed based on the rTSI instantaneous value without any input parameter.
+- `MANUAL_MIN_TSI`, *no quotation mark needed*: If `FILTER_STSI` is **True** and `AUTO_MIN_STSI` is **False**, this is what the minimum specific TSI will be in °C.m<sup>2<\sup>.
+- `RTSI_NUM_DAYS`, *no quotation mark needed*: Number of days that will be used to compute the rTSI baseline profile.
+- `NUM_RIGHT_MAX`, *no quotation mark needed*: Number of minutes that define a local right maximum.
 
 ## Run the algorithm
 Once your working directory is ready and your 'cold_pulse_detection.py' is configured, you can run the algorithm. Open a command prompt and navigate to your working directory. To do so type your 'cd' folloed by your working directory path in the command prompt. For example:
