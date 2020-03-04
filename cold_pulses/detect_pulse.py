@@ -75,6 +75,15 @@ def bot_pulse_detect(darray, config_data):
                                             min_stsi=config_data['min_stsi'])
     # Remove overlap by combining overlapping pulses
     starts, ends = filters.remove_overlap(starts, ends)
+    starts = shifts.starts(starts, ends, darray, tsi,
+                           depth=depth, kind='bot',
+                           step_number=1, total_steps=4)
+    
+    # Shift end indexes to the left to get real end indexes
+    ends = shifts.ends(starts, ends, darray, time_step,
+                       depth=depth, kind='bot',
+                       step_number=2, total_steps=4,
+                       num_right_max=config_data['num_right_max'])
     # Compute metrics and create output files
     df_out, ds_out = output(darray, starts, ends, time_step,
                             depth=depth, kind='bot',
