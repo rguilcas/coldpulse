@@ -83,6 +83,9 @@ MANUAL_MIN_STSI = 0.17
 
 # Number of days that will be used to compute rTSI 
 RTSI_NUM_DAYS = 60
+# Correct rTSI for a potential continuously strong stratification event that 
+# will be captured in the rTSI values
+RTSI_STRONG_EVENT = False
 
 # =============================================================================
 # SHIFT ENDS

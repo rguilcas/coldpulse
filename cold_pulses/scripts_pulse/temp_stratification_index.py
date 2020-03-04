@@ -9,7 +9,8 @@ import xarray as xr
 import pandas as pd
 
 def temperature_stratification_index(darray,
-                                     daily=True, num_days_rolling=60):#days
+                                     daily=True, num_days_rolling=60,
+                                     strong_event = False):#days
     """
     darray is a xarray dataarray of temperatures with 2 dimensions : depth and time
 
@@ -104,6 +105,12 @@ def temperature_stratification_index(darray,
             tsi_interpolated_full[start:end] = r_tsi
     # Get final rTSI
         r_tsi = tsi_interpolated_full.interp(time=darray.time)
+    
+    # Correct rTSI for potential strong events
+        if strong_event:
+            max_r_tsi = np.abs(r_tsi).mean() + np.abs(r_tsi).std()
+            r_tsi = r_tsi.where(np.abs(r_tsi) < max_r_tsi,
+                                max_r_tsi*np.sign(r_tsi))
         return tsi, r_tsi
 
     return tsi

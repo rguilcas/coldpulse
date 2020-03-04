@@ -30,13 +30,15 @@ def bot_pulse_detect(darray, config_data):
     # Compute TSI and rTSI
     tsi, r_tsi = temperature_stratification_index(darray,
                                                   num_days_rolling=config_data\
-                                                  ['rtsi_num_days'])
+                                                  ['rtsi_num_days'],
+                                                  strong_event=config_data\
+                                                  ['strong_event'])
     # Extract first start and end indexes for possible pulses
     starts, ends = init_limits.bot(tsi, r_tsi, darray,
                                    depth=depth)
     starts = shifts.starts(starts, ends, darray, tsi,
                            depth=depth, kind='bot',
-                           step_number=2, total_steps=4)
+                           step_number=1, total_steps=4)
     
     # Shift end indexes to the left to get real end indexes
     ends = shifts.ends(starts, ends, darray, time_step,
