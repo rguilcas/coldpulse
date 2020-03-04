@@ -33,14 +33,14 @@ def prepare_csv(config_data):
     if len(csv_files) != len(depths.keys()):
         print('Wrong depths in config_file.py.')
         print('Please indicate one depth for each csv file in the input folder.')
-        return
+        return False
     # If one of the csv files in the folder does not have a specified depth in
     # the config file, exit.
     for file in csv_files:
         if file not in depths.keys():
             print('Some or all files are incorrect or missing.')
             print('Please update the config_file.txt depths value.')
-            return
+            return False
     # Open and process file over which interpolation will be done
     time_file = pd.read_csv('%s/%s'%(input_folder, time_file_name))
     time_file.columns = ['time', 'temperature']
@@ -75,4 +75,4 @@ def prepare_csv(config_data):
     data_darray.name = 'temperature'
     # Save the dataarray as a netcf file
     data_darray.to_netcdf('%s/%s'%(input_folder, name_nc_file))
-      
+    return True
