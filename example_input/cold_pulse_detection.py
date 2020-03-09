@@ -207,5 +207,6 @@ else:
         print('NetCDF file is ready to be used.')
     else:
         print('CSV files are already prepared.')
+        prepare = True
 if prepare:
     run(CONFIG_DATA)
