@@ -198,8 +198,9 @@ CONFIG_DATA['num_right_max'] = NUM_RIGHT_MAX
 
 if PREPARE_CSV:
     print('CSV files are being prepared ...')
-    prepare_csv(CONFIG_DATA)
-    print('NetCDF file is ready to be used.')
+    prepare = prepare_csv(CONFIG_DATA)
+    if prepare:
+        print('NetCDF file is ready to be used.')
 else:
     if 'csv_prepared.nc' not in os.listdir(INPUT_DIR):
         print('CSV files are not prepared.being prepared now ...')
