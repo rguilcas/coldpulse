@@ -42,6 +42,7 @@ def prepare_csv(config_data):
             return False
     # Open and process file over which interpolation will be done
     time_file = pd.read_csv('%s/%s'%(input_folder, time_file_name))
+    time_file = time_file[time_file.columns[-2:]]
     time_file = time_file.sort_index()
     time_file.columns = ['time', 'temperature']
     time_file.index = pd.DatetimeIndex(time_file.time)
@@ -51,11 +52,13 @@ def prepare_csv(config_data):
     for key in depths:
     # Open and process one file
         file = pd.read_csv('%s/%s'%(input_folder, key))
+        file = file[file.columns[-2:]]
         print('%s loaded.'%key)
         file = file.sort_index()
         file.columns = ['time', 'temperature']
         file.index = pd.DatetimeIndex(file.time)
         ds_file = xr.DataArray(file.temperature.sort_index())
+        
         interp_ds_file = ds_file.interp(time=ds_time.time)
         interp_ds_file['depth'] = depths[key]
         list_ds_file.append(interp_ds_file)
