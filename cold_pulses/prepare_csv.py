@@ -53,7 +53,10 @@ def prepare_csv(config_data):
     for key in depths:
     # Open and process one file
         file = pd.read_csv('%s/%s'%(input_folder, key))
-        file = file[file.columns[-2:]]
+        if 'TIMESTAMP' in time_file.columns:
+            file = file[['TIMESTAMP',file.columns[-1]]]
+        else:
+            file = file[file.columns[-2:]]
         print('%s loaded.'%key)
         file = file.sort_index()
         file.columns = ['time', 'temperature']
