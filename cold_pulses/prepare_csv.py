@@ -12,7 +12,6 @@ CSV files need to be written in two columns : time and temperature
 import os
 import xarray as xr
 import pandas as pd
-import numpy as np
 
 
 def prepare_csv(config_data):
@@ -43,35 +42,25 @@ def prepare_csv(config_data):
             return False
     # Open and process file over which interpolation will be done
     time_file = pd.read_csv('%s/%s'%(input_folder, time_file_name))
+    time_file = time_file.sort_index()
     time_file.columns = ['time', 'temperature']
     time_file.index = pd.DatetimeIndex(time_file.time)
+    ds_time = xr.DataArray(time_file.temperature.sort_index())
     # Create dataframe of all data in csv files
-    data_dataframe = pd.DataFrame()
+    list_ds_file = []
     for key in depths:
     # Open and process one file
         file = pd.read_csv('%s/%s'%(input_folder, key))
         print('%s loaded.'%key)
+        file = file.sort_index()
         file.columns = ['time', 'temperature']
         file.index = pd.DatetimeIndex(file.time)
-    # If the file is the one over which we interpolate, add it directly to the
-    # dataframe. If not, interpolate it first to the right sampling rate, and
-    # add it to the dataframe
-        if key != time_file_name:
-            interpolated_data = np.interp(time_file.index,
-                                          file.index,
-                                          file.temperature,
-                                          left=np.nan,
-                                          right=np.nan)
-            data_dataframe[depths[key]] = interpolated_data
-        else:
-            data_dataframe[depths[key]] = file.temperature
-    # Sort depths values in decreasing order
-    data_dataframe = data_dataframe.sort_index(axis=1, ascending=False)
-    # Create an xarray DataArray from the pandas DataFrame
-    data_darray = xr.DataArray(data_dataframe.values.T,
-                               dims=['depth', 'time'],
-                               coords={'depth':data_dataframe.columns,
-                                       'time':data_dataframe.index})
+        ds_file = xr.DataArray(file.temperature.sort_index())
+        interp_ds_file = ds_file.interp(time=ds_time.time)
+        interp_ds_file['depth'] = depths[key]
+        list_ds_file.append(interp_ds_file)
+    # Create an xarray DataArray from the list of interpolated data
+    data_darray = xr.concat(list_ds_file,'depth')
     data_darray.name = 'temperature'
     # Save the dataarray as a netcf file
     data_darray.to_netcdf('%s/%s'%(input_folder, name_nc_file))
