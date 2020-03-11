@@ -53,7 +53,7 @@ def prepare_csv(config_data):
     for key in depths:
     # Open and process one file
         file = pd.read_csv('%s/%s'%(input_folder, key))
-        if 'TIMESTAMP' in time_file.columns:
+        if 'TIMESTAMP' in file.columns:
             file = file[['TIMESTAMP',file.columns[-1]]]
         else:
             file = file[file.columns[-2:]]
