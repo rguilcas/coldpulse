@@ -543,8 +543,8 @@ def save_output(df_output, ds_output, file_name, dir_name = None):
     None.
 
     """
-    df_output.to_csv('%s/%s_pulse_stats_.csv'%(dir_name,file_name[:-3]))
-    ds_output.to_netcdf('%s/%s_pulse_series_.nc'%(dir_name,file_name[:-3]))
+    df_output.to_csv('%s/%s_pulse_stats_.csv'%(dir_name,file_name))
+    ds_output.to_netcdf('%s/%s_pulse_series_.nc'%(dir_name,file_name))
 
 
 
