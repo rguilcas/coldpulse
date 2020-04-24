@@ -14,7 +14,7 @@ from scipy.signal import argrelmax
 # =============================================================================
 # Main functions
 # =============================================================================
-def upwelling_cold_pulses_detection(input_dir):
+def upwelling_cold_pulses_detection(input_dir,auto_in=False):
     process = True
     list_dir= os.listdir()
     if '%s_TSI_out'%input_dir in list_dir:
@@ -28,7 +28,7 @@ def upwelling_cold_pulses_detection(input_dir):
     else:
         os.mkdir('%s_TSI_out'%input_dir)
     if process:
-        darray = prepare_darray(input_dir)
+        darray = prepare_darray(input_dir,auto_in=auto_in)
         
         if type(darray) != bool:
             lon = darray.lon
@@ -42,7 +42,7 @@ def upwelling_cold_pulses_detection(input_dir):
 # =============================================================================
 
 
-def prepare_darray(input_dir):
+def prepare_darray(input_dir,auto_in=False):
     """
     Prepares darray from several csv files in the directory input_dir
 
@@ -57,31 +57,43 @@ def prepare_darray(input_dir):
         Temperature data in a DataArray
 
     """
-    print('Make sure all of your csv files are in the %s directory'%input_dir)
-    test = input('Make sure all of your csv files are in two columns:\n'+\
-          'TIMESTAMP  |TEMP    \n\nIs that ok? (y/n)')
-    while test not in ['y','n']:
-        test = input("Please answer by 'y' or 'n'")
-    if test == 'n':
-        print('Get your csv files ready !')
-        return False
-    list_files = os.listdir(input_dir)
-    test_string = '%d files found in the %s directory. Is that correct? (y/n)\n'%(len(list_files),input_dir)
-    for file in list_files:
-        test_string+='%s\n'%file
-    test = input(test_string)
-    while test not in ['y','n']:
-        test = input("Please type 'y' or'n'."%(len(list_files),input_dir))
-    if test =='n':
-        print('Please check your input folder: %s.'%input_dir)
-        return False
-    depths = dict()
-    for file in list_files:
-        depth = float(input('Please enter depth for file:\n%s\n'%file+\
-                            'Depth from sea level, positive down\n'))
-        depths[file] = depth
-    lon = float(input('What is the longitude of the study? °E\n'))
-    lat = float(input('What is the latitude of the study? °N\n'))
+    if auto_in:
+        #Name format =
+        # ISL_lon_lat_depth_..._.csv
+        data = input_dir.split('_')
+        list_files = os.listdir(input_dir)
+        depths = dict()
+        for file in list_files:
+            data = file.split('_')
+            depths[file] = float(data[3])
+        lon = float(data[1])
+        lat = float(data[2])
+    else:
+        print('Make sure all of your csv files are in the %s directory'%input_dir)
+        test = input('Make sure all of your csv files are in two columns:\n'+\
+              'TIMESTAMP  |TEMP    \n\nIs that ok? (y/n)')
+        while test not in ['y','n']:
+            test = input("Please answer by 'y' or 'n'")
+        if test == 'n':
+            print('Get your csv files ready !')
+            return False
+        list_files = os.listdir(input_dir)
+        test_string = '%d files found in the %s directory. Is that correct? (y/n)\n'%(len(list_files),input_dir)
+        for file in list_files:
+            test_string+='%s\n'%file
+        test = input(test_string)
+        while test not in ['y','n']:
+            test = input("Please type 'y' or'n'."%(len(list_files),input_dir))
+        if test =='n':
+            print('Please check your input folder: %s.'%input_dir)
+            return False
+        depths = dict()
+        for file in list_files:
+            depth = float(input('Please enter depth for file:\n%s\n'%file+\
+                                'Depth from sea level, positive down\n'))
+            depths[file] = depth
+        lon = float(input('What is the longitude of the study? °E\n'))
+        lat = float(input('What is the latitude of the study? °N\n'))
     list_darray = []
     print('Loading files...')
     for file in depths:
