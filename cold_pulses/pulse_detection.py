@@ -26,8 +26,6 @@ def upwelling_cold_pulses_detection(input_dir,auto_in=False,ignore_double=False)
         if test =='n':
             process = False
         
-    elif ignore_double == False and auto_in:
-        os.mkdir('%s_TSI_out'%input_dir)
     elif ignore_double == True and auto_in:
         process = False
     if process:
