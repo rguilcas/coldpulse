@@ -593,7 +593,7 @@ def prepare_output(darray, list_starts, list_ends):
             dataframe_starts_ends_subpulses.iloc[index]
         dch = -(bottom_temperature[start_subpulse:end_subpulse] - bottom_temperature[start_pulse])*dt
         drop = (bottom_temperature[start_subpulse:end_subpulse] - bottom_temperature[start_pulse]).min('time').values
-        min_temp_subpulse = bottom_temperature[start_subpulse:end_subpulse].min('time').values
+        min_temp = bottom_temperature[start_subpulse:end_subpulse].min('time').values
         list_dch.append(dch.sum().values)
         list_drops.append(drop)
         list_min_temp.append(bottom_temperature[start_subpulse:end_subpulse].min('time').values)
