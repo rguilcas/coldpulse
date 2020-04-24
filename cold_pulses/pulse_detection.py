@@ -573,7 +573,7 @@ def prepare_output(darray, list_starts, list_ends):
         Dataset including drops and degree cooling hours data.
 
     """
-    bottom_temperature = darray.sel(depth=darray.depth.min())
+    bottom_temperature = darray.sel(depth=darray.depth.max())
     dataframe_starts_ends_subpulses = split_pulses(bottom_temperature, 
                                                    list_starts,
                                                    list_ends)
@@ -618,7 +618,6 @@ def prepare_output(darray, list_starts, list_ends):
     min_temp_darray = xr.DataArray(min_temp_series,
                                    dims = ['time'],
                                    coords = dict(time=bottom_temperature.time))
-    
     
     ds = xr.Dataset(dict(dch = dch_darray, 
                          drops = drops_darray,
