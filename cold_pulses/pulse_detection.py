@@ -584,6 +584,7 @@ def prepare_output(darray, list_starts, list_ends):
     dch_series = np.zeros(bottom_temperature.size)
     drops_series = np.zeros(bottom_temperature.size)
     min_temp_series = np.zeros(bottom_temperature.size)
+    temp_series = np.zeros(bottom_temperature.size)
     sys.stdout.write("\r+'                                                   ")
     for index in range(dataframe_starts_ends_subpulses.shape[0]):
         progress = index/dataframe_starts_ends_subpulses.shape[0]*100
@@ -599,6 +600,7 @@ def prepare_output(darray, list_starts, list_ends):
         dch_series[start_subpulse:end_subpulse] = dch
         drops_series[start_subpulse:end_subpulse] = drop
         min_temp_series[start_subpulse:end_subpulse] = min_temp
+        temp_series[start_subpulse:end_subpulse] = bottom_temperature[start_subpulse:end_subpulse]
     dataframe_starts_ends_subpulses['dch_subpulse'] = list_dch
     dataframe_starts_ends_subpulses['drop_subpulse'] = list_drops
     dataframe_starts_ends_subpulses['min_temp_subpulse'] = list_min_temp
@@ -610,9 +612,14 @@ def prepare_output(darray, list_starts, list_ends):
     drops_darray = xr.DataArray(drops_series,
                                 dims = ['time'],
                                 coords = dict(time=bottom_temperature.time))
+    pulse_temp_darray = xr.DataArray(temp_series,
+                                     dims = ['time'],
+                                     coords = dict(time=bottom_temperature.time))
+    
     ds = xr.Dataset(dict(dch = dch_darray, 
                          drops = drops_darray,
                          min_temp=min_temp,
+                         pulse_temp=pulse_temp,
                          temperature =darray))
     sys.stdout.write("\r+'                                                   ")
     sys.stdout.write('\r' + 'Metrics computed !')
