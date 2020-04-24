@@ -29,7 +29,7 @@ def upwelling_cold_pulses_detection(input_dir,auto_in=False,ignore_double=False)
     elif '%s_TSI_out'%input_dir in list_dir and ignore_double == True and auto_in:
         process = False
     elif '%s_TSI_out'%input_dir not in list_dir:
-        os.mkdir('%s/%s_TSI_out'%(list_dir,input_dir))
+        os.mkdir('%s_TSI_out'%input_dir)
             
     if process:
         darray = prepare_darray(input_dir,auto_in=auto_in)
