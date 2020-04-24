@@ -14,10 +14,10 @@ from scipy.signal import argrelmax
 # =============================================================================
 # Main functions
 # =============================================================================
-def upwelling_cold_pulses_detection(input_dir,auto_in=False):
+def upwelling_cold_pulses_detection(input_dir,auto_in=False,ignore_double=None):
     process = True
     list_dir= os.listdir()
-    if '%s_TSI_out'%input_dir in list_dir:
+    if '%s_TSI_out'%input_dir in list_dir and ignore_double==None:
         test = input('%s has already been used by the algorithm.\n'%input_dir+\
                      'This will erase previous data in the output folder.\n'+\
                      'Do you want to proceed? (y/n)')
@@ -25,8 +25,11 @@ def upwelling_cold_pulses_detection(input_dir,auto_in=False):
             test = input("Please answer by 'y' or 'n'")
         if test =='n':
             process = False
-    else:
+        
+    elif ignore_double = False:
         os.mkdir('%s_TSI_out'%input_dir)
+    elif ignore_double = True:
+        process = False
     if process:
         darray = prepare_darray(input_dir,auto_in=auto_in)
         
