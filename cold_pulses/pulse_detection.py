@@ -615,11 +615,15 @@ def prepare_output(darray, list_starts, list_ends):
     pulse_temp_darray = xr.DataArray(temp_series,
                                      dims = ['time'],
                                      coords = dict(time=bottom_temperature.time))
+    min_temp_darray = xr.DataArray(min_temp_series,
+                                   dims = ['time'],
+                                   coords = dict(time=bottom_temperature.time))
+    
     
     ds = xr.Dataset(dict(dch = dch_darray, 
                          drops = drops_darray,
-                         min_temp=min_temp,
-                         pulse_temp=pulse_temp,
+                         min_temp=min_temp_darray,
+                         pulse_temp=pulse_temp_darray,
                          temperature =darray))
     sys.stdout.write("\r+'                                                   ")
     sys.stdout.write('\r' + 'Metrics computed !')
