@@ -159,6 +159,8 @@ def csv_to_darray(input_dir, file_name, depth):
     temp.index.name='time'
     temp = temp.rename('temperature')
     darray = xr.DataArray(temp)
+    if depth<5:
+        depth=5
     darray['depth'] = depth
     return darray
    
@@ -192,8 +194,8 @@ def pulses_detection(darray, lon, lat):
 
     """
  
-    if lat < 0:
-        lat += 360
+    if lon < 0:
+        lon += 360
     sys.stdout.write('\r'+'Computing TSI threshold ...')
     sys.stdout.flush()
     tsi_threshold = make_tsi_threshold_from_climatology(darray, lon, lat)
