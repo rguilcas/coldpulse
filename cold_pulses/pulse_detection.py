@@ -282,7 +282,7 @@ def get_potential_pulses_start_end_from_TSI(darray, threshold=0):
     list_starts = np.where((1*is_potential_pulse_present).diff('time')>0)[0]
     list_ends = np.where((1*is_potential_pulse_present).diff('time')<0)[0] +1
     if is_potential_pulse_present[0]:
-        list_starts = np.insert(list_starts, 0, 0) - 1
+        list_starts = np.insert(list_starts, 0, 0)
     if is_potential_pulse_present[-1]:
         list_ends = np.insert(list_ends, list_ends.size, phi.size-1)
     return list_starts, list_ends
