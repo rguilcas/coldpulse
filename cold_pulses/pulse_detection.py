@@ -112,8 +112,8 @@ def prepare_darray(input_dir,auto_in=False):
         potential_starts.append(darray.time.values[0])
         potential_ends.append(darray.time.values[-1])
         potential_dt.append(darray.time.diff('time').values[0].astype('timedelta64[s]').astype(int))
-    start = min(potential_starts)
-    end = max(potential_ends)
+    start = max(potential_starts)
+    end = min(potential_ends)
     dt = max(potential_dt)
     new_time =pd.date_range(start=start,end=end,freq='%ss'%dt)
     interp_darrays = []

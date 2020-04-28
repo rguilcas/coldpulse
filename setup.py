@@ -19,7 +19,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=['numpy','xarray','pandas'],
-    url="https://github.com/typhonier/cold_pulses",
+    url="https://github.com/rguilcas/cold_pulses",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
