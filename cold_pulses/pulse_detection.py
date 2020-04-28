@@ -69,9 +69,9 @@ def prepare_darray(input_dir,auto_in=False):
         depths = dict()
         for file in list_files:
             data = file.split('_')
-            depths[file] = float(data[3])
-        lon = float(data[1])
-        lat = float(data[2])
+            depths[file] = float(data[4])
+        lon = float(data[2])
+        lat = float(data[3])
     else:
         print('Make sure all of your csv files are in the %s directory'%input_dir)
         test = input('Make sure all of your csv files are in two columns:\n'+\
