@@ -504,7 +504,11 @@ def shift_ends(list_ends, darray, phi,
     for end in list_ends:
         progress = end/phi.size*100
         sys.stdout.write('\r' + 'Shifting ends: %.02f'%progress + r'%')
-        new_list_ends.append(potential_new_ends[potential_new_ends >= end][0])
+        test = potential_new_ends[potential_new_ends >= end]
+        if len(test)>0:
+            new_list_ends.append(potential_new_ends[potential_new_ends >= end][0])
+        else:
+            new_list_ends.append(phi.size-1)
     return np.array(new_list_ends)
 
 
