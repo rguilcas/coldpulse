@@ -437,12 +437,14 @@ def is_TSI_variability_from_bottom_logger(darray, phi, start, end):
     index_bottom_logger = darray.depth.argmax('depth')
     phi_argmin = start + phi[start:end+1].argmin('time')
     temp_difference_till_phi_argmin = darray[:, start] - darray[:, phi_argmin]
-    if temp_difference_till_phi_argmin[index_bottom_logger]:
-        if np.abs(temp_difference_till_phi_argmin).argmax('depth') == index_bottom_logger:
-            return True
-    else:
+    try:
+        if temp_difference_till_phi_argmin[index_bottom_logger]:
+            if np.abs(temp_difference_till_phi_argmin).argmax('depth') == index_bottom_logger:
+                return True
+        else:
+            return False
+    except:
         return False
-
 
 def shift_ends(list_ends, darray, phi,
                use_positive_phi = True,
