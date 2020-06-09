@@ -17,6 +17,11 @@ from scipy.signal import argrelmax
 def upwelling_cold_pulses_detection(input_dir,auto_in=False,ignore_double=False):
     process = True
     list_dir= os.listdir()
+    if'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dir:
+        print('NCEP-GODAS Climatology file could not be found.')
+        print('Please move it to the input directory \"%s\" or download it from'%input_dir)
+        print('Once downloaded, rename it \"NCEP-GODAS_ocean-temp_1980-2020.nc\" and move it to the input directory')
+        return
     if '%s_TSI_out'%input_dir in list_dir and not auto_in:
         test = input('%s has already been used by the algorithm.\n'%input_dir+\
                      'This will erase previous data in the output folder.\n'+\
@@ -62,8 +67,7 @@ def prepare_darray(input_dir,auto_in=False):
 
     """
     if auto_in:
-        #Name format =
-        # ISL_lon_lat_depth_..._.csv
+        #Name format = Island_locationID_lon_lat_depth_.csv
         data = input_dir.split('_')
         list_files = os.listdir(input_dir)
         depths = dict()
