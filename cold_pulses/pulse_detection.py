@@ -19,7 +19,7 @@ def upwelling_cold_pulses_detection(input_dir,auto_in=False,ignore_double=False)
     list_dir= os.listdir()
     if'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dir:
         print('NCEP-GODAS Climatology file could not be found.')
-        print('Please move it to the input directory \"%s\" or download it from'%input_dir)
+        print('Please move it to the input directory \"%s\" or download it from'%os.getcwd())
         print('Once downloaded, rename it \"NCEP-GODAS_ocean-temp_1980-2020.nc\" and move it to the input directory')
         return
     if '%s_TSI_out'%input_dir in list_dir and not auto_in:
