@@ -28,6 +28,7 @@ You can download NCEP-GODAS data that suit your location using [this link](https
 ## Before each run
 ### Preparing input directory
 ### Input files
+![alt text](https://github.com/rguilcas/cold_pulses/blob/[branch]/image.jpg?raw=true)
 Before getting into the algorithm, you will need to prepare input files that will be used. Several (two or more) csv input files are necessary to make the algorithm work. They should fit the folowing criteria:
 - The files should show data from the same location
 - The files should show data from different depth levels
