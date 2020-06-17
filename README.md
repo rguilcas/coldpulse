@@ -44,13 +44,23 @@ Note that the processing will be done on the temporal intersection between the t
 ### Formatting input files
 
 This script works automatically if the files' names follow one rule. Each file should be named as:
+
+
 **island_locationID_longitude_latitude_depth_.csv**.
+
+
 - longitude in °E
 - latitude in °N
 - depth in meters, positive down
+
 For example, for a location North of Palmyra atoll, in the central Pacific, at 26 meters deep, the name of the file would be:
+
+
 **palmyra_north_-162.07808_5.89682_26_.csv**
-Your directories should look like in the following figure. Note that you can name the run folders as you want, as long as **their names do not include spaces**.
+
+
+Your directories should look like in the following figure. Note that you can name the run folders as you want, as long as **their names do 
+not include spaces**.
 ![Working directory and run folders formatting](https://github.com/rguilcas/cold_pulses/blob/master/Image1.png?raw=true)
 
 ## Run the algorithm
@@ -97,6 +107,7 @@ This file contain various statistics on each pulse detected. A pulse is first di
 - drop_subpulse: the maximum associated temperature drop of the subpulse
 - min_temp_subpulse: the minmum temperature reached by the subpulse
 - duration subpulse: the duration of the subpulse
+
 Information on complete pulses can be obtained by grouping data by pulse_id and then processing the columns (summing DCH or duration, getting the minimum drop or the minimum temperature,...)
  
 ## Acknwoledgements
