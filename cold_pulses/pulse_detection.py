@@ -609,10 +609,10 @@ def prepare_output(darray, list_starts, list_ends):
     list_dch = []
     list_drops = []
     list_min_temp = []
-    dch_series = np.zeros(bottom_temperature.size)
-    drops_series = np.zeros(bottom_temperature.size)
-    min_temp_series = np.zeros(bottom_temperature.size)
-    temp_series = np.zeros(bottom_temperature.size)
+    dch_series = np.nan*np.zeros(bottom_temperature.size)
+    drops_series = np.nan*np.zeros(bottom_temperature.size)
+    min_temp_series = np.nan*np.zeros(bottom_temperature.size)
+    temp_series = np.nan*np.zeros(bottom_temperature.size)
     sys.stdout.write("\r+'                                                   ")
     for index in range(dataframe_starts_ends_subpulses.shape[0]):
         progress = index/dataframe_starts_ends_subpulses.shape[0]*100
