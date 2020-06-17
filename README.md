@@ -30,7 +30,7 @@ You can download NCEP-GODAS data that suit your location using [this link](https
 
 - Create a new folder to work with cold-pulses detection
 - Add the `NCEP-GODAS_ocean-temp_1980-2020.nc` to this folder
-- Download the [`processing_TSI.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/processing_TSI.py) file and add it to the folder (Right click, save as `processing_TSI.py`)
+- Download the [`processing_TSI.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/processing_TSI.py) file and add it to the folder (Left click on the link, then right click on the background, save as `processing_TSI.py`)
 - Create a new folder for each of the runs you would like to do. One run corresponds to one location and one temporal period. You need two files at different depths for each run to make the algorithm work.
 
 ### Choosing Input files
