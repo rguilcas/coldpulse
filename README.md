@@ -13,8 +13,7 @@ This package allows you to accurateley detect individual cold pulses events in a
 ***If Python is already installed on your machine and is ready to use from command line, skip this step***
 
 Before anything, you need to install Python on your machine. We suggest downlading the [Anaconda environment] ( https://www.anaconda.com/). If you are using Windows, make sure to tick the box `Add anaconda to your PATH` when installing it. If you are using Mac, this should be automatic.
-`cold_pulses` package
-5
+
 ### Donwloading the `cold_pulses` package
 
 Once python is installed, open a command prompt window, and install the `cold_pulse` package by typing: 
@@ -27,6 +26,9 @@ You can download NCEP-GODAS data that suit your location using [this link](https
 
 ## Before each run
 ### Preparing input directory
+- Create a new folder to work with cold-pulses detection
+- Add the `NCEP-GODAS_ocean-temp_1980-2020.nc` to this folder
+- Download the [`processing_TSI.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/processing_TSI.py) file and add it to the folder
 ### Input files
 ![alt text](https://github.com/rguilcas/cold_pulses/blob/master/Image1.png?raw=true)
 Before getting into the algorithm, you will need to prepare input files that will be used. Several (two or more) csv input files are necessary to make the algorithm work. They should fit the folowing criteria:
