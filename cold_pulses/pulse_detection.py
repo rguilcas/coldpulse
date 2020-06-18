@@ -550,7 +550,7 @@ def get_output(darray, lon, lat):
     df_output_sub, ds_output,df_output = prepare_output(darray, list_starts, list_ends) 
     return df_output_sub, ds_output, df_output
     
-def save_output(df_pulse, df_subpulse, ds_output, file_name, dir_name = None):
+def save_output(df_subpulse, df_pulse, ds_output, file_name, dir_name = None):
     """
     Saves output files
 
