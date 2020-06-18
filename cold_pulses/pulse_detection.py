@@ -42,8 +42,8 @@ def upwelling_cold_pulses_detection(input_dir,auto_in=False,ignore_double=False)
         if type(darray) != bool:
             lon = darray.lon
             lat = darray.lat
-            df_output,ds_output = get_output(darray, lon, lat)
-            save_output(df_output,ds_output,input_dir,dir_name='%s_TSI_out'%input_dir)
+            df_output,ds_output,df_sub = get_output(darray, lon, lat)
+            save_output(df_output,df_sub,ds_output,input_dir,dir_name='%s_TSI_out'%input_dir)
 # =============================================================================
 # =============================================================================
 # # Input functions 
@@ -547,10 +547,10 @@ def get_output(darray, lon, lat):
 
     """
     list_starts, list_ends = pulses_detection(darray, lon, lat)
-    df_output, ds_output = prepare_output(darray, list_starts, list_ends) 
-    return df_output, ds_output
+    df_output_sub, ds_output,df_output = prepare_output(darray, list_starts, list_ends) 
+    return df_output_sub, ds_output, df_output
     
-def save_output(df_output, ds_output, file_name, dir_name = None):
+def save_output(df_pulse, df_subpulse, ds_output, file_name, dir_name = None):
     """
     Saves output files
 
@@ -571,7 +571,8 @@ def save_output(df_output, ds_output, file_name, dir_name = None):
     None.
 
     """
-    df_output.to_csv('%s/%s_pulse_stats_.csv'%(dir_name,file_name))
+    df_pulse.to_csv('%s/%s_pulse_stats_.csv'%(dir_name,file_name))
+    df_sub.to_csv('%s/%s_subpulse_stats_.csv'%(dir_name,file_name))
     ds_output.to_netcdf('%s/%s_pulse_series_.nc'%(dir_name,file_name))
 
 
@@ -634,6 +635,16 @@ def prepare_output(darray, list_starts, list_ends):
     dataframe_starts_ends_subpulses['min_temp_subpulse'] = list_min_temp
     dataframe_starts_ends_subpulses['duration_subpulse'] = \
         dataframe_starts_ends_subpulses.end_subpulse - dataframe_starts_ends_subpulses.start_subpulse  
+    dataframe_pulses_group = dataframe_start_end_subpulses.groupby('pulse_id')
+    dataframe_pulse = pd.DataFrame()
+    dataframe_pulse['start_pulse'] =   dataframe_pulses_group.start_pulse.first()
+    dataframe_pulse['end_pulse'] =   dataframe_pulses_group.end_pulse.first()
+    dataframe_pulse['number_subpulses'] =   dataframe_pulses_group.start_pulse.count()
+    dataframe_pulse['dch_pulse'] =   dataframe_pulses_group.dch_subpulse.sum()
+    dataframe_pulse['drop_pulse'] =   dataframe_pulses_group.drop_subpulse.min()
+    dataframe_pulse['min_temp_pulse'] =   dataframe_pulses_group.min_temp_subpulse.min()
+    dataframe_pulse['duration_pulse'] =   (dataframe_pulse.end_pulse-dataframe_pulse.start_pulse)*dt
+    
     dch_darray = xr.DataArray(dch_series,
                               dims = ['time'],
                               coords = dict(time=bottom_temperature.time))
@@ -655,7 +666,7 @@ def prepare_output(darray, list_starts, list_ends):
     sys.stdout.write("\r+'                                                   ")
     sys.stdout.write('\r' + 'Metrics computed !')
     
-    return dataframe_starts_ends_subpulses, ds
+    return dataframe_starts_ends_subpulses, ds, dataframe_pulse
 
 
 def split_pulses(bottom_temperature, list_starts, list_ends):
