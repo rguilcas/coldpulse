@@ -25,126 +25,90 @@ pip install https://github.com/rguilcas/cold_pulses/zipball/master
 You can download NCEP-GODAS data that suit your location using [this link](https://psl.noaa.gov/cgi-bin/DataAccess.pl?DB_dataset=NCEP+GODAS&DB_variable=potential+temperature&DB_statistic=Monthly+Mean&DB_tid=84088&DB_did=98&DB_vid=1913). Download data as a NETCDF (.nc) format from 1980 to 2020 to get a climatology of the temperature at the location studied. Note that you should include AT LEAST all depth values between your shallowest and deepest logger, including those loggers' depths. For example, if your loggers are at depthranging from 7 to 56, download data for 5, 15, 25, 35, 45, 55 and 65 m deep. We advise you to download slightly more than what you think you need. Once your NCEP-GODAS file is downloaded, rename it "NCEP-GODAS_ocean-temp_1980-2020.nc"
 
 ## Before each run
+
 ### Preparing input directory
+
 - Create a new folder to work with cold-pulses detection
 - Add the `NCEP-GODAS_ocean-temp_1980-2020.nc` to this folder
-- Download the [`processing_TSI.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/processing_TSI.py) file and add it to the folder
-### Input files
-![alt text](https://github.com/rguilcas/cold_pulses/blob/master/Image1.png?raw=true)
-Before getting into the algorithm, you will need to prepare input files that will be used. Several (two or more) csv input files are necessary to make the algorithm work. They should fit the folowing criteria:
+- Download the [`processing_TSI.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/processing_TSI.py) file and add it to the folder (Left click on the link, then right click on the background, save as `processing_TSI.py`)
+- Create a new folder for each of the runs you would like to do. One run corresponds to one location and one temporal period. You need two files at different depths for each run to make the algorithm work.
+
+### Choosing Input files
+
+Each of your run folders should include two separate csv files: one for each depth. These files should follow:
 - The files should show data from the same location
 - The files should show data from different depth levels
-- If more than two depth levels are used, the depths should be equally spaced
-- Each file should be in two columns representing time and temperature, in this order.
+- **Each file should be in two columns representing time and temperature, in this order**.
+Note that the processing will be done on the temporal intersection between the two files. The sample frequency used will be the lowest one (if one file has a sampling rate of 30min and the other of 5 min, the processing will be done on a 30 min basis).
 
-To make the algorithm work at its best, the files should preferably:
-- not show a strong daily variability
-- not show a strong vertical stratification
-Visual inspection could be used to observe those criteria.
+### Formatting input files
 
-We suggest using depths that are multiples of 5 to create equally spaced data. Round your files to the nearest one.
-### Preparing working directory
-Once your files are ready, you should create a working directory in your computer. **All names that will be used here should not contain spaces. We suggest you only use letters, numbers and underscores.**
-Then, download the [`cold_pulse_detection.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/example_input/cold_pulse_detection.py): right click on the link and *save link as*. This is the python script that we will use to launch the algorithm from command line.
+This script works automatically if the files' names follow one rule. Each file should be named as:
 
-Put the file in the working directory you created. 
 
-Create a new folder with the name of your choice in the working directory and put your csv files in your directory. **All names that will be used here should not contain spaces. We suggest you only use letters, numbers and underscores.**
+**island_locationID_longitude_latitude_depth_.csv**.
 
-The stucture of your working directory should be:
-- `working_directory`
-  - `cold_pulse_detection.py`
-  - `new_folder`
-    - `csv_file1.csv`
-    - `csv_file2.csv`
-    - ...
 
-Open the `cold_pulse_detection.py` file in Python or in a text editor and modify the information accordingly with your `.csv` files and `new_folder` names.
+- longitude in °E
+- latitude in °N
+- depth in meters, positive down
 
-The `cold_pulse_detection.py` file is made of **four** sections, two of which should me adapted to your needs:
-- `INPUT DATA`, **should be modified**: This is where input variables such as file names and depths should be entered. 
-- `ALGORITHM PARAMETERS`, **should be modified**: This is where algorithm parameters can be changed.
-- `CREATE CONFIGURATION DATA`: This is where configuration data are created from `INPUT DATA` and `ALGORITHM PARAMETERS`;
-- `RUN ALGORITHM`: This is where the algorithm is run.
+For example, for a location North of Palmyra atoll, in the central Pacific, at 26 meters deep, the name of the file would be:
 
-Note that most of the fields should be in quotation marks as this is how string should be in Python.
 
-The `INPUT DATA` section contains:
-- `INPUT_DIR`, *quotation marks needed*: Directory where the csv files are stored. You should replace the value by the name you gave to `new_folder`.
-- `OUTPUT_NAME`, *quotation marks needed*: Name that will be used for output files. We recommend using a new name for each run.
-- `BOT`, ***True** or **False** without quotation marks*: Should be **True** if you want to detect deep pulses, **False** if not.
-- `TOP`, ***True** or **False** without quotation marks*: Should be **True** if you want to detect surface pulses, **False** if not.
-- `PREPARE_CSV`, ***True** or **False** without quotation marks*: Should be **True** if your csv files have not been prepared yet, **False** if not. This will create a NetCDF file `prepared_csv.nc` in your `new_folder`. Should be **True** for the first run with new files.
-- `FILE_NAMES`, *quotation marks needed*: Python *list* containing names of your csv files. Do not forget to add *.csv* at the end of each file name. A list should be in square braquets, with comas to separate each file name.
-```
-    FILE_NAME = ['file_name1.csv',
-    		 'file_name2.csv']
-```
-- `FILE_DEPTHS`, *no quotation mark needed*: Python *list* containing loggers depths for each of your csv files. Depths should be in the same order as the `FILE_NAME` field. For example, the following `FILE_DEPTHS` indicates that *file_name1.csv* is from a 15 meters deep logger and *file_name1.csv* is from a 25 meters deep one:
-```
-    FILE_DEPTHS = [15,
-                   25]
-```
+**palmyra_north_-162.07808_5.89682_26_.csv**
 
-- `TIME_FILE_NAME`, *quotation marks needed*: Name of the file that will be used for time interpolation. All other files will be interpolated over this file's time steps to create the NetCDF file. It needs to be one of the files in the `FILE_NAME` field. Do not forget to add *.csv* at the end of the file name. If all files have the same time, the file you chose does not matter.
 
-The `ALGORITHM PARAMETERS` section contains:
-- `FILTER_MIN_DURATION`,  ***True** or **False** without quotation marks*: If **True**, a filter on minimum pulse duration will be applied.
-- `MIN_DURATION`, *no quotation mark needed*: If `FILTER_MIN_DURATION` is **True**, this is what the minimum accepted pulse duration will be in minutes.
-- `FILTER_MAX_DURATION`,  ***True** or **False** without quotation marks*: If **True**, a filter on maximum pulse duration will be applied.
-- `MAX_DURATION`, *no quotation mark needed*: If `FILTER_MAX_DURATION` is **True**, this is what the maximum accepted pulse duration will be in minutes.
-- `FILTER_MIN_DROP`,  ***True** or **False** without quotation marks*: If **True**, a filter on minimum temperature drop will be applied.
-- `MIN_DROP`, *no quotation mark needed*: If `FILTER_MIN_DROP` is **True**, this is what the minimum accepted temperature drop will be in °C.
-- `FILTER_STSI`,  ***True** or **False** without quotation marks*: If **True**, a filter on specific TSI will be applied.
-- `AUTO_MIN_STSI`,  ***True** or **False** without quotation marks*: If `FILTER_STSI` is **True**, the minimum STSI allowed will be computed based on the rTSI instantaneous value without any input parameter.
-- `MANUAL_MIN_TSI`, *no quotation mark needed*: If `FILTER_STSI` is **True** and `AUTO_MIN_STSI` is **False**, this is what the minimum specific TSI will be in °C.m².
-- `RTSI_NUM_DAYS`, *no quotation mark needed*: Number of days that will be used to compute the rTSI baseline profile.
-- `RTSI_STRONG_EVENT`, ***True** or **False** without quotation marks*: If **True**, the rTSI will be corrected for strong event using a maximum absolute value.
-- `NUM_RIGHT_MAX`, *no quotation mark needed*: Number of minutes that define a local right maximum.
-
-**After modifying the file, save it and close the window.**
+Your directories should look like in the following figure. Note that you can name the run folders as you want, as long as **their names do 
+not include spaces**.
+![Working directory and run folders formatting](https://github.com/rguilcas/cold_pulses/blob/master/Image1.png?raw=true)
 
 ## Run the algorithm
-Once your working directory is ready and your 'cold_pulse_detection.py' is configured, you can run the algorithm. Open a command prompt and navigate to your working directory. Note that if you are using Windows and your working directory is in a different disk to the one displayed on the prompt, start by changing disk by typing the letter of your disk followed by a semi column. To navigate to your working directory, type 'cd' followed by your working directory path in the command prompt. For example:
+
+Once your working directory is ready, you can run the algorithm. Open a command prompt and navigate to your working directory. Note that if you are using Windows and your working directory is in a different disk to the one displayed on the prompt, start by changing disk by typing the letter of your disk followed by a semi column. To navigate to your working directory, type 'cd' followed by your working directory path in the command prompt. For example:
 ```
 cd C:\Users\Robin\working_directory
 ```
 
-
 Once you are in your working directory, type in the command prompt:
 ```
-python cold_pulse_detection.py
+python processing_TSI.py
 ```
 This will start the script and create output files that will be in a new folder in your input folder. 
 
 ## Outputs
-After running the algorithm, your working directory will look like:
-- `working_directory`
-  - `cold_pulse_detection.py`
-  - `new_folder`
-    - `**csv_prepared.nc**`
-    - `csv_file1.csv`
-    - `csv_file2.csv`
-    - ...
-    - `OUTPUT_NAME_pulses_out`
-      - `OUTPUT_NAME_all_data.nc`
-      - `OUTPUT_NAME_bot_stats.csv`
-      - `OUTPUT_NAME_top_stats.csv`
-      
- Note that if only one of the `TOP` or `BOT` fields was **True**, `OUTPUT_NAME_all_data.nc` is replaced by `OUTPUT_NAME_bot_data.nc` or `OUTPUT_NAME_top_data.nc` and only the relevant *.csv* file will be present.
 
-Those files contain different data:
-- `..._pulse_data.nc` are NetCDF files containing time series of different metrics:
-  - `temp` is the temperature time series in **°C**.
-  - `dch_top`, `dch_bot` and `dch` are *degree cooling hours* computed for surface, deep or the relevant type of pulse in **°C.h**.
-  - `pulse_temp_top`, `pulse_temp_bot` and `pulse_temp` are the temperature time series where every time step outside of a pulse is a **NaN**.
-- `..._pulse_stats.csv` are *.csv* files containing information on individual pulses. Fields are:
-  - `start_time` is the time step when the pulse started
-  - `duration` is the duration of the pulse in minutes
-  - `dchDEPTH1`, `dchDEPTH2`, ... are the degree cooling hours for all different depths
-  - `dropDEPTH1`, `dropDEPTH2`, ... are the maximum temperature drops for all different depths
-  - `temp_initDEPTH1`, `temp_initDEPTH2`, ... are the initial temperature for all different depths
-  - `start` and `end` are the start and end indexes of the pulse in the time series
-  
+After running the algorithm, a new output folder will be created for each run folder. Each of these output folder contain two files called `..._pulse_data.nc` and `..._pulse_stats.csv`.
+
+### pulse_data.nc
+
+This file contain instantaneous information on pulses in the studied time series. 
+Its coordinates are the following:
+- time: timestamps of the studied time series
+- depth: depths of the different input csv files
+- lon: longitude of the studied location
+- lat: latitude of the studied location
+Its variables are the following:
+- dch: Instantaneous degree cooling hours (DCH). These are computed as the difference between the instantaneous temperature at the deepest logger and the pre-pulse temperature at the deepest logger, multiplied by the time step. If there is a pulse, this is positive. If there is no pulse, this value is **NaN**
+- drops: associated temperature drops. It is conputed as the temperature drop induced by the pulse, i.e. the difference between the instantaneous temperature at the deepest logger and the pre-pulse temperature at the deepest logger.
+- min_temp: minimum associtated temperature drop with the ongoing subpulse. When there is no pulse, the value is a **NaN**
+- pulse_temp: bottom temperature data when a pulse is present, otherwise it is a **NaN**
+- temperature: all temperature data over which the processing was done.
+
+###  pulse_stats.csv
+
+This file contain various statistics on each pulse detected. A pulse is first divided into subpulses. One subpulse is defined between two local maxima. Each line of the csv file gives the following information on the subpulse:
+- pulse_id: the ID number of the pulse 
+- start_pulse: the start index of the pulse in the time series provided in the pulse_data.nc file
+- end_pulse: the end index of the pulse in the time series provided in the pulse_data.nc file
+- start_subpulse: the start index of the subpulse in the time series provided in the pulse_data.nc file
+- end_subpulse: the end index of the subpulse in the time series provided in the pulse_data.nc file
+- dch_subpulse: the cumulative Degree Cooling Hours of the subpulse
+- drop_subpulse: the maximum associated temperature drop of the subpulse
+- min_temp_subpulse: the minmum temperature reached by the subpulse
+- duration subpulse: the duration of the subpulse
+
+Information on complete pulses can be obtained by grouping data by pulse_id and then processing the columns (summing DCH or duration, getting the minimum drop or the minimum temperature,...)
+ 
 ## Acknwoledgements
 
