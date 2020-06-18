@@ -635,7 +635,7 @@ def prepare_output(darray, list_starts, list_ends):
     dataframe_starts_ends_subpulses['min_temp_subpulse'] = list_min_temp
     dataframe_starts_ends_subpulses['duration_subpulse'] = \
         dataframe_starts_ends_subpulses.end_subpulse - dataframe_starts_ends_subpulses.start_subpulse  
-    dataframe_pulses_group = dataframe_start_end_subpulses.groupby('pulse_id')
+    dataframe_pulses_group = dataframe_starts_ends_subpulses.groupby('pulse_id')
     dataframe_pulse = pd.DataFrame()
     dataframe_pulse['start_pulse'] =   dataframe_pulses_group.start_pulse.first()
     dataframe_pulse['end_pulse'] =   dataframe_pulses_group.end_pulse.first()
