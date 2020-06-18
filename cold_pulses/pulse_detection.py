@@ -572,7 +572,7 @@ def save_output(df_pulse, df_subpulse, ds_output, file_name, dir_name = None):
 
     """
     df_pulse.to_csv('%s/%s_pulse_stats_.csv'%(dir_name,file_name))
-    df_sub.to_csv('%s/%s_subpulse_stats_.csv'%(dir_name,file_name))
+    df_subpulse.to_csv('%s/%s_subpulse_stats_.csv'%(dir_name,file_name))
     ds_output.to_netcdf('%s/%s_pulse_series_.nc'%(dir_name,file_name))
 
 
