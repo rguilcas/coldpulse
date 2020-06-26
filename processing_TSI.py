@@ -13,8 +13,10 @@ if 'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dirs:
     print('NCEP-GODAS climatology file, please download it first.')
     print('If you have downloaded it, move it to the current working directory.')
     print("If it is in the current directory, rename it it 'NCEP-GODAS_ocean-temp_1980-2020.nc'")
+
 else:    
     list_dirs.remove('processing_TSI.py')
+    list_dirs.remove('run_TSI.py')
     list_dirs.remove('NCEP-GODAS_ocean-temp_1980-2020.nc')
 
     for dir_name in list_dirs:
