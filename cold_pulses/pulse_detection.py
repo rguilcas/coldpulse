@@ -69,7 +69,11 @@ def prepare_darray(input_dir,auto_in=False):
     if auto_in:
         #Name format = Island_locationID_lon_lat_depth_.csv
         data = input_dir.split('_')
-        list_files = os.listdir(input_dir)
+        first_list_files = os.listdir(input_dir)
+        list_files = []
+        for file in first_list_files:
+            if file[0]!='.':
+                list_files.append(file)
         depths = dict()
         for file in list_files:
             data = file.split('_')
