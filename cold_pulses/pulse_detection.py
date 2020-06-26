@@ -14,7 +14,7 @@ from scipy.signal import argrelmax
 # =============================================================================
 # Main functions
 # =============================================================================
-def upwelling_cold_pulses_detection(input_dir,auto_in=False,ignore_double=False):
+def upwelling_cold_pulses_detection(input_dir,auto_in=True,ignore_double=False):
     process = True
     list_dir= os.listdir()
     if'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dir:
@@ -116,7 +116,10 @@ def prepare_darray(input_dir,auto_in=False):
     potential_starts = []
     potential_ends = []
     potential_dt = []
+    list_darray2 = []
     for darray in list_darray:
+        list_darray2.append(darray.sortby('time',ascending=True))
+    for darray in list_darray2:
         potential_starts.append(darray.time.values[0])
         potential_ends.append(darray.time.values[-1])
         potential_dt.append(darray.time.diff('time').values[0].astype('timedelta64[s]').astype(int))
@@ -125,7 +128,7 @@ def prepare_darray(input_dir,auto_in=False):
     dt = max(potential_dt)
     new_time =pd.date_range(start=start,end=end,freq='%ss'%dt)
     interp_darrays = []
-    for darray in list_darray:
+    for darray in list_darray2:
         interp_darrays.append(darray.interp(time=new_time))
     darray_final = xr.concat(interp_darrays,dim = 'depth')
     darray_final['lon'] = lon
