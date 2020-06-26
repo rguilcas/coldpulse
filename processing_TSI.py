@@ -14,7 +14,7 @@ if 'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dirs:
     print('If you have downloaded it, move it to the current working directory.')
     print("If it is in the current directory, rename it it 'NCEP-GODAS_ocean-temp_1980-2020.nc'")
 
-else:    
+elif 'NCEP-GODAS_ocean-temp_1980-2020.nc' in list_dirs:
     list_dirs.remove('processing_TSI.py')
     list_dirs.remove('run_TSI.py')
     list_dirs.remove('NCEP-GODAS_ocean-temp_1980-2020.nc')
