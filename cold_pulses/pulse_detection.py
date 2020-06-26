@@ -263,6 +263,7 @@ def make_tsi_threshold_from_climatology(darray, lon, lat):
         godas_ocean_temp = xr.open_dataarray('NCEP-GODAS_ocean-temp_1980-2020.nc')
     except:
         godas_ocean_temp = xr.open_dataarray('NCEP-GODAS_ocean-temp_1980-2020.nc').pottmp
+        godas_ocean_temp['time'] = pd.date_range('1980-01',freq='m',periods=godas_ocean_temp.time.size)
     
     local_temp = godas_ocean_temp.sel(lon=lon,lat=lat,method='nearest').interp(depth=darray.depth)
     phi = compute_temperature_stratification_index(local_temp)
