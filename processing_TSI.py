@@ -16,7 +16,6 @@ if 'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dirs:
 
 elif 'NCEP-GODAS_ocean-temp_1980-2020.nc' in list_dirs:
     list_dirs.remove('processing_TSI.py')
-    list_dirs.remove('run_TSI.py')
     list_dirs.remove('NCEP-GODAS_ocean-temp_1980-2020.nc')
 
     for dir_name in list_dirs:
