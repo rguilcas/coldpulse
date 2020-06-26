@@ -13,13 +13,12 @@ if 'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dirs:
     print('NCEP-GODAS climatology file, please download it first.')
     print('If you have downloaded it, move it to the current working directory.')
     print("If it is in the current directory, rename it it 'NCEP-GODAS_ocean-temp_1980-2020.nc'")
-    return
-    
-    
-list_dirs.remove('run_TSI.py')
-list_dirs.remove('NCEP-GODAS_ocean-temp_1980-2020.nc')
+   
+else:
+    list_dirs.remove('run_TSI.py')
+    list_dirs.remove('NCEP-GODAS_ocean-temp_1980-2020.nc')
 
-for dir_name in list_dirs:
-    if dir_name[-3:]!='out':
-        print(dir_name)
-        detect.upwelling_cold_pulses_detection(dir_name,auto_in=True,ignore_double=True)
+    for dir_name in list_dirs:
+        if dir_name[-3:]!='out':
+            print(dir_name)
+            detect.upwelling_cold_pulses_detection(dir_name,auto_in=True,ignore_double=True)
