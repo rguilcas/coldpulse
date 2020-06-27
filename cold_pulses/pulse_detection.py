@@ -118,7 +118,8 @@ def prepare_darray(input_dir,auto_in=False):
     potential_dt = []
     list_darray2 = []
     for darray in list_darray:
-        list_darray2.append(darray.sortby('time',ascending=True))
+        new_darray = darray.groupby('time').first()
+        list_darray2.append(new_darray.sortby('time',ascending=True))
     for darray in list_darray2:
         potential_starts.append(darray.time.values[0])
         potential_ends.append(darray.time.values[-1])
