@@ -654,13 +654,14 @@ def prepare_output(darray, list_starts, list_ends):
     dataframe_pulses_group = dataframe_starts_ends_subpulses.groupby('pulse_id')
     dataframe_pulse = pd.DataFrame()
     dataframe_pulse['start_pulse'] =   dataframe_pulses_group.start_pulse.first()
+    dataframe_pulse['start_time'] = bottom_temperature.time.values[dataframe_pulse['start_pulse']]
     dataframe_pulse['end_pulse'] =   dataframe_pulses_group.end_pulse.first()
+    dataframe_pulse['end_time'] = bottom_temperature.time.values[dataframe_pulse['end_pulse']]
     dataframe_pulse['number_subpulses'] =   dataframe_pulses_group.start_pulse.count()
     dataframe_pulse['dch_pulse'] =   dataframe_pulses_group.dch_subpulse.sum()
     dataframe_pulse['drop_pulse'] =   dataframe_pulses_group.drop_subpulse.min()
     dataframe_pulse['min_temp_pulse'] =   dataframe_pulses_group.min_temp_subpulse.min()
     dataframe_pulse['duration_pulse'] =   (dataframe_pulse.end_pulse-dataframe_pulse.start_pulse)*dt
-    
     dch_darray = xr.DataArray(dch_series,
                               dims = ['time'],
                               coords = dict(time=bottom_temperature.time))
