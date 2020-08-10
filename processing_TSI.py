@@ -19,9 +19,7 @@ else:
     list_dirs.remove('NCEP-GODAS_ocean-temp_1980-2020.nc')
 
     for dir_name in list_dirs:
-        if dir_name[-3:]!='out' and dir_name[0] != '.':
-            try:
-                print(dir_name)
-                detect.upwelling_cold_pulses_detection(dir_name,auto_in=True,ignore_double=True)
-            except:
-                pass
+        if dir_name[-3:]!='out' and dir_name[0] != '.' and dir_name!='desktop.ini':
+            print(dir_name)
+            detect.upwelling_cold_pulses_detection(dir_name,auto_in=True,ignore_double=True)
+            
