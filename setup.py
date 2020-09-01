@@ -5,7 +5,7 @@ Created on Wed Feb 19 16:38:25 2020
 @author: Robin
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -20,7 +20,7 @@ setup(
     long_description_content_type="text/markdown",
     install_requires=['numpy','xarray','pandas'],
     url="https://github.com/rguilcas/cold_pulses",
-    package_data={'': ['filesNCEP-GODAS_ocean-temp_1980-2020.nc']},
+    package_data={'': ['files/NCEP-GODAS_ocean-temp_1980-2020']},
     include_package_data=True,
     packages=setuptools.find_packages(),
     classifiers=[
