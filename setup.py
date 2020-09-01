@@ -20,6 +20,8 @@ setup(
     long_description_content_type="text/markdown",
     install_requires=['numpy','xarray','pandas'],
     url="https://github.com/rguilcas/cold_pulses",
+    package_data={'': ['filesNCEP-GODAS_ocean-temp_1980-2020.nc']},
+    include_package_data=True,
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
