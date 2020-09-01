@@ -14,7 +14,7 @@ from scipy.signal import argrelmax
 def test():
     import pkg_resources
 
-    path = 'files/NCEP-GODAS_ocean-temp_1980-2020.nc'  # always use slash
+    path = 'files/NCEP-GODAS_ocean-temp_1980-2020'  # always use slash
     filepath = pkg_resources.resource_filename(__name__, path)
     ds = xr.open_dataarray(filepath)
     ds.min('depth').plot()
