@@ -10,13 +10,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 from scipy.signal import argrelmax
-import pkg_resources
 
-def test():
-    path = 'files/NCEP-GODAS_ocean-temp_1980-2020'  # always use slash
-    filepath = pkg_resources.resource_filename(__name__, path)
-    ds = xr.open_dataarray(filepath)
-    ds.min('level').plot()
 # =============================================================================
 # Main functions
 # =============================================================================
