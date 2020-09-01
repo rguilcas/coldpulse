@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 from scipy.signal import argrelmax
-import pkgutil
+import pkg_resources
 
 def test():
     path = 'files/NCEP-GODAS_ocean-temp_1980-2020.nc'  # always use slash
