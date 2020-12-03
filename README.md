@@ -22,7 +22,7 @@ pip install https://github.com/rguilcas/cold_pulses/zipball/master
 ```
 ### Downloading NCEP-GODAS climatological data
 
-You can download NCEP-GODAS data that suit your location using [this link](https://psl.noaa.gov/cgi-bin/DataAccess.pl?DB_dataset=NCEP+GODAS&DB_variable=potential+temperature&DB_statistic=Monthly+Mean&DB_tid=84088&DB_did=98&DB_vid=1913). Download data as a NETCDF (.nc) format from 1980 to 2020 to get a climatology of the temperature at the location studied. Note that you should include AT LEAST all depth values between your shallowest and deepest logger, including those loggers' depths. For example, if your loggers are at depthranging from 7 to 56, download data for 5, 15, 25, 35, 45, 55 and 65 m deep. We advise you to download slightly more than what you think you need. Once your NCEP-GODAS file is downloaded, rename it "NCEP-GODAS_ocean-temp_1980-2020.nc"
+You can download NCEP-GODAS data that suit your location using [this link](https://psl.noaa.gov/cgi-bin/db_search/DBSearch.pl?Dataset=NCEP+GODAS&Variable=potential+temperature&group=0&submit=Search). Download data as a NETCDF (.nc) format from 1980 to 2020 to get a climatology of the temperature at the location studied. Note that you should include AT LEAST all depth values between your shallowest and deepest logger, including those loggers' depths. For example, if your loggers are at depthranging from 7 to 56, download data for 5, 15, 25, 35, 45, 55 and 65 m deep. We advise you to download slightly more than what you think you need. Once your NCEP-GODAS file is downloaded, rename it "NCEP-GODAS_ocean-temp_1980-2020.nc"
 
 ## Before each run
 
