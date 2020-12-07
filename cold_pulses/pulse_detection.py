@@ -14,7 +14,7 @@ from scipy.signal import argrelmax
 # =============================================================================
 # Main functions
 # =============================================================================
-def upwelling_cold_pulses_detection(input_dir,auto_in=True,ignore_double=False):
+def upwelling_cold_pulses_detection(input_dir,auto_in=True,ignore_double=False, manual_threshold=None):
     process = True
     list_dir= os.listdir()
     if'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dir:
@@ -42,7 +42,7 @@ def upwelling_cold_pulses_detection(input_dir,auto_in=True,ignore_double=False):
         if type(darray) != bool:
             lon = darray.lon
             lat = darray.lat
-            df_output,ds_output,df_sub = get_output(darray, lon, lat)
+            df_output,ds_output,df_sub = get_output(darray, lon, lat, manual_threshold = manual_threshold)
             save_output(df_output,df_sub,ds_output,input_dir,dir_name='%s_TSI_out'%input_dir)
 # =============================================================================
 # =============================================================================
@@ -183,7 +183,7 @@ def csv_to_darray(input_dir, file_name, depth):
 # =============================================================================
 # =============================================================================
 
-def pulses_detection(darray, lon, lat):
+def pulses_detection(darray, lon, lat, manual_threshold=None):
     """
     Detects upweling-induced cold-pulses in a xarray DataArray at the longitude
     lon and the latitude lat.
@@ -196,6 +196,8 @@ def pulses_detection(darray, lon, lat):
         Longitude of the location studied.
     lat : float
         Latitude of the location studied.
+    manual_threshold: float
+        Manual TSI threshold taht can be computed from local climatology
 
     Returns
     -------
@@ -210,7 +212,10 @@ def pulses_detection(darray, lon, lat):
         lon += 360
     sys.stdout.write('\r'+'Computing TSI threshold ...')
     sys.stdout.flush()
-    tsi_threshold = make_tsi_threshold_from_climatology(darray, lon, lat)
+    if manual_threshold == None:
+        tsi_threshold = make_tsi_threshold_from_climatology(darray, lon, lat)
+    else:
+        tsi_threshold = manual_threshold
     sys.stdout.write("\r+'                                                   ")
     sys.stdout.write('\r'+'Getting initial start and end indexes ...')
     list_starts, list_ends = \
