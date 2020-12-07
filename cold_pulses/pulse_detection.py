@@ -545,7 +545,7 @@ def shift_ends(list_ends, darray, phi,
 # =============================================================================
 # =============================================================================
 
-def get_output(darray, lon, lat):
+def get_output(darray, lon, lat, manual_threshold=None):
     """
     Generates output from te TSI method
 
@@ -557,7 +557,8 @@ def get_output(darray, lon, lat):
         Longitude of the location studied.
     lat : Float
         Latitude of the location studied
-
+    manual_threshold : Float
+        manual TSI threshold that can be computed from local climatology
     Returns
     -------
     df_output : pandas DataFrame
@@ -567,7 +568,7 @@ def get_output(darray, lon, lat):
 
 
     """
-    list_starts, list_ends = pulses_detection(darray, lon, lat)
+    list_starts, list_ends = pulses_detection(darray, lon, lat, manual_threshold=manual_threshold)
     df_output_sub, ds_output,df_output = prepare_output(darray, list_starts, list_ends) 
     return df_output_sub, ds_output, df_output
     
