@@ -277,7 +277,10 @@ def make_tsi_threshold_from_climatology(darray, lon, lat):
         godas_ocean_temp = godas_ocean_temp.rename(level='depth')
         
     
-    local_temp = godas_ocean_temp.sel(lon=lon,lat=lat,method='nearest').interp(depth=darray.depth)
+    if depth in darray.dims:
+        local_temp = godas_ocean_temp.sel(lon=lon,lat=lat,method='nearest').interp(depth=darray.depth)
+    elif level in darray.dims:
+        local_temp = godas_ocean_temp.sel(lon=lon,lat=lat,method='nearest').interp(depth=darray.depth)        
     phi = compute_temperature_stratification_index(local_temp)
     threshold = (phi.mean()-phi.std()).values
     if np.isnan(threshold):
