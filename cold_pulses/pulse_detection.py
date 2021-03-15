@@ -90,7 +90,7 @@ def prepare_darray(input_dir,auto_in=False):
             print('Get your csv files ready !')
             return False
         list_files = os.listdir(input_dir)
-        test_string = '%d files found in the %s directory. Is that correct? (y/n)\n'%(len(list_files),input_dir)
+        test_string = '%d files found in the %s directory. Is that correct? (y/n)\n')
         for file in list_files:
             test_string+='%s\n'%file
         test = input(test_string)
