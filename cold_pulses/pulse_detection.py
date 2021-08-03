@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 from scipy.signal import argrelmax
+from tqdm import tqdm
 
 # =============================================================================
 # Main functions
@@ -247,6 +248,60 @@ def pulses_detection(darray, lon, lat, manual_threshold=None):
 # =============================================================================
 # Detection side functions
 # =============================================================================
+def extract_data_online_godas(lon, lat):
+    """
+    Download the required GODAS data to get the 40 year temperature climatology.
+    Saves the data as a .nc file following:
+        NCEP-GODAS_potential-temperature_extract_[lon]-[lat].nc
+
+    Parameters
+    ----------
+    lon : float
+        Longitude of the location studied
+    lat : float
+        Latitude of the location studied
+
+    Returns
+    -------
+    file_name : string
+        Name of the extracted godas climatology data 
+    """
+
+    grid_data_url = 'https://psl.noaa.gov/thredds/dodsC/Datasets/godas/dbss_obil.1980.nc'
+    try:
+        grid_data = xr.open_dataset(grid_data_url)
+    except:
+        sys.exit('There probably is a network error. Access to the internet is required.')
+    grid_data_extract = grid_data.sel(lon=lon,
+                                      lat=lat, 
+                                      method='nearest')
+    lon_godas = grid_data_extract.lon.values
+    lat_godas = grid_data_extract.lat.values
+    
+    file_name = "NCEP-GODAS_potential-temperature_extract_%.01f-%.01f.nc"%(lon_godas, lat_godas)
+    if not file_name in os.listdir():
+        print("Downloading climatology data...")
+        chunks = dict(lon=50,
+                lat=50,
+                time=12,
+                level=5)
+
+        all_monthly_godas_extract = []
+        year_climatology = range(1980, 2020)
+        for year in tqdm(year_climatology):
+            monthly_godas = xr.open_dataset('https://psl.noaa.gov/thredds/dodsC/Datasets/godas/pottmp.%s.nc'%year,
+                                            chunks=chunks)
+            all_monthly_godas_extract.append(monthly_godas.sel(lon=lon_godas,
+                                                            lat=lat_godas,
+                                                            method='nearest'))
+        full_godas_extract = xr.concat(all_monthly_godas_extract, dim='time')
+        full_godas_extract = full_godas_extract.rename(level='depth')
+        full_godas_extract['pottmp'] = full_godas_extract.pottmp - 273.15
+        full_godas_extract.to_netcdf(file_name)
+    else:
+        print("Data already downloaded")
+    return file_name
+    
 
 
 def make_tsi_threshold_from_climatology(darray, lon, lat):
@@ -268,19 +323,9 @@ def make_tsi_threshold_from_climatology(darray, lon, lat):
         TSI threshold computed from NCEP-GODAS climatology
 
     """
-    try:
-        godas_ocean_temp = xr.open_dataarray('NCEP-GODAS_ocean-temp_1980-2020.nc')
-    except:
-        godas_ocean_temp = xr.open_dataset('NCEP-GODAS_ocean-temp_1980-2020.nc').pottmp
-        godas_ocean_temp['time'] = pd.date_range('1980-01',freq='m',periods=godas_ocean_temp.time.size)
-        godas_ocean_temp -= 273.15
-        godas_ocean_temp = godas_ocean_temp.rename(level='depth')
-        
-    
-    if 'depth' in darray.dims:
-        local_temp = godas_ocean_temp.sel(lon=lon,lat=lat,method='nearest').interp(depth=darray.depth)
-    elif 'level' in darray.dims:
-        local_temp = godas_ocean_temp.sel(lon=lon,lat=lat,method='nearest').interp(depth=darray.depth)        
+    godas_data_file_name = extract_data_online_godas(lon, lat)
+    godas_ocean_temp = xr.open_dataarray(godas_data_file_name).pottmp    
+    local_temp = godas_ocean_temp.interp(depth=darray.depth)      
     phi = compute_temperature_stratification_index(local_temp)
     threshold = (phi.mean()-phi.std()).values
     if np.isnan(threshold):
