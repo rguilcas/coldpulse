@@ -1,4 +1,4 @@
-# cold_pulses
+# coldpulse python package
 # Detection of cold water intrusion in a weakly-stratified environment.
 *Robin Guillaume-Castel - 2020*
 
@@ -18,18 +18,14 @@ Before anything, you need to install Python on your machine. We suggest downladi
 
 Once python is installed, open a command prompt window, and install the `cold_pulse` package by typing: 
 ```
-pip install https://github.com/rguilcas/cold_pulses/zipball/master
+pip install https://github.com/rguilcas/coldpulse/zipball/master
 ```
-### Downloading NCEP-GODAS climatological data
-
-You can download NCEP-GODAS data that suit your location using [this link](https://psl.noaa.gov/cgi-bin/db_search/DBSearch.pl?Dataset=NCEP+GODAS&Variable=potential+temperature&group=0&submit=Search). Download data as a NETCDF (.nc) format from 1980 to 2020 to get a climatology of the temperature at the location studied. Note that you should include AT LEAST all depth values between your shallowest and deepest logger, including those loggers' depths. For example, if your loggers are at depthranging from 7 to 56, download data for 5, 15, 25, 35, 45, 55 and 65 m deep. We advise you to download slightly more than what you think you need. Once your NCEP-GODAS file is downloaded, rename it "NCEP-GODAS_ocean-temp_1980-2020.nc"
-
 ## Before each run
 
 ### Preparing input directory
 
 - Create a new folder to work with cold-pulses detection
-- Add the `NCEP-GODAS_ocean-temp_1980-2020.nc` to this folder
+- 
 - Download the [`processing_TSI.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/processing_TSI.py) file and add it to the folder (Left click on the link, then right click on the background, save as `processing_TSI.py`)
 - Create a new folder for each of the runs you would like to do. One run corresponds to one location and one temporal period. You need two files at different depths for each run to make the algorithm work.
 
