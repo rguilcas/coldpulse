@@ -18,11 +18,6 @@ from tqdm import tqdm
 def upwelling_cold_pulses_detection(input_dir,auto_in=True,ignore_double=False, manual_threshold=None):
     process = True
     list_dir= os.listdir()
-    if'NCEP-GODAS_ocean-temp_1980-2020.nc' not in list_dir:
-        print('NCEP-GODAS Climatology file could not be found.')
-        print('Please move it to the input directory \"%s\" or download it from'%os.getcwd())
-        print('Once downloaded, rename it \"NCEP-GODAS_ocean-temp_1980-2020.nc\" and move it to the input directory')
-        return
     if '%s_TSI_out'%input_dir in list_dir and not auto_in:
         test = input('%s has already been used by the algorithm.\n'%input_dir+\
                      'This will erase previous data in the output folder.\n'+\
@@ -297,6 +292,9 @@ def extract_data_online_godas(lon, lat):
         full_godas_extract = xr.concat(all_monthly_godas_extract, dim='time')
         full_godas_extract = full_godas_extract.rename(level='depth')
         full_godas_extract['pottmp'] = full_godas_extract.pottmp - 273.15
+        if np.isnan(full_godas_extract.pottmp.max()):
+            sys.exit('This location is not available with the godas dataset, you should use a custom threshold\
+                        or choose a location closer to open sea.')
         full_godas_extract.to_netcdf(file_name)
     else:
         print("Data already downloaded")
