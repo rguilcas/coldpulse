@@ -18,7 +18,6 @@ def read_godas_grid():
     dataarray : xarray dataarray
         Grid coordinates of NCEP-GODAS as a dataarray
     """
-    print('WowW')
     stream = pkg_resources.resource_stream(__name__, "data/godas_grid_level.nc")
     dataarray = xr.open_dataarray(stream)
     return dataarray
@@ -83,7 +82,7 @@ def extract_data_online_godas(lon, lat, max_depth):
                                                                          nearest_latitude,
                                                                          max_depth)
     if not file_name in os.listdir():
-        print("Downloading climatology data...")
+        print("Downloading climatology data, this may take some time...")
         chunks = dict(lon=50,
                       lat=50,
                       time=12,
@@ -105,8 +104,6 @@ def extract_data_online_godas(lon, lat, max_depth):
         print("Data already downloaded")
     return file_name
     
-
-
 def make_tsi_threshold_from_climatology(darray, lon, lat):
     """
     Compute TSI threshold using NCEP-GODAS, 40 year cimatological mean and std
@@ -126,13 +123,12 @@ def make_tsi_threshold_from_climatology(darray, lon, lat):
         TSI threshold computed from NCEP-GODAS climatology
 
     """
-    godas_data_file_name = extract_data_online_godas(lon, lat)
+    max_depth = darray.depth.max().values
+    longitude = darray.longitude.values
+    latitude = darray.latitude.values
+    godas_data_file_name = extract_data_online_godas(longitude, latitude, max_depth)
     godas_ocean_temp = xr.open_dataarray(godas_data_file_name).pottmp    
     local_temp = godas_ocean_temp.interp(depth=darray.depth)      
     phi = compute_temperature_stratification_index(local_temp)
     threshold = (phi.mean()-phi.std()).values
-    if np.isnan(threshold):
-        local_temp = godas_ocean_temp.interp(depth=darray.depth).interpolate_na('lon',method='nearest').sel(lon=lon,lat=lat,method='nearest')
-        phi = compute_temperature_stratification_index(local_temp)
-        threshold = (phi.mean()-phi.std()).values
     return threshold
