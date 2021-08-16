@@ -2,7 +2,7 @@ import os
 import xarray as xr
 from tqdm import tqdm
 from haversine import haversine
-from .processing import compute_temperature_stratification_index
+from .detection import compute_temperature_stratification_index
 import pkg_resources
 
 def read_godas_grid():
