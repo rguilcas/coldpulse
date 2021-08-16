@@ -2,8 +2,24 @@ import os
 import xarray as xr
 from tqdm import tqdm
 from haversine import haversine
-from .detection import compute_temperature_stratification_index
 import pkg_resources
+
+
+def compute_temperature_stratification_index(darray):
+    """
+    Computes the temperature stratification index of a temperature time series
+    
+    Parameters
+    ----------
+    darray : xarray DataArray
+        Represents temperature data
+    
+    Returns
+    -------
+    phi : xarray DataArray
+        Represent the temperature stratification index
+    """
+    return ((darray-darray.mean('depth'))*darray.depth).mean('depth')
 
 def read_godas_grid():
     """
