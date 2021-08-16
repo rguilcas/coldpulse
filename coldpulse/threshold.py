@@ -19,7 +19,7 @@ def read_godas_grid():
         Grid coordinates of NCEP-GODAS as a dataarray
     """
     print('WowW')
-    stream = pkg_resources.resource_stream(__name__, "godas_grid_level.nc")
+    stream = pkg_resources.resource_stream(__name__, "data/godas_grid_level.nc")
     dataarray = xr.open_dataarray(stream)
     return dataarray
 
