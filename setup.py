@@ -24,6 +24,7 @@ setup(
                       'haversine'],
     url="https://github.com/rguilcas/coldpulses",
     include_package_data=True,
+    package_data={'': ['data/*.nc']},
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
