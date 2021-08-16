@@ -58,7 +58,7 @@ def find_nearest_nonnan_neigbour(longitude, latitude, max_depth):
         print( "The nearest GODAS gridpoint is %.01fkm away"%minimal_distance)
     return nearest_longitude[0], nearest_latitude[0]
 
-def extract_data_online_godas(lon, lat, max_depth):
+def extract_data_online_godas(lon, lat, max_depth, input_dir):
     """
     Download the required GODAS data to get the 40 year temperature climatology.
     Saves the data as a .nc file following:
@@ -81,7 +81,7 @@ def extract_data_online_godas(lon, lat, max_depth):
     file_name = "NCEP-GODAS_potential-temperature_%.01fE_%.01fN_%dm.nc"%(nearest_longitude,
                                                                          nearest_latitude,
                                                                          max_depth)
-    if not file_name in os.listdir():
+    if not file_name in os.listdir(input_dir):
         print("Downloading climatology data, this may take some time...")
         chunks = dict(lon=50,
                       lat=50,
@@ -99,7 +99,7 @@ def extract_data_online_godas(lon, lat, max_depth):
         full_godas_extract = xr.concat(all_monthly_godas_extract, dim='time')
         full_godas_extract = full_godas_extract.rename(level='depth')
         full_godas_extract['pottmp'] = full_godas_extract.pottmp - 273.15
-        full_godas_extract.pottmp.to_dataset().to_netcdf(file_name)
+        full_godas_extract.pottmp.to_dataset().to_netcdf('%s/%s'%input_dir/file_name)
     else:
         print("Data already downloaded")
     return file_name
