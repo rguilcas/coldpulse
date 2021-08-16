@@ -104,7 +104,7 @@ def extract_data_online_godas(lon, lat, max_depth):
         print("Data already downloaded")
     return file_name
     
-def make_tsi_threshold_from_climatology(darray, lon, lat):
+def make_tsi_threshold_from_climatology(darray):
     """
     Compute TSI threshold using NCEP-GODAS, 40 year cimatological mean and std
 
