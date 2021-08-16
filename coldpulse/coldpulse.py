@@ -21,7 +21,7 @@ def upwelling_cold_pulses_detection(input_dir, ignore_double=True):
         os.mkdir('%s_TSI_out'%input_dir)
     if process:
         darray = prepare_darray(input_dir)
-        df_output, ds_output, df_output_sub = get_output(darray)
+        df_output, ds_output, df_output_sub = get_output(darray, input_dir)
         save_output(df_output, 
                     df_output_sub,
                     ds_output,

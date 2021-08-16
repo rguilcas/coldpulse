@@ -5,7 +5,7 @@ import pandas as pd
 from scipy.signal import argrelmax
 from .detection import pulses_detection
 
-def get_output(darray):
+def get_output(darray, input_dir):
     """
     Generates output from te TSI method
 
@@ -28,7 +28,7 @@ def get_output(darray):
 
 
     """
-    list_starts, list_ends = pulses_detection(darray)
+    list_starts, list_ends = pulses_detection(darray, input_dir)
     df_output_sub, ds_output,df_output = prepare_output(darray, list_starts, list_ends) 
     return df_output_sub, ds_output, df_output
     
