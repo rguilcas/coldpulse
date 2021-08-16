@@ -75,8 +75,12 @@ def prepare_darray(input_dir):
     complete_dataarray = xr.concat(interpolated_dataarray_list,
                                    dim = 'depth')
     complete_dataarray['locationID'] = location_id
-    complete_dataarray['longitude'] = float(longitude)
-    complete_dataarray['latitude'] = float(latitude)
+    latitude = float(latitude)
+    longitude = float(longitude)
+    if longitude < 0:
+        longitude += 360
+    complete_dataarray['longitude'] = longitude
+    complete_dataarray['latitude'] = latitude
     
     return complete_dataarray
 

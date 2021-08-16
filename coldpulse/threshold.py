@@ -127,7 +127,7 @@ def make_tsi_threshold_from_climatology(darray):
     longitude = darray.longitude.values
     latitude = darray.latitude.values
     godas_data_file_name = extract_data_online_godas(longitude, latitude, max_depth)
-    godas_ocean_temp = xr.open_dataarray(godas_data_file_name).pottmp    
+    godas_ocean_temp = xr.open_dataarray(godas_data_file_name)
     local_temp = godas_ocean_temp.interp(depth=darray.depth)      
     phi = compute_temperature_stratification_index(local_temp)
     threshold = (phi.mean()-phi.std()).values
