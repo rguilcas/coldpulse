@@ -1,8 +1,4 @@
-import pkgutil
-import io
-import sys
 import os
-import numpy as np
 import xarray as xr
 from tqdm import tqdm
 from haversine import haversine
