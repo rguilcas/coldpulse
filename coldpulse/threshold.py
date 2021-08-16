@@ -99,7 +99,7 @@ def extract_data_online_godas(lon, lat, max_depth, input_dir):
         full_godas_extract = xr.concat(all_monthly_godas_extract, dim='time')
         full_godas_extract = full_godas_extract.rename(level='depth')
         full_godas_extract['pottmp'] = full_godas_extract.pottmp - 273.15
-        full_godas_extract.pottmp.to_dataset().to_netcdf('%s/%s'%input_dir/file_name)
+        full_godas_extract.pottmp.to_dataset().to_netcdf('%s/%s'%(input_dir,file_name))
     else:
         print("Data already downloaded")
     return file_name
