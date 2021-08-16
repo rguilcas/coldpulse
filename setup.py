@@ -11,8 +11,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-   	name="coldpulses",
-    version="0.3.1",
+   	name="coldpulse",
+    version="0.4.0",
     author="Robin Guillaume-Castel",
     author_email="r.guilcas@outlook.com",
     description="Cold pulse detection",
