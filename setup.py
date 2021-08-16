@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setup(
    	name="coldpulse",
-    version="0.5.0",
+    version="0.5.1",
     author="Robin Guillaume-Castel",
     author_email="r.guilcas@outlook.com",
     description="Cold pulse detection",
