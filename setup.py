@@ -11,18 +11,20 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-   	name="cold_pulses",
-    version="0.3.0",
+   	name="coldpulses",
+    version="0.3.1",
     author="Robin Guillaume-Castel",
     author_email="r.guilcas@outlook.com",
     description="Cold pulse detection",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=['numpy','xarray','pandas','pydap','dask','netcdf','tqdm','scipy'],
-    url="https://github.com/rguilcas/cold_pulses",
-    #package_data={'': ['files/NCEP-GODAS_ocean-temp_1980-2020']},
+    install_requires=['numpy', 'scipy', 'xarray', 
+                      'pandas', 'netcdf4', 'pydap', 
+                      'dask', 'tqdm', 'h5netcdf',
+                      'haversine'],
+    url="https://github.com/rguilcas/coldpulses",
     include_package_data=True,
-    packages=setuptools.find_packages(),
+    packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
