@@ -1,10 +1,14 @@
 # Quantifying upwelling in tropical shallow waters
 ## A novel method using a temperature stratification index
 *Published in L&O Methods - 2021* - [Link](https://aslopubs.onlinelibrary.wiley.com/doi/abs/10.1002/lom3.10449)
+
 **Robin Guillaume-Castel, Gareth J. Williams, Justin S. Rogers, Jamison M. Gove, J.A. Mattias Green**
+
 *Contact : r.guilcas@outlook.com*
  
 This package allows you to accurateley detect individual cold pulses events in a time series over several depths.
+
+Details on the method can be found in the paper.
 
 ## Before the first run
 ### Preparing your Python environment
@@ -44,7 +48,7 @@ Note that the processing will be done on the temporal intersection between the t
 Before running the script, you should make sure the files follow a specific formating:
 
 ```
-**locationID_longitude_latitude_depth_.csv**.
+locationID_longitude_latitude_depth_.csv
 ```
 **Don't forget the underscore before .csv**
 
