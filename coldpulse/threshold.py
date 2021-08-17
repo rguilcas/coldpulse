@@ -101,7 +101,7 @@ def extract_data_online_godas(lon, lat, max_depth, input_dir):
                       level=5)
 
         all_monthly_godas_extract = []
-        year_climatology = range(1980, 1990)
+        year_climatology = range(1980, 2020)
         for year in tqdm(year_climatology):
             monthly_godas = xr.open_dataset('https://psl.noaa.gov/thredds/dodsC/Datasets/godas/pottmp.%s.nc'%year,
                                             chunks=chunks)
