@@ -1,10 +1,9 @@
-# coldpulse python package
-# Detection of cold water intrusion in a weakly-stratified environment.
-*Robin Guillaume-Castel - 2020*
-
+# Quantifying upwelling in tropical shallow waters
+## A novel method using a temperature stratification index
+*Published in L&O Methods - 2021* - [Link](https://aslopubs.onlinelibrary.wiley.com/doi/abs/10.1002/lom3.10449)
+**Robin Guillaume-Castel, Gareth J. Williams, Justin S. Rogers, Jamison M. Gove, J.A. Mattias Green**
 *Contact : r.guilcas@outlook.com*
  
-
 This package allows you to accurateley detect individual cold pulses events in a time series over several depths.
 
 ## Before the first run
@@ -12,11 +11,11 @@ This package allows you to accurateley detect individual cold pulses events in a
 
 ***If Python is already installed on your machine and is ready to use from command line, skip this step***
 
-Before anything, you need to install Python on your machine. We suggest downlading the [Anaconda environment] ( https://www.anaconda.com/). If you are using Windows, make sure to tick the box `Add anaconda to your PATH` when installing it. If you are using Mac, this should be automatic.
+Before anything, you need to install Python on your machine. We suggest downlading the [Anaconda environment] (https://docs.anaconda.com/anaconda/install/index.html).
 
 ### Donwloading the `cold_pulses` package
 
-Once python is installed, open a command prompt window, and install the `cold_pulse` package by typing: 
+Once python is installed, open a command prompt window, and install the `coldpulse` package by typing: 
 ```
 pip install https://github.com/rguilcas/coldpulse/zipball/master
 ```
@@ -25,10 +24,13 @@ pip install https://github.com/rguilcas/coldpulse/zipball/master
 ### Preparing input directory
 
 - Create a new folder to work with cold-pulses detection
-- 
-- Download the [`processing_TSI.py`](https://raw.githubusercontent.com/rguilcas/cold_pulses/master/processing_TSI.py) file and add it to the folder (Left click on the link, then right click on the background, save as `processing_TSI.py`)
-- Create a new folder for each of the runs you would like to do. One run corresponds to one location and one temporal period. You need two files at different depths for each run to make the algorithm work.
 
+- Download the [`processing_TSI.py`](https://raw.githubusercontent.com/rguilcas/coldpulse/master/processing_TSI.py) file and add it to the folder (Left click on the link, then right click on the background, save as `processing_TSI.py`)
+- Create a new folder for each of the runs you would like to do. One run corresponds to one location and one temporal period. You need two files at different depths for each run to make the algorithm work.
+- Once you have created your folders, update the `list_input_dir` field with the names of your new folders. The list should be:
+```
+list_input_dir = ['folder1', 'folder2', 'folder3']
+```
 ### Choosing Input files
 
 Each of your run folders should include two separate csv files: one for each depth. These files should follow:
@@ -39,11 +41,12 @@ Note that the processing will be done on the temporal intersection between the t
 
 ### Formatting input files
 
-This script works automatically if the files' names follow one rule. Each file should be named as:
+Before running the script, you should make sure the files follow a specific formating:
 
-
-**island_locationID_longitude_latitude_depth_.csv**.
-
+```
+**locationID_longitude_latitude_depth_.csv**.
+```
+**Don't forget the underscore before .csv**
 
 - longitude in °E
 - latitude in °N
@@ -52,21 +55,32 @@ This script works automatically if the files' names follow one rule. Each file s
 For example, for a location North of Palmyra atoll, in the central Pacific, at 26 meters deep, the name of the file would be:
 
 
-**palmyra_north_-162.07808_5.89682_26_.csv**
+**PalmyraNorth_-162.07808_5.89682_26_.csv**
 
+Note that you can use `-` in your ID names.
 
-Your directories should look like in the following figure. Note that you can name the run folders as you want, as long as **their names do 
-not include spaces**.
-![Working directory and run folders formatting](https://github.com/rguilcas/cold_pulses/blob/master/Image1.png?raw=true)
+Your full directory should look like:
+→ working_directory
+    → processing_TSI.py
+    → folder1
+        → locationID1_longitude1_latitude1_depth1_.csv
+        → locationID1_longitude1_latitude1_depth2_.csv
+    → folder2
+        → locationID2_longitude2_latitude2_depth3_.csv
+        → locationID2_longitude2_latitude2_depth4_.csv
+
+In this case, `processing_TSI.py` should be:
+```python
+from coldpulse import coldpulse
+
+list_input_dir = ['folder1', 'folder2]
+for input_dir in list_input_dir:
+    coldpulse.upwelling_cold_pulses_detection(input_dir)
+```
 
 ## Run the algorithm
 
-Once your working directory is ready, you can run the algorithm. Open a command prompt and navigate to your working directory. Note that if you are using Windows and your working directory is in a different disk to the one displayed on the prompt, start by changing disk by typing the letter of your disk followed by a semi column. To navigate to your working directory, type 'cd' followed by your working directory path in the command prompt. For example:
-```
-cd C:\Users\Robin\working_directory
-```
-
-Once you are in your working directory, type in the command prompt:
+Once your working directory is ready, you can run the algorithm. Open a command prompt and navigate to your `working_directory`. Once you are in your `working_directory`, type in the command prompt:
 ```
 python processing_TSI.py
 ```
@@ -74,7 +88,7 @@ This will start the script and create output files that will be in a new folder 
 
 ## Outputs
 
-After running the algorithm, a new output folder will be created for each run folder. Each of these output folder contain two files called `..._pulse_data.nc` and `..._pulse_stats.csv`.
+After running the algorithm, a new output folder will be created for each run folder. Each of these output folder contain three files called `..._pulse_data.nc`, `..._pulse_stats.csv` and `..._subpulse_stats.csv`.
 
 ### pulse_data.nc
 
@@ -91,7 +105,7 @@ Its variables are the following:
 - pulse_temp: bottom temperature data when a pulse is present, otherwise it is a **NaN**
 - temperature: all temperature data over which the processing was done.
 
-###  pulse_stats.csv
+###  subpulse_stats.csv
 
 This file contain various statistics on each pulse detected. A pulse is first divided into subpulses. One subpulse is defined between two local maxima. Each line of the csv file gives the following information on the subpulse:
 - pulse_id: the ID number of the pulse 
@@ -104,7 +118,7 @@ This file contain various statistics on each pulse detected. A pulse is first di
 - min_temp_subpulse: the minmum temperature reached by the subpulse
 - duration subpulse: the duration of the subpulse
 
-Information on complete pulses can be obtained by grouping data by pulse_id and then processing the columns (summing DCH or duration, getting the minimum drop or the minimum temperature,...)
- 
-## Acknwoledgements
+### pulse_stats.csv
+
+This file is the same as the subpulse one except in gives information on total pulses, along with the number of subpulses in one pulse.
 
