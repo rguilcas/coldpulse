@@ -93,7 +93,7 @@ def extract_data_online_godas(lon, lat, max_depth, input_dir):
     file_name = "NCEP-GODAS_potential-temperature_%.01fE_%.01fN_%dm.nc"%(nearest_longitude,
                                                                          nearest_latitude,
                                                                          max_depth)
-    if not file_name in os.listdir(input_dir):
+    if not file_name in os.listdir():
         print("Downloading climatology data, this may take some time...")
         chunks = dict(lon=50,
                       lat=50,
