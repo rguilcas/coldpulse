@@ -88,7 +88,7 @@ def prepare_output(darray, list_starts, list_ends):
     dataframe_starts_ends_subpulses = split_pulses(bottom_temperature, 
                                                    list_starts,
                                                    list_ends)
-    dt = bottom_temperature.time.diff('time').values[0].astype('timedelta64[s]').astype(int)
+    dt = bottom_temperature.time.diff('time').values[0].astype('timedelta64[s]').astype(int)/3600
     list_dch = []
     list_drops = []
     list_min_temp = []
