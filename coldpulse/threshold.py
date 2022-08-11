@@ -52,16 +52,31 @@ def find_nearest_nonnan_neigbour(longitude, latitude, max_depth):
     nearest_latitude : float
         Latitude of the nearest non NaN neighbour
     """
+    if longitude <0:
+        corrected_longitude = longitude + 360
+    else:
+        corrected_longitude = longitude
     multidepth_grids = read_godas_grid() 
     reference_map = multidepth_grids.sel(level=max_depth, method='bfill')
     stacked_reference_map = reference_map.stack(coordinates = ('lon','lat'))
     no_nan_map = stacked_reference_map.dropna('coordinates')
-    squared_distance = (no_nan_map.coordinates.lon-longitude)**2 \
+    squared_distance = (no_nan_map.coordinates.lon-corrected_longitude)**2 \
                      + (no_nan_map.coordinates.lat-latitude)**2
     nearest_neighbour = squared_distance.loc[squared_distance==squared_distance.min()]
     nearest_longitude = nearest_neighbour.coordinates.lon.values
     nearest_latitude = nearest_neighbour.coordinates.lat.values
-    minimal_distance = haversine((latitude, longitude),
+    
+    if nearest_longitude > 180:
+        nearest_longitude_corrected = nearest_longitude - 360
+    else:
+        nearest_longitude_corrected = nearest_longitude
+        
+    print(f"longitude : {longitude}")
+    print(f"longitude corrected : {longitude_corrected}")
+    print(f"nearest_longitude : {nearest_longitude}")
+    print(f"nearest_longitude_corrected : {nearest_longitude_corrected}")
+    
+    minimal_distance = haversine((latitude, longitude_longitude),
                                  (nearest_latitude, nearest_longitude))
     if minimal_distance > 100:
         print( "!!!CAREFUL!!! The nearest GODAS gridpoint is %.01fkm away, results may not be great.\
