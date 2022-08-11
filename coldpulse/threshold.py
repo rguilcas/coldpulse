@@ -70,11 +70,6 @@ def find_nearest_nonnan_neigbour(longitude, latitude, max_depth):
         nearest_longitude_corrected = nearest_longitude - 360
     else:
         nearest_longitude_corrected = nearest_longitude
-        
-    print(f"longitude : {longitude}")
-    print(f"longitude corrected : {corrected_longitude}")
-    print(f"nearest_longitude : {nearest_longitude}")
-    print(f"nearest_longitude_corrected : {nearest_longitude_corrected}")
     
     minimal_distance = haversine((latitude, longitude),
                                  (nearest_latitude, nearest_longitude_corrected))
