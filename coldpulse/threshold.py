@@ -76,7 +76,7 @@ def find_nearest_nonnan_neigbour(longitude, latitude, max_depth):
     print(f"nearest_longitude : {nearest_longitude}")
     print(f"nearest_longitude_corrected : {nearest_longitude_corrected}")
     
-    minimal_distance = haversine((latitude, longitude_longitude),
+    minimal_distance = haversine((latitude, corrected_longitude),
                                  (nearest_latitude, nearest_longitude))
     if minimal_distance > 100:
         print( "!!!CAREFUL!!! The nearest GODAS gridpoint is %.01fkm away, results may not be great.\
