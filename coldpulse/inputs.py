@@ -76,8 +76,6 @@ def prepare_darray(input_dir):
     complete_dataarray['locationID'] = location_id
     latitude = float(latitude)
     longitude = float(longitude)
-    if longitude < 0:
-        longitude += 360
     complete_dataarray['longitude'] = longitude
     complete_dataarray['latitude'] = latitude
     
