@@ -72,7 +72,7 @@ def find_nearest_nonnan_neigbour(longitude, latitude, max_depth):
         nearest_longitude_corrected = nearest_longitude
         
     print(f"longitude : {longitude}")
-    print(f"longitude corrected : {longitude_corrected}")
+    print(f"longitude corrected : {corrected_longitude}")
     print(f"nearest_longitude : {nearest_longitude}")
     print(f"nearest_longitude_corrected : {nearest_longitude_corrected}")
     
