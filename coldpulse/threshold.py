@@ -63,8 +63,8 @@ def find_nearest_nonnan_neigbour(longitude, latitude, max_depth):
     squared_distance = (no_nan_map.coordinates.lon-corrected_longitude)**2 \
                      + (no_nan_map.coordinates.lat-latitude)**2
     nearest_neighbour = squared_distance.loc[squared_distance==squared_distance.min()]
-    nearest_longitude = nearest_neighbour.coordinates.lon.values
-    nearest_latitude = nearest_neighbour.coordinates.lat.values
+    nearest_longitude = nearest_neighbour.coordinates.lon.values[0]
+    nearest_latitude = nearest_neighbour.coordinates.lat.values[0]
     
     if nearest_longitude > 180:
         nearest_longitude_corrected = nearest_longitude - 360
@@ -78,7 +78,7 @@ def find_nearest_nonnan_neigbour(longitude, latitude, max_depth):
             \n Please, check your input longitude and latitude."%minimal_distance)
     else:
         print( "The nearest GODAS gridpoint is %.01fkm away"%minimal_distance)
-    return nearest_longitude[0], nearest_latitude[0]
+    return nearest_longitude, nearest_latitude
 
 def extract_data_online_godas(lon, lat, max_depth, input_dir):
     """
