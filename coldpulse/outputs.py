@@ -4,6 +4,7 @@ import xarray as xr
 import pandas as pd
 from scipy.signal import argrelmax
 from .detection import pulses_detection
+import os
 
 def get_output(darray, input_dir):
     """
@@ -53,6 +54,7 @@ def save_output(df_subpulse, df_pulse, ds_output, file_name, dir_name = None):
     None.
 
     """
+    os.makedirs(dir_name,exist_ok=True )
     df_pulse.to_csv('%s/%s_pulse_stats_.csv'%(dir_name,file_name))
     df_subpulse.to_csv('%s/%s_subpulse_stats_.csv'%(dir_name,file_name))
     ds_output.to_netcdf('%s/%s_pulse_series_.nc'%(dir_name,file_name))

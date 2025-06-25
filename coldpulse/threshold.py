@@ -105,8 +105,8 @@ def extract_data_online_godas(lon, lat, max_depth, input_dir):
                                                                          max_depth)
     if not file_name in os.listdir():
         print("Downloading climatology data, this may take some time...")
-        chunks = dict(lon=50,
-                      lat=50,
+        chunks = dict(lon=5,
+                      lat=5,
                       time=12,
                       level=5)
 
