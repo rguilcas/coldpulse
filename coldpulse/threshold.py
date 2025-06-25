@@ -103,7 +103,8 @@ def extract_data_online_godas(lon, lat, max_depth, save_dir):
     file_name = "NCEP-GODAS_potential-temperature_%.01fE_%.01fN_%dm.nc"%(nearest_longitude,
                                                                          nearest_latitude,
                                                                          max_depth)
-    if not file_name in os.listdir(save_dir):
+    if not os.path.exists(save_dir) or not file_name in os.listdir(save_dir):
+        os.makedirs(save_dir, exist_ok=True)
         print("Downloading climatology data, this may take some time...")
         chunks = dict(lon=5,
                       lat=5,
@@ -121,13 +122,12 @@ def extract_data_online_godas(lon, lat, max_depth, save_dir):
         full_godas_extract = xr.concat(all_monthly_godas_extract, dim='time')
         full_godas_extract = full_godas_extract.rename(level='depth')
         full_godas_extract['pottmp'] = full_godas_extract.pottmp - 273.15
-        os.makedirs(save_dir, exist_ok=True)
         full_godas_extract.pottmp.to_dataset().to_netcdf(f'{save_dir}/{file_name}')
     else:
         print("Data already downloaded")
     return file_name
     
-def make_tsi_threshold_from_climatology(darray, input_dir):
+def make_tsi_threshold_from_climatology(darray, climatology_dir):
     """
     Compute TSI threshold using NCEP-GODAS, 40 year cimatological mean and std
 
@@ -149,8 +149,8 @@ def make_tsi_threshold_from_climatology(darray, input_dir):
     max_depth = darray.depth.max().values
     longitude = darray.longitude.values
     latitude = darray.latitude.values
-    godas_data_file_name = extract_data_online_godas(longitude, latitude, max_depth, input_dir)
-    godas_ocean_temp = xr.open_dataarray(godas_data_file_name)
+    godas_data_file_name = extract_data_online_godas(longitude, latitude, max_depth, climatology_dir)
+    godas_ocean_temp = xr.open_dataarray(f"{climatology_dir}/{godas_data_file_name}")
     local_temp = godas_ocean_temp.interp(depth=darray.depth)      
     phi = compute_temperature_stratification_index(local_temp)
     threshold = (phi.mean()-phi.std()).values
