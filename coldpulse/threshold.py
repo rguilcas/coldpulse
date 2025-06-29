@@ -103,6 +103,7 @@ def extract_data_online_godas(lon, lat, max_depth, save_dir):
     file_name = "NCEP-GODAS_potential-temperature_%.01fE_%.01fN_%dm.nc"%(nearest_longitude,
                                                                          nearest_latitude,
                                                                          max_depth)
+    print(file_name)
     if not os.path.exists(save_dir) or not file_name in os.listdir(save_dir):
         os.makedirs(save_dir, exist_ok=True)
         print("Downloading climatology data, this may take some time...")
@@ -146,7 +147,7 @@ def make_tsi_threshold_from_climatology(darray, climatology_dir):
         TSI threshold computed from NCEP-GODAS climatology
 
     """
-    max_depth = darray.depth.max().values
+    max_depth = 50#darray.depth.max().values
     longitude = darray.longitude.values
     latitude = darray.latitude.values
     godas_data_file_name = extract_data_online_godas(longitude, latitude, max_depth, climatology_dir)
